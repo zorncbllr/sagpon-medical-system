@@ -4,13 +4,13 @@
 
 command:
 
-  cd client
-  bun run dev
+    cd client
+    bun run dev
 
 
 ### Backend Api
 
 command:
 
-  cd server
-  php mono serve
+    cd server
+    php mono serve
