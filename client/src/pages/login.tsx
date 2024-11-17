@@ -1,14 +1,16 @@
 import { LoginForm } from "../components/login-form";
 import Logo from "../assets/logo";
+import GridPattern from "../components/ui/grid-pattern";
 
 function Login() {
   return (
-    <main className="w-full h-screen flex bg-primary-foreground">
+    <main className="w-full h-screen flex">
       <section className="w-full grid place-items-center">
-        <div className="w-4/5 h-4/5 bg-green-500 rounded-lg"></div>
+        <div className="bg-backdrop w-4/5 h-4/5 bg-cover z-50 rounded-lg shadow-xl"></div>
+        <GridPattern />
       </section>
 
-      <section className="w-1/2 h-full bg-white flex flex-col gap-6 items-center justify-center px-8">
+      <section className="w-[50rem] h-full bg-white flex flex-col gap-6 items-center justify-center px-8 z-50 shadow-xl">
         <div className="grid place-items-center gap-4">
           <Logo />
           <h1 className="text-4xl font-semibold">Sagpon Health Station</h1>
