@@ -10,7 +10,7 @@ function Login() {
         <GridPattern />
       </section>
 
-      <section className="w-[50rem] h-full bg-white flex flex-col gap-6 items-center justify-center px-8 z-50 shadow-xl">
+      <section className="w-[55rem] h-full bg-white flex flex-col gap-6 items-center justify-center px-12 z-50 shadow-xl">
         <div className="grid place-items-center gap-4">
           <Logo />
           <h1 className="text-4xl font-semibold">Sagpon Health Station</h1>
