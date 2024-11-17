@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ModulzLogoIcon } from "@radix-ui/react-icons";
+import { EnterIcon } from "@radix-ui/react-icons";
 import { Button } from "./ui/button";
 import {
   Card,
@@ -13,15 +13,12 @@ import { Label } from "./ui/label";
 
 export function LoginForm() {
   return (
-    <Card className="mx-auto max-w-sm">
+    <Card className="w-4/5">
       <CardHeader>
-        <CardTitle className="text-2xl flex items-center justify-between">
+        <CardTitle className="text-xl flex items-center justify-between">
           <span>Login</span>
-          <ModulzLogoIcon />
+          <EnterIcon color="green" />
         </CardTitle>
-        <CardDescription>
-          Enter your email below to login to your account
-        </CardDescription>
       </CardHeader>
       <CardContent>
         <div className="grid gap-4">
