@@ -1,5 +1,11 @@
+import GridPattern from "../components/ui/grid-pattern";
+
 function Register() {
-  return <main>Register</main>;
+  return (
+    <main>
+      <GridPattern />
+    </main>
+  );
 }
 
 export default Register;

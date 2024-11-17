@@ -13,7 +13,7 @@ import { Label } from "./ui/label";
 
 export function LoginForm() {
   return (
-    <Card className="w-4/5">
+    <Card className="w-[24rem]">
       <CardHeader>
         <CardTitle className="text-xl flex items-center justify-between">
           <span>Login</span>
