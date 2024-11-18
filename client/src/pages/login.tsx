@@ -1,8 +1,13 @@
 import { LoginForm } from "../components/login-form";
 import Logo from "../assets/logo";
 import BoxReveal from "../components/ui/box-reveal";
+import { useLayoutEffect } from "react";
 
 function Login() {
+  useLayoutEffect(() => {
+    document.title = "Log In";
+  }, []);
+
   return (
     <main className="w-full h-screen bg-white flex flex-col gap-4 items-center justify-center">
       <BoxReveal duration={0.4}>
