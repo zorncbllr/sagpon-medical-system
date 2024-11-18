@@ -26,7 +26,7 @@ function Login() {
             </p>
           </BoxReveal>
         </div>
-        <BoxReveal duration={0.4}>
+        <BoxReveal duration={0.3}>
           <LoginForm />
         </BoxReveal>
       </section>

@@ -26,7 +26,7 @@ function RegistrationForm() {
     <Card className="w-[40rem] shadow-lg">
       <form>
         <CardHeader>
-          <BoxReveal width="100%" duration={1}>
+          <BoxReveal width="100%" duration={0.7}>
             <CardTitle className="flex justify-between">
               <span>Register</span>
               <Pencil2Icon color="green" />
