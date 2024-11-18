@@ -17,13 +17,12 @@ import {
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Pencil2Icon } from "@radix-ui/react-icons";
-import DatePicker from "./ui/date-picker";
-import { Link } from "react-router-dom";
 import BoxReveal from "./ui/box-reveal";
+import { Link } from "react-router-dom";
 
 function RegistrationForm() {
   return (
-    <Card className="w-[40rem] shadow-lg">
+    <Card className="w-[40rem]">
       <form>
         <CardHeader>
           <BoxReveal width="100%" duration={0.7}>
@@ -40,7 +39,7 @@ function RegistrationForm() {
         </CardHeader>
 
         <CardContent className="grid gap-6">
-          <BoxReveal duration={0.6}>
+          <BoxReveal duration={0.6} width="100%">
             <section className="grid grid-cols-2 gap-x-8">
               <div>
                 <Label>Full Name</Label>
@@ -60,7 +59,7 @@ function RegistrationForm() {
               </div>
               <div>
                 <Label>Date of Birth</Label>
-                <DatePicker />
+                <Input type="date" />
               </div>
               <div>
                 <Label>Gender</Label>
@@ -94,7 +93,9 @@ function RegistrationForm() {
           <CardFooter className="flex gap-4">
             <Button type="submit">Register</Button>
             <Button type="button" variant={"secondary"}>
-              <Link to="/login">Cancel</Link>
+              <Link to="/login" replace>
+                Cancel
+              </Link>
             </Button>
           </CardFooter>
         </BoxReveal>

@@ -1,12 +1,18 @@
+import Logo from "../assets/logo";
 import RegistrationForm from "../components/registration-form";
 import BoxReveal from "../components/ui/box-reveal";
-import GridPattern from "../components/ui/grid-pattern";
 
 function Register() {
   return (
-    <main className="grid place-items-center w-full h-screen">
-      <GridPattern className="z-[-1]" />
-      <BoxReveal boxColor="#16a34a" duration={0.3}>
+    <main className="w-full h-screen bg-white flex flex-col gap-4 items-center justify-center">
+      <BoxReveal duration={0.4}>
+        <Logo />
+      </BoxReveal>
+      <BoxReveal duration={0.6}>
+        <h1 className="text-4xl font-semibold">Sagpon Health Station</h1>
+      </BoxReveal>
+
+      <BoxReveal duration={0.3}>
         <RegistrationForm />
       </BoxReveal>
     </main>
