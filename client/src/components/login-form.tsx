@@ -9,7 +9,7 @@ export function LoginForm() {
   return (
     <Card className="w-[24rem]">
       <CardHeader>
-        <CardTitle className="text-xl flex items-center justify-between">
+        <CardTitle className="flex items-center justify-between">
           <span>Login</span>
           <EnterIcon color="green" />
         </CardTitle>
