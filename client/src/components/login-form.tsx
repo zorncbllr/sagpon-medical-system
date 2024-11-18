@@ -1,13 +1,7 @@
 import { Link } from "react-router-dom";
 import { EnterIcon } from "@radix-ui/react-icons";
 import { Button } from "./ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "./ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 
@@ -27,7 +21,7 @@ export function LoginForm() {
             <Input
               id="email"
               type="email"
-              placeholder="m@example.com"
+              placeholder="sample@example.com"
               required
             />
           </div>

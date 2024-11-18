@@ -6,14 +6,14 @@ import { motion, useAnimation, useInView } from "framer-motion";
 interface BoxRevealProps {
   children: JSX.Element;
   width?: "fit-content" | "100%";
-  boxColor?: string;
+  boxColor?: "#16a34a";
   duration?: number;
 }
 
 export const BoxReveal = ({
   children,
   width = "fit-content",
-  boxColor,
+  boxColor = "#16a34a",
   duration,
 }: BoxRevealProps) => {
   const mainControls = useAnimation();
@@ -33,7 +33,15 @@ export const BoxReveal = ({
   }, [isInView, mainControls, slideControls]);
 
   return (
-    <div ref={ref} style={{ position: "relative", width, overflow: "hidden" }}>
+    <div
+      ref={ref}
+      style={{
+        position: "relative",
+        width,
+        overflow: "hidden",
+        padding: "0.3rem",
+      }}
+    >
       <motion.div
         variants={{
           hidden: { opacity: 0, y: 75 },
