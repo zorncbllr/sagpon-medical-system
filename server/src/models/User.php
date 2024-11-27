@@ -2,44 +2,42 @@
 
 class User extends Model
 {
-	public string $name, $email;
-	private $id, $created_at;
-	private string $password;
+	private $id, $email, $password, $role;
+	private $firstName, $lastName, $createdAt, $updatedAt;
 
 	public function __construct(
-		string $name,
-		string $email,
-		string $password,
 		$id = null,
-		$created_at = null,
+		$email = null,
+		$password = null,
+		$role = null,
+		$firstName = null,
+		$lastName = null,
+		$createdAt = null,
+		$updatedAt = null
 	) {
 
-		$this->name = $name;
-		$this->email = $email;
 		$this->id = $id;
-		$this->created_at = $created_at;
+		$this->email = $email;
 		$this->password = $password;
+		$this->role = $role;
+		$this->firstName = $firstName;
+		$this->lastName = $lastName;
+		$this->createdAt = $createdAt;
+		$this->updatedAt = $updatedAt;
 	}
-
+	
 	public static function initUser()
 	{
-		self::createTable('
-			name VARCHAR(20) NOT NULL,
-			email VARCHAR(20) NOT NULL,
-			id INT AUTO_INCREMENT PRIMARY KEY,
-			created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-			password VARCHAR(20) NOT NULL
-		');
-	}
-
-	public function getEmail()
-	{
-		return $this->email;
-	}
-
-	public function setEmail($email)
-	{
-		$this->email = $email;
+		self::createTable("
+			id INT PRIMARY KEY AUTO_INCREMENT,
+			email VARCHAR(100) UNIQUE NOT NULL, 
+			password VARCHAR(255) NOT NULL, 
+			role ENUM('patient', 'doctor', 'nurse', 'admin') NOT NULL, 
+			firstName VARCHAR(50) NOT NULL, 
+			lastName VARCHAR(50) NOT NULL, 
+			createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
+			updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+		");
 	}
 
 	public function getId()
@@ -52,14 +50,14 @@ class User extends Model
 		$this->id = $id;
 	}
 
-	public function getCreated_at()
+	public function getEmail()
 	{
-		return $this->created_at;
+		return $this->email;
 	}
 
-	public function setCreated_at($created_at)
+	public function setEmail($email)
 	{
-		$this->created_at = $created_at;
+		$this->email = $email;
 	}
 
 	public function getPassword()
@@ -70,5 +68,55 @@ class User extends Model
 	public function setPassword($password)
 	{
 		$this->password = $password;
+	}
+
+	public function getRole()
+	{
+		return $this->role;
+	}
+
+	public function setRole($role)
+	{
+		$this->role = $role;
+	}
+
+	public function getFirstName()
+	{
+		return $this->firstName;
+	}
+
+	public function setFirstName($firstName)
+	{
+		$this->firstName = $firstName;
+	}
+
+	public function getLastName()
+	{
+		return $this->lastName;
+	}
+
+	public function setLastName($lastName)
+	{
+		$this->lastName = $lastName;
+	}
+
+	public function getCreatedAt()
+	{
+		return $this->createdAt;
+	}
+
+	public function setCreatedAt($createdAt)
+	{
+		$this->createdAt = $createdAt;
+	}
+
+	public function getUpdatedAt()
+	{
+		return $this->updatedAt;
+	}
+
+	public function setUpdatedAt($updatedAt)
+	{
+		$this->updatedAt = $updatedAt;
 	}
 }

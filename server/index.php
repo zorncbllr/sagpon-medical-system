@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 session_start();
 
+require_once __DIR__ . '/vendor/autoload.php';
+Dotenv\Dotenv::createImmutable(__DIR__)->load();
+
 $config = (require_once __DIR__ . '/src/config/config.php')['cors'];
 
 $origin = $config['origin'];
