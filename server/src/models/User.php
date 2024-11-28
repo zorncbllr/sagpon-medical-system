@@ -25,7 +25,7 @@ class User extends Model
 		$this->createdAt = $createdAt;
 		$this->updatedAt = $updatedAt;
 	}
-	
+
 	public static function initUser()
 	{
 		self::createTable("

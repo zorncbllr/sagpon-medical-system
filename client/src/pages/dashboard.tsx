@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { AppSidebar } from "./../components/app-sidebar";
 import {
   Breadcrumb,
@@ -13,8 +14,13 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "./../components/ui/sidebar";
+import { useGetDashboard } from "../services/queries";
 
 export default function Dashboard() {
+  const { data } = useGetDashboard();
+
+  console.log(data);
+
   return (
     <SidebarProvider>
       <AppSidebar />

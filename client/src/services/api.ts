@@ -1,10 +1,14 @@
 import axios from "axios";
-import { Msg } from "../interfaces/msg";
+import { UserLoginData } from "../interfaces/user-interface";
 
 const axiosInstance = axios.create({
   baseURL: "http://localhost:3000/",
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
-export async function getMsg() {
-  return (await axiosInstance.get<Msg>("/")).data;
-}
+export const performLogin = async (data: UserLoginData) =>
+  (await axiosInstance.post<UserLoginData>("/users/login", data)).data;
+
+export const getData = async () => (await axiosInstance.post("/home")).data;

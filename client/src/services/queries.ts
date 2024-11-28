@@ -1,9 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import { getMsg } from "./api";
+import { getData } from "./api";
 
-export function useMsg() {
-  return useQuery({
-    queryKey: ["msg"],
-    queryFn: getMsg,
-  });
-}
+export const useGetDashboard = () => useQuery({
+  queryKey: ['dashbaord'],
+  queryFn: getData
+})

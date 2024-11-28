@@ -10,7 +10,7 @@ return [
         "charset" => "utf8mb4"
     ],
     "cors" => [
-        "origin" => "*",
+        "origin" => "http://localhost:5173",
         "allowed_methods" => [
             "GET",
             "POST",

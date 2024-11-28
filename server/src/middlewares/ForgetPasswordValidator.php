@@ -2,22 +2,20 @@
 
 use App\Core\Middleware;
 
-class UserRegisterValidator extends Middleware
+class ForgetPasswordValidator extends Middleware
 {
 	static function runnable(Request $request, callable $next)
 	{
 		$email = $request->body['email'] ?? '';
-		$password = $request->body['password'] ?? '';
+		$newPassword = $request->body['newPassword'] ?? '';
 		$confirmPassword = $request->body['confirmPassword'] ?? '';
-		$firstName = $request->body['firstName'] ?? '';
-		$lastName = $request->body['lastName'] ?? '';
 
 		$result = new Validator([
 			'email' => [
 				'required' => true,
-				'type' => 'email',
+				'type' => 'email'
 			],
-			'password' => [
+			'newPassword' => [
 				'required' => true,
 				'type' => 'string',
 				'length' => [
@@ -32,21 +30,11 @@ class UserRegisterValidator extends Middleware
 					'min' => 8,
 					'max' => 100
 				]
-			],
-			'firstName' => [
-				'required' => true,
-				'type' => 'string',
-			],
-			'lastName' => [
-				'required' => true,
-				'type' => 'string'
 			]
 		], [
 			'email' => $email,
-			'password' => $password,
-			'confirmPassword' => $confirmPassword,
-			'firstName' => $firstName,
-			'lastName' => $lastName
+			'newPassword' => $newPassword,
+			'confirmPassword' => $confirmPassword
 		]);
 
 		if (!$result->isValid()) {
@@ -56,13 +44,11 @@ class UserRegisterValidator extends Middleware
 			]);
 		}
 
-		if ($password !== $confirmPassword) {
+		if ($newPassword !== $confirmPassword) {
 			http_response_code(400);
 			return json([
 				'errors' => [
-					'confirmPassword' => [
-						'Entered password does not match.'
-					]
+					'confirmPassword' => ['Entered password does not match.']
 				]
 			]);
 		}

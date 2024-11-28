@@ -1,6 +1,6 @@
 <?php
 
-
+#[Middleware(new AuthChecker)]
 class Home extends Controller
 {
 	#[Route(method: 'GET')]

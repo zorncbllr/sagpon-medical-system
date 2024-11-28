@@ -11,12 +11,12 @@ class LoginValidator extends Middleware
 
 		$result = new Validator([
 			'email' => [
+				'required' => true,
 				'type' => 'email',
-				'required' => true
 			],
 			'password' => [
-				'type' => 'string',
-				'required' => true
+				'required' => true,
+				'type' => 'string'
 			]
 		], [
 			'email' => $email,
