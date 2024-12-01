@@ -93,12 +93,6 @@ class Validator
 
     public function isValid()
     {
-        foreach ($this->errors as $field) {
-            if (sizeof($field) > 0) {
-                return false;
-            }
-        }
-
-        return true;
+        return empty($this->getErrors());
     }
 }

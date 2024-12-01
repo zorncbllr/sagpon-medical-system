@@ -71,6 +71,17 @@ class UserRegisterValidator extends Middleware
 			$request->body[$field] = htmlspecialchars($value);
 		}
 
+		$headers = getallheaders();
+
+		if (isset($headers['Authorization'])) {
+			$token = str_replace('Bearer ', '', $headers['Authorization']);
+			$payload = Token::verify($token, $_ENV['SECRET_KEY']);
+
+			if ($payload) {
+				$_SESSION['role'] = $payload['role'];
+			}
+		}
+
 		return $next();
 	}
 }

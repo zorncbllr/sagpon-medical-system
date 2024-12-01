@@ -2,14 +2,15 @@
 
 class Users extends Controller
 {
-	#[Route(path: '/login', method: 'POST')]
+	#[Post('/login')]
 	#[Middleware(new LoginValidator)]
 	public function loginHandler(Request $request)
 	{
 		return UsersService::loginHandler($request);
 	}
 
-	#[Route(path: '/register', method: 'POST')]
+
+	#[Post('/register')]
 	#[Middleware(new UserRegisterValidator)]
 	public function registerHandler(Request $request)
 	{
@@ -17,7 +18,7 @@ class Users extends Controller
 	}
 
 
-	#[Route(path: '/forget-password', method: 'PATCH')]
+	#[Patch('/forget-password')]
 	#[Middleware(new ForgetPasswordValidator)]
 	public function forgotPassword(Request $request)
 	{
@@ -25,14 +26,14 @@ class Users extends Controller
 	}
 
 
-	#[Route(path: '/delete/:id', method: 'DELETE')]
+	#[Delete('/delete/:id')]
 	public function deleteUser(Request $request)
 	{
 		return UsersService::deleteUser($request);
 	}
 
 
-	#[Route(path: '/update/:id', method: 'PUT')]
+	#[Put('/update/:id')]
 	#[Middleware(new UserRegisterValidator)]
 	public function updateUser(Request $request)
 	{
