@@ -3,7 +3,7 @@
 #[Middleware(new AuthChecker)]
 class Home extends Controller
 {
-	#[Get]
+	#[Get()]
 	public function index(Request $request)
 	{
 		return json(['msg' => 'Initial set-up done.']);

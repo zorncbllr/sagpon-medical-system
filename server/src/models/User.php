@@ -28,7 +28,7 @@ class User extends Model
 
 	public static function initUser()
 	{
-		self::createTable("
+		self::migrateModel("
 			id INT PRIMARY KEY AUTO_INCREMENT,
 			email VARCHAR(100) UNIQUE NOT NULL, 
 			password VARCHAR(255) NOT NULL, 

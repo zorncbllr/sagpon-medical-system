@@ -1,147 +1,80 @@
 <?php
 
-class Patient extends Model
- {
-	private $id, $userId, $email, $phoneNumber;
-	private $insurance;
-	public $lastName, $firstName, $middleName, $suffix, $address;
-	public $medicalBackground, $birthDate, $gender;
+class Patient extends MedicalPerson
+{
+	private $patientId, $insuranceProvider, $policyNumber;
+
+	public $emergencyContact;
 
 	public function __construct(
-		$id = null, 
-		$userId = null, 
-		$email = null, 
-		$phoneNumber = null, 
-		$insurance = null, 
-		$lastName = null, 
-		$firstName = null, 
-		$middleName = null, 
-		$suffix = null, 
-		$address = null, 
-		$medicalBackground = null, 
-		$birthDate = null, 
-		$gender = null
+		$patientId = null,
+		$firstName = null,
+		$lastName = null,
+		$gender = null,
+		$email = null,
+		$birthDate = null,
+		$address = null,
+		$phoneNumber = null,
+		$photo = null,
+		$emergencyContact = null,
+		$insuranceProvider = null,
+		$policyNumber = null
 	) {
+		parent::__construct(
+			$firstName,
+			$lastName,
+			$gender,
+			$email,
+			$birthDate,
+			$address,
+			$phoneNumber,
+			$photo
+		);
 
-		$this->id = $id;
-		$this->userId = $userId;
-		$this->email = $email;
-		$this->phoneNumber = $phoneNumber;
-		$this->insurance = $insurance;
-		$this->lastName = $lastName;
-		$this->firstName = $firstName;
-		$this->middleName = $middleName;
-		$this->suffix = $suffix;
-		$this->address = $address;
-		$this->medicalBackground = $medicalBackground;
-		$this->birthDate = $birthDate;
-		$this->gender = $gender;
-
+		$this->patientId = $patientId;
+		$this->emergencyContact = $emergencyContact;
+		$this->insuranceProvider = $insuranceProvider;
+		$this->policyNumber = $policyNumber;
 	}
-	public static function initPatient() {
-		self::createTable('
-			id <ADD YOUR CONFIGURATION>,
-			userId <ADD YOUR CONFIGURATION>,
-			email <ADD YOUR CONFIGURATION>,
-			phoneNumber <ADD YOUR CONFIGURATION>,
-			insurance <ADD YOUR CONFIGURATION>,
-			lastName <ADD YOUR CONFIGURATION>,
-			firstName <ADD YOUR CONFIGURATION>,
-			middleName <ADD YOUR CONFIGURATION>,
-			suffix <ADD YOUR CONFIGURATION>,
-			address <ADD YOUR CONFIGURATION>,
-			medicalBackground <ADD YOUR CONFIGURATION>,
-			birthDate <ADD YOUR CONFIGURATION>,
-			gender <ADD YOUR CONFIGURATION>
+
+	public static function initPatient()
+	{
+		parent::initMedicalPerson();
+		self::extendModel('
+			patientId INT PRIMARY KEY, 
+			emergencyContact JSON, 
+			insuranceProvider VARCHAR(255), 
+			policyNumber VARCHAR(50)
 		');
 	}
 
-	public function getId() {
-		return $this->id;
+	public function getPatientId()
+	{
+		return $this->patientId;
 	}
 
-	public function setId($id) {
-		$this->id = $id;
+	public function setPatientId($patientId)
+	{
+		$this->patientId = $patientId;
 	}
 
-	public function getUserId() {
-		return $this->userId;
+	public function getInsuranceProvider()
+	{
+		return $this->insuranceProvider;
 	}
 
-	public function setUserId($userId) {
-		$this->userId = $userId;
+	public function setInsuranceProvider($insuranceProvider)
+	{
+		$this->insuranceProvider = $insuranceProvider;
 	}
 
-	public function getEmail() {
-		return $this->email;
+	public function getPolicyNumber()
+	{
+		return $this->policyNumber;
 	}
 
-	public function setEmail($email) {
-		$this->email = $email;
+	public function setPolicyNumber($policyNumber)
+	{
+		$this->policyNumber = $policyNumber;
 	}
-
-	public function getPhoneNumber() {
-		return $this->phoneNumber;
-	}
-
-	public function setPhoneNumber($phoneNumber) {
-		$this->phoneNumber = $phoneNumber;
-	}
-
-	public function getInsurance() {
-		return $this->insurance;
-	}
-
-	public function setInsurance($insurance) {
-		$this->insurance = $insurance;
-	}
-
-	public function getFirstName() {
-		return $this->firstName;
-	}
-
-	public function setFirstName($firstName) {
-		$this->firstName = $firstName;
-	}
-
-	public function getMiddleName() {
-		return $this->middleName;
-	}
-
-	public function setMiddleName($middleName) {
-		$this->middleName = $middleName;
-	}
-
-	public function getSuffix() {
-		return $this->suffix;
-	}
-
-	public function setSuffix($suffix) {
-		$this->suffix = $suffix;
-	}
-
-	public function getAddress() {
-		return $this->address;
-	}
-
-	public function setAddress($address) {
-		$this->address = $address;
-	}
-
-	public function getBirthDate() {
-		return $this->birthDate;
-	}
-
-	public function setBirthDate($birthDate) {
-		$this->birthDate = $birthDate;
-	}
-
-	public function getGender() {
-		return $this->gender;
-	}
-
-	public function setGender($gender) {
-		$this->gender = $gender;
-	}
-
 }
