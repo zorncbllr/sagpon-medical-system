@@ -41,17 +41,16 @@ class Nurse extends MedicalPerson
 		$this->department = $department;
 	}
 
-	public static function initPatient()
+	public static function initNurse()
 	{
-		parent::initMedicalPerson();
-		self::extendModel('
-			nurseId INT PRIMARY KEY, 
+		parent::initMedicalPerson("
+			nurseId INT PRIMARY KEY AUTO_INCREMENT, 
 			licenseNumber VARCHAR(50), 
 			shift VARCHAR(50), 
 			hospitalAffiliation VARCHAR(100), 
 			availability VARCHAR(50), 
 			department VARCHAR(100)
-		');
+		");
 	}
 
 	public function getNurseId()

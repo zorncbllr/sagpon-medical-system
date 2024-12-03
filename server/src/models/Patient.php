@@ -39,13 +39,12 @@ class Patient extends MedicalPerson
 
 	public static function initPatient()
 	{
-		parent::initMedicalPerson();
-		self::extendModel('
-			patientId INT PRIMARY KEY, 
-			emergencyContact JSON, 
+		parent::initMedicalPerson("
+			patientId INT PRIMARY KEY AUTO_INCREMENT, 
+			emergencyContact VARCHAR(20), 
 			insuranceProvider VARCHAR(255), 
 			policyNumber VARCHAR(50)
-		');
+		");
 	}
 
 	public function getPatientId()

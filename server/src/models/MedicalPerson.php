@@ -24,7 +24,7 @@ abstract class MedicalPerson extends Model
         $this->photo = $photo;
     }
 
-    public static function initMedicalPerson()
+    public static function initMedicalPerson($additionalConfig = null)
     {
         self::migrateModel("
 			firstName VARCHAR(50) NOT NULL, 
@@ -33,8 +33,8 @@ abstract class MedicalPerson extends Model
             email VARCHAR(100) UNIQUE NOT NULL, 
             birthDate DATE NOT NULL, 
             address VARCHAR(255) NOT NULL, 
-            phoneNumber VARCHAR(20) NOT BNULL, 
+            phoneNumber VARCHAR(20) NOT NULL, 
             photo BLOB
-		");
+		" . ($additionalConfig ? ", {$additionalConfig}" : ""));
     }
 }

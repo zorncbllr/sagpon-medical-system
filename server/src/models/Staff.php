@@ -38,13 +38,12 @@ class Staff extends MedicalPerson
 
 	public static function initStaff()
 	{
-		parent::initMedicalPerson();
-		self::extendModel('
-			staffId INT PRIMARY KEY, 
+		parent::initMedicalPerson("
+			staffId INT PRIMARY KEY AUTO_INCREMENT, 
 			shift VARCHAR(50), 
 			department VARCHAR(100), 
 			position VARCHAR(100)
-		');
+		");
 	}
 
 	public function setStaffId($id)
