@@ -8,16 +8,16 @@ class Doctors extends Controller
 		return DoctorsService::getDoctors($request);
 	}
 
-	#[Post('/:id')]
-	public function getDoctorById(Request $request)
-	{
-		return DoctorsService::getDoctorById($request);
-	}
-
 	#[Post('/register')]
 	public function registerDoctor(Request $request)
 	{
 		return DoctorsService::registerDoctor($request);
+	}
+
+	#[Post('/:id')]
+	public function getDoctorById(Request $request)
+	{
+		return DoctorsService::getDoctorById($request);
 	}
 
 	#[Patch('/update/:id')]

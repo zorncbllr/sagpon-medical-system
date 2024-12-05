@@ -8,16 +8,16 @@ class Nurses extends Controller
 		return NursesService::getNurses($request);
 	}
 
-	#[Post('/:id')]
-	public function getNurseById(Request $request)
-	{
-		return NursesService::getNurseById($request);
-	}
-
 	#[Post('/register')]
 	public function registerNurse(Request $request)
 	{
 		return NursesService::registerNurse($request);
+	}
+
+	#[Post('/:id')]
+	public function getNurseById(Request $request)
+	{
+		return NursesService::getNurseById($request);
 	}
 
 	#[Patch('/update/:id')]

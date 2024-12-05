@@ -8,16 +8,16 @@ class Patients extends Controller
 		return PatientsService::getPatients($request);
 	}
 
-	#[Post('/:id')]
-	public function getPatientById(Request $request)
-	{
-		return PatientsService::getPatientById($request);
-	}
-
 	#[Post('/register')]
 	public function registerPatient(Request $request)
 	{
 		return PatientsService::registerPatient($request);
+	}
+
+	#[Post('/:id')]
+	public function getPatientById(Request $request)
+	{
+		return PatientsService::getPatientById($request);
 	}
 
 	#[Patch('/update/:id')]

@@ -8,17 +8,17 @@ class Staffs extends Controller
 		return StaffsService::getStaffs($request);
 	}
 
-	#[Post('/:id')]
-	public function getStaffById(Request $request)
-	{
-		return StaffsService::getStaffById($request);
-	}
-
 	#[Post('/register')]
 	#[Middleware(new StaffValidator)]
 	public function registerStaff(Request $request)
 	{
 		return StaffsService::registerStaff($request);
+	}
+
+	#[Post('/:id')]
+	public function getStaffById(Request $request)
+	{
+		return StaffsService::getStaffById($request);
 	}
 
 	#[Patch('/update/:id')]
