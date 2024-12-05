@@ -2,7 +2,7 @@
 
 use App\Core\Middleware;
 
-class NurseValidator extends Middleware
+class DoctorValidator extends Middleware
 {
 	static function runnable(Request $request, callable $next)
 	{
@@ -17,24 +17,22 @@ class NurseValidator extends Middleware
 					'max' => 9
 				]
 			],
-			'shift' => [
+			'specialization' => [
+				'required' => true,
 				'type' => 'string'
 			],
 			'hospitalAffiliation' => [
+				'required' => true,
 				'type' => 'string'
 			],
 			'availability' => [
 				'type' => 'string'
-			],
-			'department' => [
-				'type' => 'string'
 			]
 		], [
 			'licenseNumber' => $body['licenseNumber'] ?? '',
-			'shift' => $body['shift'] ?? '',
+			'specialization' => $body['specialization'] ?? '',
 			'hospitalAffiliation' => $body['hospitalAffiliation'] ?? '',
-			'availability' => $body['availability'] ?? '',
-			'department' => $body['department'] ?? ''
+			'availability' => $body['availability'] ?? ''
 		]);
 
 		if (!$result->isValid()) {

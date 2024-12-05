@@ -9,6 +9,10 @@ class Nurses extends Controller
 	}
 
 	#[Post('/register')]
+	#[Middleware(
+		new MedicalPersonValidator,
+		new NurseValidator
+	)]
 	public function registerNurse(Request $request)
 	{
 		return NursesService::registerNurse($request);

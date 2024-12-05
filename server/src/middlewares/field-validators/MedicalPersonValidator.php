@@ -2,7 +2,7 @@
 
 use App\Core\Middleware;
 
-class StaffValidator extends Middleware
+class MedicalPersonValidator extends Middleware
 {
 	static function runnable(Request $request, callable $next)
 	{
@@ -37,15 +37,6 @@ class StaffValidator extends Middleware
 				'required' => true,
 				'type' => 'string'
 			],
-			'shift' => [
-				'type' => 'string'
-			],
-			'department' => [
-				'type' => 'string'
-			],
-			'position' => [
-				'type' => 'string'
-			],
 			'photo' => []
 		], [
 			'firstName' => $body['firstName'] ?? '',
@@ -55,9 +46,6 @@ class StaffValidator extends Middleware
 			'birthDate' => $body['birthDate'] ?? '',
 			'address' => $body['address'] ?? '',
 			'phoneNumber' => $body['phoneNumber'] ?? '',
-			'shift' => $body['shift'] ?? '',
-			'department' => $body['department'] ?? '',
-			'position' => $body['position'] ?? '',
 			'photo' => $body['photo'] ?? ''
 		]);
 
@@ -68,7 +56,7 @@ class StaffValidator extends Middleware
 			]);
 		}
 
-		foreach ($request->body as $field => $value) {
+		foreach ($body as $field => $value) {
 			$request->body[$field] = htmlspecialchars($value);
 		}
 
