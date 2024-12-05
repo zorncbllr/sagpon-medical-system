@@ -1,48 +1,17 @@
 <?php
 
+require_once __DIR__ . '/../../utils/Fetcher.php';
+
 class DoctorsService
 {
 	static function getDoctors(Request $request)
 	{
-		http_response_code(200);
-		return json([
-			'doctors' => [...Doctor::find()]
-		]);
+		return Fetcher::fetchAll($request, 'Doctor');
 	}
 
 	static function getDoctorById(Request $request)
 	{
-		$id = $request->param['id'];
-
-		$result = new Validator([
-			'id' => [
-				'required' => true,
-				'type' => 'int'
-			]
-		], ['id' => $id]);
-
-		if (!$result->isValid()) {
-			http_response_code(400);
-			return json([
-				'errors' => [...$result->getErrors()]
-			]);
-		}
-
-		$doctor = Doctor::find(['doctorId' => $id]);
-
-		if (empty($doctor)) {
-			http_response_code(400);
-			return json([
-				'errors' => [
-					'id' => ["Doctor with id = {$id} does not exists."]
-				]
-			]);
-		}
-
-		http_response_code(200);
-		return json([
-			'doctor' => $doctor
-		]);
+		return Fetcher::fetchById($request, 'Doctor');
 	}
 
 	static function registerDoctor(Request $request) {}
