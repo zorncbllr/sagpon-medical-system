@@ -1,6 +1,6 @@
 <?php
 
-class Fetcher
+class CommonLogic
 {
     static function fetchAll(Request $request, string $modelName)
     {

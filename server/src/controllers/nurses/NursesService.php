@@ -1,17 +1,16 @@
 <?php
 
-require_once __DIR__ . '/../../utils/Fetcher.php';
 
 class NursesService
 {
 	static function getNurses(Request $request)
 	{
-		return Fetcher::fetchAll($request, 'Nurse');
+		return CommonLogic::fetchAll($request, 'Nurse');
 	}
 
 	static function getNurseById(Request $request)
 	{
-		return Fetcher::fetchById($request, 'Nurse');
+		return CommonLogic::fetchById($request, 'Nurse');
 	}
 
 	static function registerNurse(Request $request) {}
