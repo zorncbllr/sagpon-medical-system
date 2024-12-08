@@ -17,5 +17,8 @@ class StaffsService
 
 	static function updateStaff(Request $request) {}
 
-	static function deleteStaff(Request $request) {}
+	static function deleteStaff(Request $request)
+	{
+		return CommonLogic::deleteHandler($request, 'Staff');
+	}
 }

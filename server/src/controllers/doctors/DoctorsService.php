@@ -17,5 +17,8 @@ class DoctorsService
 
 	static function updateDoctor(Request $request) {}
 
-	static function deleteDoctor(Request $request) {}
+	static function deleteDoctor(Request $request)
+	{
+		return CommonLogic::deleteHandler($request, 'Doctor');
+	}
 }

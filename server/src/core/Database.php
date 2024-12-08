@@ -65,6 +65,7 @@ class Database
 
         return $attributes;
     }
+    
     public static function create(Model $model): bool
     {
         $pdo = $GLOBALS['database']->getPDO();
