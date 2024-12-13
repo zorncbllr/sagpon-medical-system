@@ -26,7 +26,7 @@ class CommonLogic
                 '{$modelLower}s' => [...{$modelName}::find()]
                 ]);
             
-            } catch (\Throwable \$e) {
+            } catch (PDOException \$e) {
 
                 if (\$e->getCode() === 404) {
                     http_response_code(404);      
