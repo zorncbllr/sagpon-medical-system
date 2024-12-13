@@ -15,7 +15,10 @@ class NursesService
 
 	static function registerNurse(Request $request) {}
 
-	static function updateNurse(Request $request) {}
+	static function updateNurse(Request $request)
+	{
+		return  CommonLogic::updateHandler($request, 'Nurse');
+	}
 
 	static function deleteNurse(Request $request)
 	{

@@ -157,101 +157,12 @@ class UsersService
 
 	static function deleteUser(Request $request)
 	{
-		try {
-			$id = htmlspecialchars($request->param['userId']);
-
-			$user = User::find(['userId' => $id]);
-
-			if (!$user) {
-				throw new PDOException("User with Id {$id} does not exist.", 404);
-			}
-
-			$user->delete();
-
-			http_response_code(205);
-			return json([
-				'message' => 'User successfuly deleted.',
-				'errors' => []
-			]);
-		} catch (PDOException $e) {
-
-			if ($e->getCode() == 404) {
-				http_response_code(404);
-				return json([
-					'message' => $e->getMessage(),
-					'errors' => [
-						'userId' => [$e->getMessage()]
-					]
-				]);
-			}
-
-			http_response_code(500);
-			return json([
-				'message' => "Internal Server is having a hard time fulfilling delete request.",
-				'errors' => [
-					'server' => ["Internal Server is having a hard time fulfilling delete request."]
-				]
-			]);
-		}
+		return CommonLogic::deleteHandler($request, 'User');
 	}
+
 
 	static function updateUser(Request $request)
 	{
-		try {
-			$id = htmlspecialchars($request->param['userId']);
-
-			$user = User::find(['userId' => $id]);
-
-			if (!$user) {
-				throw new PDOException("User with Id {$id} does not exist.", 404);
-			}
-
-			foreach ($request->body as $field => $value) {
-				$request->body[$field] = htmlspecialchars($value);
-				if ($field == 'password') {
-					$request->body['password'] = password_hash(
-						$request->body['password'],
-						PASSWORD_DEFAULT
-					);
-				}
-			}
-
-			$user->update(...$request->body);
-
-			http_response_code(201);
-			return json([
-				'message' => 'User updated successfully.',
-				'errors' => []
-			]);
-		} catch (PDOException $e) {
-
-			if ($e->getCode() === 404) {
-				http_response_code(404);
-				return json([
-					'message' => $e->getMessage(),
-					'errors' => [
-						'userId' => [$e->getMessage()]
-					]
-				]);
-			}
-
-			if ($e->getCode() === 23000) {
-				http_response_code(409);
-				return json([
-					'message' => "User with email {$request->body['email']} already exists.",
-					'errors' => [
-						'email' => ["User with email {$request->body['email']} already exists."]
-					]
-				]);
-			}
-
-			http_response_code(500);
-			return json([
-				'message' => "Internal Server is having a hard time fulfilling update request.",
-				'errors' => [
-					'server' => ["Internal Server is having a hard time fulfilling update request."]
-				]
-			]);
-		}
+		return CommonLogic::updateHandler($request, 'User');
 	}
 }

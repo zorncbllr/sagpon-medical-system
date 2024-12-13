@@ -15,7 +15,10 @@ class DoctorsService
 
 	static function registerDoctor(Request $request) {}
 
-	static function updateDoctor(Request $request) {}
+	static function updateDoctor(Request $request)
+	{
+		return CommonLogic::updateHandler($request, 'Doctor');
+	}
 
 	static function deleteDoctor(Request $request)
 	{

@@ -51,35 +51,45 @@ class CommonLogic
     {
         $modelLower = strtolower($modelName);
 
-        $id = (int) $request->param["{$modelLower}Id"];
-
-        if ($id === 0) {
-            http_response_code(400);
-            return json([
-                'message' => 'Invalid Id params.',
-                'errors' => [
-                    'id' => ['Id params must be integer type.']
-                ]
-            ]);
-        }
-
         eval("
-            \${$modelLower} = {$modelName}::find(['{$modelLower}Id' => \$id]);
+            try {
+                \$id = (int) \$request->param[\"{$modelLower}Id\"];
 
-            if (!\${$modelLower}) {
-                http_response_code(404);
+                if (\$id === 0) {
+                    throw new PDOException('Invalid {$modelLower}Id parameter.', 400);
+                }
+
+                \${$modelLower} = {$modelName}::find(['{$modelLower}Id' => \$id]);
+
+                if (!\${$modelLower}) {
+                    throw new PDOException(\"{$modelName} with Id {\$id} does not exist.\", 404);
+                }
+
+                http_response_code(200);
                 return json([
-                    'message' => \"You're attempting to find {$modelLower} that doesn't exist.\",
+                    '{$modelLower}' => \${$modelLower}
+                ]);s
+
+            } catch (PDOException \$e) {
+                
+                if (\$e->getCode() === 404 || \$e->getCode() === 400) {
+                    http_response_code(\$e->getCode());
+                    return json([
+                        'message' => \$e->getMessage(),
+                        'errors' => [
+                            '{$modelLower}Id' => [\$e->getMessage()]
+                        ]
+                    ]);
+                }   
+
+                http_response_code(500);
+                return json([
+                    'message' => 'Internal Server is having a hard time fulfilling request.',
                     'errors' => [
-                        'id' => [\"{$modelName} with Id {$id} does not exist.\"]
+                        'server' => ['Internal Server is having a hard time fulfilling request.']
                     ]
                 ]);
             }
-
-            http_response_code(200);
-            return json([
-                '{$modelLower}' => \${$modelLower}
-            ]);
         ");
     }
 
@@ -87,37 +97,112 @@ class CommonLogic
     {
         $modelLower = strtolower($modelName);
 
-        $id = (int) $request->param["{$modelLower}Id"];
-
-        if ($id === 0) {
-            http_response_code(400);
-            return json([
-                'message' => 'Id params must be integer type.',
-                'errors' => [
-                    'id' => ['Invalid Id params.']
-                ]
-            ]);
-        }
-
         eval("
-            \${$modelLower} = {$modelName}::find(['{$modelLower}Id' => \$id]);
-            \$isDeleted = {$modelLower}->delete();
+            try {
+                \$id = (int) \$request->param[\"{$modelLower}Id\"];
 
-            if (!\$isDeleted) {
-                http_response_code(404);
+                if (\$id === 0) {
+                    throw new PDOException('Invalid {$modelLower}Id parameter.', 400);
+                }
+
+                \${$modelLower} = {$modelName}::find(['{$modelLower}Id' => \$id]);
+                
+                if (!\${$modelLower}) {
+                    throw new PDOException(\"{$modelName} with Id of {\$id} does not exist.\", 404);
+                }
+
+                \${$modelLower}->delete();
+
+                http_response_code(205);
                 return json([
-                    'message' => \"You're attempting to delete {$modelLower} that doesn't exist.\",
+                    'message' => ' deleted successfully.',
+                    'errors' => []
+                ]);
+            } catch (PDOException \$e) {
+                
+                if (\$e->getCode() === 400 || \$e->getCode() === 404) {
+                    http_response_code(\$e->getCode());
+                    return json([
+                        'message' => \$e->getMessage(),
+                        'errors' => [
+                            '{$modelLower}Id' => [\$e->getMessage()]
+                        ]
+                    ]);
+                }
+
+                http_response_code(500);
+                return json([
+                    'message' => 'Internal Server is having a hard time fulfilling delete request.',
                     'errors' => [
-                        'id' => [\"{$modelName} with Id of {$id} does not exist.\"]
+                        'server' => ['Internal Server is having a hard time fulfilling delete request.']
                     ]
                 ]);
             }
+        ");
+    }
 
-            http_response_code(200);
-            return json([
-                'message' => ' deleted successfully.',
-                'errors' => []
-             ]);
+
+    static function updateHandler(Request $request, string $modelName)
+    {
+        $modelLower = strtolower($modelName);
+
+        eval("
+            try {
+			\$id = htmlspecialchars(\$request->param['{$modelLower}Id']);
+
+			\${$modelLower} = {$modelName}::find(['{$modelLower}Id' => \$id]);
+
+			if (!\${$modelLower}) {
+				throw new PDOException(\"{$modelName} with Id {\$id} does not exist.\", 404);
+			}
+
+			foreach (\$request->body as \$field => \$value) {
+				\$request->body[\$field] = htmlspecialchars(\$value);
+				if (\$field == 'password') {
+					\$request->body['password'] = password_hash(
+						\$request->body['password'],
+						PASSWORD_DEFAULT
+					);
+				}
+			}
+
+			\${$modelLower}->update(...\$request->body);
+
+			http_response_code(201);
+			return json([
+				'message' => 'User updated successfully.',
+				'errors' => []
+			]);
+		} catch (PDOException \$e) {
+
+			if (\$e->getCode() === 404) {
+				http_response_code(404);
+				return json([
+					'message' => \$e->getMessage(),
+					'errors' => [
+						'userId' => [\$e->getMessage()]
+					]
+				]);
+			}
+
+			if (\$e->getCode() === 23000) {
+				http_response_code(409);
+				return json([
+					'message' => \"User with email {\$request->body['email']} already exists.\",
+					'errors' => [
+						'email' => [\"User with email {\$request->body['email']} already exists.\"]
+					]
+				]);
+			}
+
+			http_response_code(500);
+			return json([
+				'message' => 'Internal Server is having a hard time fulfilling update request.',
+				'errors' => [
+					'server' => ['Internal Server is having a hard time fulfilling update request.']
+				]
+			]);
+		}
         ");
     }
 }

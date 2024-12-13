@@ -15,7 +15,10 @@ class PatientsService
 
 	static function registerPatient(Request $request) {}
 
-	static function updatePatient(Request $request) {}
+	static function updatePatient(Request $request)
+	{
+		return CommonLogic::updateHandler($request, 'Patient');
+	}
 
 	static function deletePatient(Request $request)
 	{
