@@ -34,7 +34,6 @@ class Users extends Controller
 
 
 	#[Patch('/:userId')]
-	#[Middleware(new UserRegisterValidator)]
 	public function updateUser(Request $request)
 	{
 		return UsersService::updateUser($request);

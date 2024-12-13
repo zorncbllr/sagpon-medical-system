@@ -4,177 +4,254 @@ class UsersService
 {
 	static function loginHandler(Request $request)
 	{
-		$email = $request->body['email'];
-		$password = $request->body['password'];
+		try {
+			$email = $request->body['email'];
+			$password = $request->body['password'];
 
-		$user = User::find(['email' => $email]);
+			$user = User::find(['email' => $email]);
 
-		if (empty($user)) {
-			http_response_code(400);
+			if (!$user) {
+				throw new PDOException("User with email {$email} does not exist.", 404);
+			}
+
+			if (!password_verify($password, $user->getPassword())) {
+				throw new PDOException("Wrong credentials.", 401);
+			}
+
+			$payload = [
+				'id' => $user->getUserId(),
+				'email' => $user->getEmail(),
+				'role' => $user->getRole(),
+			];
+
+			$token = Token::sign($payload, $_ENV['SECRET_KEY'], 3600 * 24 * 15);
+
+			http_response_code(200);
 			return json([
+				'message' => 'Log in successful.',
+				'route' => '/dashboard',
+				'token' => $token,
+				'role' => $user->getRole(),
+				'errors' => []
+			]);
+		} catch (PDOException $e) {
+
+			if ($e->getCode() === 404) {
+				http_response_code(404);
+				return json([
+					'messsage' => $e->getMessage(),
+					'errors' => [
+						'email' => [$e->getMessage()]
+					]
+				]);
+			}
+
+			if ($e->getCode() === 401) {
+				http_response_code(401);
+				return json([
+					'message' => $e->getMessage(),
+					'errors' => [
+						'password' => [$e->getMessage()]
+					]
+				]);
+			}
+
+			http_response_code(500);
+			return json([
+				'message' => "Internal Server is having a hard time fulfilling login request.",
 				'errors' => [
-					'email' => ['User not found.']
+					'server' => ["Internal Server is having a hard time fulfilling login request."]
 				]
 			]);
 		}
-
-		if (!password_verify($password, $user->getPassword())) {
-			http_response_code(400);
-			return json([
-				'errors' => [
-					'password' => ['Wrong credentials.']
-				]
-			]);
-		}
-
-		$payload = [
-			'id' => $user->getUserId(),
-			'email' => $user->getEmail(),
-			'role' => $user->getRole(),
-		];
-
-		$token = Token::sign($payload, $_ENV['SECRET_KEY'], 3600 * 24 * 15);
-
-		http_response_code(200);
-		return json([
-			'msg' => 'User successfully logged in.',
-			'route' => '/dashboard',
-			'token' => $token,
-			'role' => $user->getRole()
-		]);
 	}
 
 
 	static function registerHandler(Request $request)
 	{
-		$data = [
-			...$request->body,
-			"password" => password_hash($request->body['password'], PASSWORD_DEFAULT),
-			"role" => "patient"
-		];
+		try {
+			$data = [
+				...$request->body,
+				"password" => password_hash($request->body['password'], PASSWORD_DEFAULT),
+				"role" => "patient"
+			];
 
-		$user = new User(...$data);
+			$user = new User(...$data);
 
-		$isCreated = $user->save();
+			$user->save();
 
-		if (!$isCreated) {
-			http_response_code(409);
+			http_response_code(201);
 			return json([
+				'message' => 'New user created successfully.',
+				'route' => '/login',
+				'errors' => []
+			]);
+		} catch (PDOException $e) {
+
+			if ($e->getCode() === "23000") {
+				http_response_code(409);
+				return json([
+					'message' => "User with email {$request->body['email']} already exists.",
+					'errors' => [
+						'email' => ["User with email {$request->body['email']} already exists."]
+					]
+				]);
+			}
+
+			http_response_code(500);
+			return json([
+				'message' => "Internal Server is having a hard time fulfilling register request.",
 				'errors' => [
-					'email' => ['User email is already existing.']
+					'server' => ["Internal Server is having a hard time fulfilling register request."]
 				]
 			]);
 		}
-
-		http_response_code(200);
-		return json([
-			'msg' => 'New user created successfully.',
-			'route' => '/login'
-		]);
 	}
 
 
 	static function forgotPassword(Request $request)
 	{
-		$email = $request->body['email'];
-		$newPassword = $request->body['newPassword'];
+		try {
+			$email = $request->body['email'];
+			$newPassword = $request->body['newPassword'];
 
-		$user = User::find(['email' => $email]);
+			$user = User::find(['email' => $email]);
 
-		if (!$user) {
-			http_response_code(400);
+			if (!$user) {
+				throw new PDOException("User with email {$email} does not exist.", 404);
+			}
+
+			$user->setPassword(
+				password_hash($newPassword, PASSWORD_DEFAULT)
+			);
+
+			$user->update();
+
+			http_response_code(201);
 			return json([
+				'message' => 'Password successfully updated.',
+				'route' => '/login',
+				'errors' => []
+			]);
+		} catch (PDOException $e) {
+
+			if ($e->getCode() == 404) {
+				http_response_code($e->getCode());
+				return json([
+					'errors' => [
+						'email' => $e->getMessage()
+					]
+				]);
+			}
+
+			http_response_code(500);
+			return json([
+				'message' => "Internal Server is having a hard time fulfilling forget-password request.",
 				'errors' => [
-					'email' => ['User not found.']
+					'server' => ["Internal Server is having a hard time fulfilling forget-password request."]
 				]
 			]);
 		}
-
-		$user->setPassword(
-			password_hash($newPassword, PASSWORD_DEFAULT)
-		);
-
-		$isUpdated = $user->update();
-
-		if (!$isUpdated) {
-			http_response_code(400);
-			return json([
-				'msg' => 'Unable to update password.',
-				'errors' => []
-			]);
-		}
-
-		http_response_code(200);
-		return json([
-			'msg' => 'Password successfully updated.',
-			'route' => '/login'
-		]);
 	}
 
 
 	static function deleteUser(Request $request)
 	{
-		$id = htmlspecialchars($request->param['userId']);
+		try {
+			$id = htmlspecialchars($request->param['userId']);
 
-		$user = User::find(['userId' => $id]);
+			$user = User::find(['userId' => $id]);
 
-		if (!$user) {
-			http_response_code(400);
+			if (!$user) {
+				throw new PDOException("User with Id {$id} does not exist.", 404);
+			}
+
+			$user->delete();
+
+			http_response_code(205);
 			return json([
-				'msg' => 'User not found.'
+				'message' => 'User successfuly deleted.',
+				'errors' => []
 			]);
-		}
+		} catch (PDOException $e) {
 
-		$isDeleted = $user->delete();
+			if ($e->getCode() == 404) {
+				http_response_code(404);
+				return json([
+					'message' => $e->getMessage(),
+					'errors' => [
+						'userId' => [$e->getMessage()]
+					]
+				]);
+			}
 
-		if (!$isDeleted) {
 			http_response_code(500);
 			return json([
-				'msg' => 'Unable to delete user.'
+				'message' => "Internal Server is having a hard time fulfilling delete request.",
+				'errors' => [
+					'server' => ["Internal Server is having a hard time fulfilling delete request."]
+				]
 			]);
 		}
-
-		http_response_code(200);
-		return json([
-			'msg' => 'User successfuly deleted.'
-		]);
 	}
 
 	static function updateUser(Request $request)
 	{
-		$id = htmlspecialchars($request->param['userId']);
+		try {
+			$id = htmlspecialchars($request->param['userId']);
 
-		$user = User::find(['userId' => $id]);
+			$user = User::find(['userId' => $id]);
 
-		if (!$user) {
-			http_response_code(400);
+			if (!$user) {
+				throw new PDOException("User with Id {$id} does not exist.", 404);
+			}
+
+			foreach ($request->body as $field => $value) {
+				$request->body[$field] = htmlspecialchars($value);
+				if ($field == 'password') {
+					$request->body['password'] = password_hash(
+						$request->body['password'],
+						PASSWORD_DEFAULT
+					);
+				}
+			}
+
+			$user->update(...$request->body);
+
+			http_response_code(201);
 			return json([
-				'msg' => 'User not found.'
+				'message' => 'User updated successfully.',
+				'errors' => []
 			]);
-		}
+		} catch (PDOException $e) {
 
-		$data = [
-			...$request->body,
-			'password' => password_hash(
-				$request->body['password'],
-				PASSWORD_DEFAULT
-			)
-		];
+			if ($e->getCode() === 404) {
+				http_response_code(404);
+				return json([
+					'message' => $e->getMessage(),
+					'errors' => [
+						'userId' => [$e->getMessage()]
+					]
+				]);
+			}
 
-		$isUpdated = $user->update(...$data);
+			if ($e->getCode() === 23000) {
+				http_response_code(409);
+				return json([
+					'message' => "User with email {$request->body['email']} already exists.",
+					'errors' => [
+						'email' => ["User with email {$request->body['email']} already exists."]
+					]
+				]);
+			}
 
-		if (!$isUpdated) {
-			http_response_code(409);
+			http_response_code(500);
 			return json([
+				'message' => "Internal Server is having a hard time fulfilling update request.",
 				'errors' => [
-					'email' => ['Duplicated email.']
+					'server' => ["Internal Server is having a hard time fulfilling update request."]
 				]
 			]);
 		}
-
-		http_response_code(200);
-		return json([
-			'msg' => 'User updated successfully.'
-		]);
 	}
 }

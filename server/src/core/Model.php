@@ -4,18 +4,23 @@ abstract class Model extends Database
 {
     public static function find(array $param = [])
     {
-        $query = "select * from `" . lcfirst(get_called_class()) . "s`";
+        $table = strtolower(get_called_class());
+        $query = "SELECT * FROM `{$table}s`";
 
         if (empty($param)) {
             return self::mapper(parent::query($query));
         }
 
-        $query .= " where " . key($param) . " = :" . key($param);
+        $query .= " WHERE";
+
+        foreach ($param as $key => $value) {
+            $query .= ($key !== array_key_first($param) ? " AND " : " ") . "`{$table}s`.`{$key}` = :{$key}";
+        }
 
         $data = parent::query($query, [...$param]);
 
-        if (empty($data)) {
-            return false;
+        if (empty($data) && !empty($param)) {
+            return null;
         }
 
         if (sizeof($data) === 1) {
@@ -27,15 +32,11 @@ abstract class Model extends Database
 
     public static function findById(int | string $id)
     {
-        try {
-            $query = "select * from " . lcfirst(get_called_class()) . "s where id = :id";
+        $query = "select * from " . lcfirst(get_called_class()) . "s where id = :id";
 
-            $data = parent::query($query, ["id" => $id]);
+        $data = parent::query($query, ["id" => $id]);
 
-            return empty($data) ? false : self::mapper($data[0]);
-        } catch (PDOException $e) {
-            return false;
-        }
+        return empty($data) ? null : self::mapper($data[0]);
     }
 
     private static function mapper(array $data)

@@ -4,11 +4,46 @@ class CommonLogic
 {
     static function fetchAll(Request $request, string $modelName)
     {
-        http_response_code(200);
+        $modelLower = strtolower($modelName);
+
         eval("
-            return json([
-                '" . strtolower($modelName) . "s' => [...{$modelName}::find()]
-            ]);
+            try {
+                if (!empty(\$request->query)) {
+                    \${$modelLower} = {$modelName}::find([...\$request->query]);
+
+                    if (!\${$modelLower}) {
+                        throw new PDOException(\"No related {$modelName} found.\", 404);
+                    }
+
+                    http_response_code(200);
+                    return json([
+                        '{$modelLower}s' => [...\${$modelLower}]
+                    ]);
+                }
+
+                http_response_code(200);
+                return json([
+                '{$modelLower}s' => [...{$modelName}::find()]
+                ]);
+            
+            } catch (\Throwable \$e) {
+
+                if (\$e->getCode() === 404) {
+                    http_response_code(404);      
+                    return json([
+                        'message' => \$e->getMessage(),
+                        '{$modelLower}s' => []
+                    ]);
+                }
+
+                http_response_code(500);
+                return json([
+                    'message' => 'Internal Server is having a hard time fulfilling request.',
+                    'errors' => [
+                        'server' => ['Internal Server is having a hard time fulfilling request.']
+                    ]
+                ]);
+            }
         ");
     }
 
@@ -21,7 +56,7 @@ class CommonLogic
         if ($id === 0) {
             http_response_code(400);
             return json([
-                'msg' => 'Invalid Id params.',
+                'message' => 'Invalid Id params.',
                 'errors' => [
                     'id' => ['Id params must be integer type.']
                 ]
@@ -34,9 +69,9 @@ class CommonLogic
             if (!\${$modelLower}) {
                 http_response_code(404);
                 return json([
-                    'msg' => \"You're attempting to find {$modelLower} that doesn't exist.\",
+                    'message' => \"You're attempting to find {$modelLower} that doesn't exist.\",
                     'errors' => [
-                        'id' => [\"{$modelName} with Id of {$id} does not exist.\"]
+                        'id' => [\"{$modelName} with Id {$id} does not exist.\"]
                     ]
                 ]);
             }
@@ -57,7 +92,7 @@ class CommonLogic
         if ($id === 0) {
             http_response_code(400);
             return json([
-                'msg' => 'Id params must be integer type.',
+                'message' => 'Id params must be integer type.',
                 'errors' => [
                     'id' => ['Invalid Id params.']
                 ]
@@ -71,7 +106,7 @@ class CommonLogic
             if (!\$isDeleted) {
                 http_response_code(404);
                 return json([
-                    'msg' => \"You're attempting to delete {$modelLower} that doesn't exist.\",
+                    'message' => \"You're attempting to delete {$modelLower} that doesn't exist.\",
                     'errors' => [
                         'id' => [\"{$modelName} with Id of {$id} does not exist.\"]
                     ]
@@ -80,7 +115,7 @@ class CommonLogic
 
             http_response_code(200);
             return json([
-                'msg' => ' deleted successfully.',
+                'message' => ' deleted successfully.',
                 'errors' => []
              ]);
         ");
