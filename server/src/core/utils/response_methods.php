@@ -1,6 +1,5 @@
 <?php
 
-
 function json(mixed $data)
 {
     header("Content-Type: application/json");

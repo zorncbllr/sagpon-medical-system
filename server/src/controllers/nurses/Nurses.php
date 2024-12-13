@@ -18,19 +18,19 @@ class Nurses extends Controller
 		return NursesService::registerNurse($request);
 	}
 
-	#[Post('/:id')]
+	#[Post('/:nurseId')]
 	public function getNurseById(Request $request)
 	{
 		return NursesService::getNurseById($request);
 	}
 
-	#[Patch('/update/:id')]
+	#[Patch('/:nurseId')]
 	public function updateNurse(Request $request)
 	{
 		return NursesService::updateNurse($request);
 	}
 
-	#[Delete('/delete/:id')]
+	#[Delete('/:nurseId')]
 	public function deleteNurse(Request $request)
 	{
 		return NursesService::deleteNurse($request);

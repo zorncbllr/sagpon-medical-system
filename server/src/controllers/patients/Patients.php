@@ -18,19 +18,19 @@ class Patients extends Controller
 		return PatientsService::registerPatient($request);
 	}
 
-	#[Post('/:id')]
+	#[Post('/:patientId')]
 	public function getPatientById(Request $request)
 	{
 		return PatientsService::getPatientById($request);
 	}
 
-	#[Patch('/update/:id')]
+	#[Patch('/:patientId')]
 	public function updatePatient(Request $request)
 	{
 		return PatientsService::updatePatient($request);
 	}
 
-	#[Delete('/delete/:id')]
+	#[Delete('/:patientId')]
 	public function deletePatient(Request $request)
 	{
 		return PatientsService::deletePatient($request);

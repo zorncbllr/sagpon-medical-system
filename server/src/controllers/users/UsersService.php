@@ -28,7 +28,7 @@ class UsersService
 		}
 
 		$payload = [
-			'id' => $user->getId(),
+			'id' => $user->getUserId(),
 			'email' => $user->getEmail(),
 			'role' => $user->getRole(),
 		];
@@ -47,20 +47,15 @@ class UsersService
 
 	static function registerHandler(Request $request)
 	{
-		$email = $request->body['email'];
-		$password = $request->body['password'];
-		$firstName = $request->body['firstName'];
-		$lastName = $request->body['lastName'];
+		$data = [
+			...$request->body,
+			"password" => password_hash($request->body['password'], PASSWORD_DEFAULT),
+			"role" => "patient"
+		];
 
-		$user = new User(
-			email: $email,
-			password: password_hash($password, PASSWORD_DEFAULT),
-			firstName: $firstName,
-			lastName: $lastName,
-			role: 'patient'
-		);
+		$user = new User(...$data);
 
-		$isCreated = User::create($user);
+		$isCreated = $user->save();
 
 		if (!$isCreated) {
 			http_response_code(409);
@@ -86,7 +81,7 @@ class UsersService
 
 		$user = User::find(['email' => $email]);
 
-		if (empty($user)) {
+		if (!$user) {
 			http_response_code(400);
 			return json([
 				'errors' => [
@@ -99,7 +94,7 @@ class UsersService
 			password_hash($newPassword, PASSWORD_DEFAULT)
 		);
 
-		$isUpdated = User::update($user);
+		$isUpdated = $user->update();
 
 		if (!$isUpdated) {
 			http_response_code(400);
@@ -119,18 +114,18 @@ class UsersService
 
 	static function deleteUser(Request $request)
 	{
-		$id = htmlspecialchars($request->param['id']);
+		$id = htmlspecialchars($request->param['userId']);
 
-		$user = User::findById($id);
+		$user = User::find(['userId' => $id]);
 
-		if (empty($user)) {
+		if (!$user) {
 			http_response_code(400);
 			return json([
 				'msg' => 'User not found.'
 			]);
 		}
 
-		$isDeleted = User::delete($user);
+		$isDeleted = $user->delete();
 
 		if (!$isDeleted) {
 			http_response_code(500);
@@ -147,27 +142,26 @@ class UsersService
 
 	static function updateUser(Request $request)
 	{
-		$id = htmlspecialchars($request->param['id']);
-		$email = $request->body['email'];
-		$password = $request->body['password'];
-		$firstName = $request->body['firstName'];
-		$lastName = $request->body['lastName'];
+		$id = htmlspecialchars($request->param['userId']);
 
-		$user = User::findById($id);
+		$user = User::find(['userId' => $id]);
 
-		if (empty($user)) {
+		if (!$user) {
 			http_response_code(400);
 			return json([
 				'msg' => 'User not found.'
 			]);
 		}
 
-		$user->setEmail($email);
-		$user->setPassword($password);
-		$user->setFirstName($firstName);
-		$user->setLastName($lastName);
+		$data = [
+			...$request->body,
+			'password' => password_hash(
+				$request->body['password'],
+				PASSWORD_DEFAULT
+			)
+		];
 
-		$isUpdated = User::update($user);
+		$isUpdated = $user->update(...$data);
 
 		if (!$isUpdated) {
 			http_response_code(409);

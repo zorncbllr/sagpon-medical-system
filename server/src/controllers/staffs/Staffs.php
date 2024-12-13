@@ -15,19 +15,19 @@ class Staffs extends Controller
 		return StaffsService::registerStaff($request);
 	}
 
-	#[Post('/:id')]
+	#[Post('/:staffId')]
 	public function getStaffById(Request $request)
 	{
 		return StaffsService::getStaffById($request);
 	}
 
-	#[Patch('/update/:id')]
+	#[Patch('/:staffId')]
 	public function updateStaff(Request $request)
 	{
 		return StaffsService::updateStaff($request);
 	}
 
-	#[Delete('/delete/:id')]
+	#[Delete('/:staffId')]
 	public function deleteStaff(Request $request)
 	{
 		return StaffsService::deleteStaff($request);

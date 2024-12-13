@@ -18,19 +18,19 @@ class Doctors extends Controller
 		return DoctorsService::registerDoctor($request);
 	}
 
-	#[Post('/:id')]
+	#[Post('/:doctorId')]
 	public function getDoctorById(Request $request)
 	{
 		return DoctorsService::getDoctorById($request);
 	}
 
-	#[Patch('/update/:id')]
+	#[Patch('/:doctorId')]
 	public function updateDoctor(Request $request)
 	{
 		return DoctorsService::updateDoctor($request);
 	}
 
-	#[Delete('/delete/:id')]
+	#[Delete('/:doctorId')]
 	public function deleteDoctor(Request $request)
 	{
 		return DoctorsService::deleteDoctor($request);

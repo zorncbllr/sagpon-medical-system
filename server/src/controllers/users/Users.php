@@ -26,14 +26,14 @@ class Users extends Controller
 	}
 
 
-	#[Delete('/delete/:id')]
+	#[Delete('/:userId')]
 	public function deleteUser(Request $request)
 	{
 		return UsersService::deleteUser($request);
 	}
 
 
-	#[Put('/update/:id')]
+	#[Patch('/:userId')]
 	#[Middleware(new UserRegisterValidator)]
 	public function updateUser(Request $request)
 	{

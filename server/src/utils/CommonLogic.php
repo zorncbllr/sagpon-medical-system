@@ -14,24 +14,24 @@ class CommonLogic
 
     static function fetchById(Request $request, string $modelName)
     {
-        $id = (int) $request->param['id'];
+        $modelLower = strtolower($modelName);
+
+        $id = (int) $request->param["{$modelLower}Id"];
 
         if ($id === 0) {
             http_response_code(400);
             return json([
-                'msg' => 'Id params must be integer type.',
+                'msg' => 'Invalid Id params.',
                 'errors' => [
-                    'id' => ['Invalid Id params.']
+                    'id' => ['Id params must be integer type.']
                 ]
             ]);
         }
 
-        $modelLower = strtolower($modelName);
-
         eval("
             \${$modelLower} = {$modelName}::find(['{$modelLower}Id' => \$id]);
 
-            if (empty(\${$modelLower})) {
+            if (!\${$modelLower}) {
                 http_response_code(404);
                 return json([
                     'msg' => \"You're attempting to find {$modelLower} that doesn't exist.\",
@@ -50,7 +50,9 @@ class CommonLogic
 
     static function deleteHandler(Request $request, string $modelName)
     {
-        $id = (int) $request->param['id'];
+        $modelLower = strtolower($modelName);
+
+        $id = (int) $request->param["{$modelLower}Id"];
 
         if ($id === 0) {
             http_response_code(400);
@@ -62,10 +64,9 @@ class CommonLogic
             ]);
         }
 
-        $modelLower = strtolower($modelName);
-
         eval("
-            \$isDeleted = {$modelName}::delete(\$id);
+            \${$modelLower} = {$modelName}::find(['{$modelLower}Id' => \$id]);
+            \$isDeleted = {$modelLower}->delete();
 
             if (!\$isDeleted) {
                 http_response_code(404);

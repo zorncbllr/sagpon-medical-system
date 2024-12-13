@@ -67,9 +67,14 @@ class UserRegisterValidator extends Middleware
 			]);
 		}
 
+		$newBody = [];
 		foreach ($request->body as $field => $value) {
-			$request->body[$field] = htmlspecialchars($value);
+			if ($field !== 'confirmPassword') {
+				$newBody[$field] = htmlspecialchars($value);
+			}
 		}
+
+		$request->body = $newBody;
 
 		$headers = getallheaders();
 

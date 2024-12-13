@@ -2,11 +2,11 @@
 
 class User extends Model
 {
-	private $id, $email, $password, $role;
+	private $userId, $email, $password, $role;
 	private $firstName, $lastName, $createdAt, $updatedAt;
 
 	public function __construct(
-		$id = null,
+		$userId = null,
 		$email = null,
 		$password = null,
 		$role = null,
@@ -16,7 +16,7 @@ class User extends Model
 		$updatedAt = null
 	) {
 
-		$this->id = $id;
+		$this->userId = $userId;
 		$this->email = $email;
 		$this->password = $password;
 		$this->role = $role;
@@ -25,11 +25,10 @@ class User extends Model
 		$this->createdAt = $createdAt;
 		$this->updatedAt = $updatedAt;
 	}
-
 	public static function initUser()
 	{
 		self::migrateModel("
-			id INT PRIMARY KEY AUTO_INCREMENT,
+			userId INT PRIMARY KEY AUTO_INCREMENT,
 			email VARCHAR(100) UNIQUE NOT NULL, 
 			password VARCHAR(255) NOT NULL, 
 			role ENUM('patient', 'doctor', 'nurse', 'admin') NOT NULL, 
@@ -40,14 +39,14 @@ class User extends Model
 		");
 	}
 
-	public function getId()
+	public function getUserId()
 	{
-		return $this->id;
+		return $this->userId;
 	}
 
-	public function setId($id)
+	public function setUserId($userId)
 	{
-		$this->id = $id;
+		$this->userId = $userId;
 	}
 
 	public function getEmail()

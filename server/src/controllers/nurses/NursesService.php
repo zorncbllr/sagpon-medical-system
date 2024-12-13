@@ -17,7 +17,8 @@ class NursesService
 
 	static function updateNurse(Request $request) {}
 
-	static function deleteNurse(Request $request) {
+	static function deleteNurse(Request $request)
+	{
 		return CommonLogic::deleteHandler($request, 'Nurse');
 	}
 }
