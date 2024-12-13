@@ -2,7 +2,7 @@
 
 use App\Core\Middleware;
 
-class UserRegisterValidator extends Middleware
+class UserValidator extends Middleware
 {
 	static function runnable(Request $request, callable $next)
 	{

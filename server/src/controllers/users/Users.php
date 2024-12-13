@@ -11,7 +11,7 @@ class Users extends Controller
 
 
 	#[Post('/register')]
-	#[Middleware(new UserRegisterValidator)]
+	#[Middleware(new UserValidator)]
 	public function registerHandler(Request $request)
 	{
 		return UsersService::registerHandler($request);
