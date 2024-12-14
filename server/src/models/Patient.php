@@ -40,8 +40,8 @@ class Patient extends MedicalPerson
 	public static function initPatient()
 	{
 		parent::initMedicalPerson("
-			patientId INT PRIMARY KEY AUTO_INCREMENT, 
-			emergencyContact VARCHAR(20), 
+			patientId CHAR(36) NOT NULL DEFAULT (UUID()) PRIMARY KEY, 
+			emergencyContact VARCHAR(20) NOT NULL, 
 			insuranceProvider VARCHAR(255), 
 			policyNumber VARCHAR(50)
 		");

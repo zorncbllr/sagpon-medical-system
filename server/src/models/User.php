@@ -28,7 +28,7 @@ class User extends Model
 	public static function initUser()
 	{
 		self::migrateModel("
-			userId INT PRIMARY KEY AUTO_INCREMENT,
+			userId CHAR(36) NOT NULL DEFAULT (UUID()) PRIMARY KEY,
 			email VARCHAR(100) UNIQUE NOT NULL, 
 			password VARCHAR(255) NOT NULL, 
 			role ENUM('patient', 'doctor', 'nurse', 'admin') NOT NULL, 

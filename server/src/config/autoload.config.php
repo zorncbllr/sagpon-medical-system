@@ -11,6 +11,7 @@ return [
     '/../core/utils/annotations/',
 
     // Add custom directories here:
-    '/../middlewares/field-validators/',
+    '/../middlewares/validators/',
+    '/../middlewares/auth/',
     '/../utils/'
 ];

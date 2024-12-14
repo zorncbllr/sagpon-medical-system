@@ -34,7 +34,7 @@ abstract class MedicalPerson extends Model
             birthDate DATE NOT NULL, 
             address VARCHAR(255) NOT NULL, 
             phoneNumber VARCHAR(20) NOT NULL, 
-            photo BLOB
+            photo BLOB NOT NULL
 		" . ($additionalConfig ? ", {$additionalConfig}" : ""));
     }
 }

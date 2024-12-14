@@ -9,7 +9,7 @@ class Staffs extends Controller
 	}
 
 	#[Post('/register')]
-	#[Middleware(new MedicalPersonValidator)]
+	#[Middleware(new StaffValidator)]
 	public function registerStaff(Request $request)
 	{
 		return StaffsService::registerStaff($request);

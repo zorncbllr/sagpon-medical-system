@@ -40,7 +40,7 @@ class Doctor extends MedicalPerson
 	public static function initDoctor()
 	{
 		parent::initMedicalPerson("
-			doctorId INT PRIMARY KEY AUTO_INCREMENT, 
+			doctorId CHAR(36) NOT NULL DEFAULT (UUID()) PRIMARY KEY, 
 			licenseNumber VARCHAR(100) NOT NULL, 
 			specialization VARCHAR(100) NOT NULL, 
 			hospitalAffiliation VARCHAR(100) NOT NULL, 

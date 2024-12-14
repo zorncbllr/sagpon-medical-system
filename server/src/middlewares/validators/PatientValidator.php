@@ -2,7 +2,7 @@
 
 use App\Core\Middleware;
 
-class MedicalPersonValidator extends Middleware
+class PatientValidator extends Middleware
 {
 	static function runnable(Request $request, callable $next)
 	{
@@ -37,7 +37,25 @@ class MedicalPersonValidator extends Middleware
 				'required' => true,
 				'type' => 'string'
 			],
-			'photo' => []
+			'photo' => [
+				'required' => true
+			],
+			'emergencyContact' => [
+				'required' => false,
+				'type' => 'string'
+			],
+			'insuranceProvider' => [
+				'required' => false,
+				'type' => 'string',
+			],
+			'policyNumber' => [
+				'required' => false,
+				'type' => 'string',
+				'length' => [
+					'min' => 8,
+					'max' => 12
+				]
+			]
 		], [
 			'firstName' => $body['firstName'] ?? '',
 			'lastName' => $body['lastName'] ?? '',
@@ -46,12 +64,16 @@ class MedicalPersonValidator extends Middleware
 			'birthDate' => $body['birthDate'] ?? '',
 			'address' => $body['address'] ?? '',
 			'phoneNumber' => $body['phoneNumber'] ?? '',
-			'photo' => $body['photo'] ?? ''
+			'photo' => $body['photo'] ?? '',
+			'emergencyContact' => $body['emergencyContact'] ?? '',
+			'insuranceProvider' => $body['insuranceProvider'] ?? '',
+			'policyNumber' => $body['policyNumber'] ?? ''
 		]);
 
 		if (!$result->isValid()) {
 			http_response_code(400);
 			return json([
+				'message' => 'Unable to register new patient. Make sure to fill all requirements.',
 				'errors' => [...$result->getErrors()]
 			]);
 		}

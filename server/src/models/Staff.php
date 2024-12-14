@@ -39,10 +39,10 @@ class Staff extends MedicalPerson
 	public static function initStaff()
 	{
 		parent::initMedicalPerson("
-			staffId INT PRIMARY KEY AUTO_INCREMENT, 
+			staffId CHAR(36) NOT NULL DEFAULT (UUID()) PRIMARY KEY, 
 			shift VARCHAR(50), 
-			department VARCHAR(100), 
-			position VARCHAR(100)
+			department VARCHAR(100) NOT NULL, 
+			position VARCHAR(100) NOT NULL
 		");
 	}
 

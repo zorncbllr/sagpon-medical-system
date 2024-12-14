@@ -44,7 +44,7 @@ class Nurse extends MedicalPerson
 	public static function initNurse()
 	{
 		parent::initMedicalPerson("
-			nurseId INT PRIMARY KEY AUTO_INCREMENT, 
+			nurseId CHAR(36) NOT NULL DEFAULT (UUID()) PRIMARY KEY, 
 			licenseNumber VARCHAR(50), 
 			shift VARCHAR(50), 
 			hospitalAffiliation VARCHAR(100), 

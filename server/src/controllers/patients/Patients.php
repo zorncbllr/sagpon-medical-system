@@ -8,11 +8,14 @@ class Patients extends Controller
 		return PatientsService::getPatients($request);
 	}
 
+	#[Get('/register')]
+	public function registerPatientView(Request $request)
+	{
+		return view("Patients");
+	}
+
 	#[Post('/register')]
-	#[Middleware(
-		new MedicalPersonValidator,
-		new PatientValidator
-	)]
+	#[Middleware(new PatientValidator)]
 	public function registerPatient(Request $request)
 	{
 		return PatientsService::registerPatient($request);
