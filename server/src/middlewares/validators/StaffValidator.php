@@ -75,9 +75,10 @@ class StaffValidator extends Middleware
 			]);
 		}
 
-		foreach ($body as $field => $value) {
-			$request->body[$field] = htmlspecialchars($value);
-		}
+		$request->body = array_map(
+			fn($field) => htmlspecialchars($field),
+			$request->body
+		);
 
 		return $next();
 	}

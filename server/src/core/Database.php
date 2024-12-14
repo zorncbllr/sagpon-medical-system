@@ -93,17 +93,19 @@ class Database
 
         $query = "insert into `$table` (";
 
-        $attach_attributes = function (string $prep = "")
-        use (&$attributes, &$query) {
+        function attach_attributes(string $query, array $attributes, $prep = null)
+        {
             $tag = $prep ? "" : "`";
-            foreach (array_keys($attributes) as $key) {
+            foreach ($attributes as $key => $val) {
                 $query .= $tag . $prep . $key . $tag . ($key != array_key_last($attributes) ? ", " : ") ");
             }
-        };
 
-        $attach_attributes();
+            return $query;
+        }
+
+        $query = attach_attributes($query, $attributes);
         $query .= "values (";
-        $attach_attributes(":");
+        $query = attach_attributes($query, $attributes, ':');
 
         $statement = $pdo->prepare($query);
         $statement->execute($attributes);
@@ -123,6 +125,8 @@ class Database
             if ($e->getCode() == "42S01") {
                 $pdo->exec("DROP TABLE `{$table}`");
                 self::migrateModel($config);
+            } else {
+                var_dump($e->getMessage());
             }
             return false;
         }

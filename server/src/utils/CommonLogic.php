@@ -205,4 +205,42 @@ class CommonLogic
 		}
         ");
     }
+
+    static function registerHandler(Request $request, string $modelName)
+    {
+        $modelLower = strtolower($modelName);
+
+        eval("
+            try {
+                \${$modelLower} = new {$modelName}(...\$request->body);
+
+                \${$modelLower}->save();
+
+                http_response_code(201);
+                return json([
+                    'message' => '{$modelName} successfully registered.',
+                    '{$modelLower}' => \${$modelLower},
+                ]);
+            } catch (PDOException \$e) {
+
+                if (\$e->getCode() === '23000') {
+                    http_response_code(409);
+                    return json([
+                        'message' => \"User with email {\$request->body['email']} already exists.\",
+                        'errors' => [
+                            'email' => [\"User with email {\$request->body['email']} already exists.\"]
+                        ]
+                    ]);
+                }
+
+                http_response_code(500);
+                return json([
+                    'message' => 'Internal Server is having a hard time fulfilling register request.',
+                    'errors' => [
+                        'server' => ['Internal Server is having a hard time fulfilling register request.']
+                    ]
+                ]);
+            }
+        ");
+    }
 }

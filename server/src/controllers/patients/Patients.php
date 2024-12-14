@@ -5,37 +5,31 @@ class Patients extends Controller
 	#[Post()]
 	public function getPatients(Request $request)
 	{
-		return PatientsService::getPatients($request);
-	}
-
-	#[Get('/register')]
-	public function registerPatientView(Request $request)
-	{
-		return view("Patients");
+		return CommonLogic::fetchAll($request, 'Patient');
 	}
 
 	#[Post('/register')]
 	#[Middleware(new PatientValidator)]
 	public function registerPatient(Request $request)
 	{
-		return PatientsService::registerPatient($request);
+		return CommonLogic::registerHandler($request, 'Patient');
 	}
 
 	#[Post('/:patientId')]
 	public function getPatientById(Request $request)
 	{
-		return PatientsService::getPatientById($request);
+		return CommonLogic::fetchById($request, 'Patient');
 	}
 
 	#[Patch('/:patientId')]
 	public function updatePatient(Request $request)
 	{
-		return PatientsService::updatePatient($request);
+		return CommonLogic::updateHandler($request, 'Patient');
 	}
 
 	#[Delete('/:patientId')]
 	public function deletePatient(Request $request)
 	{
-		return PatientsService::deletePatient($request);
+		return CommonLogic::deleteHandler($request, 'Patient');
 	}
 }

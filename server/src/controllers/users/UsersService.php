@@ -32,7 +32,6 @@ class UsersService
 				'route' => '/dashboard',
 				'token' => $token,
 				'role' => $user->getRole(),
-				'errors' => []
 			]);
 		} catch (PDOException $e) {
 
@@ -84,7 +83,6 @@ class UsersService
 			return json([
 				'message' => 'New user created successfully.',
 				'route' => '/login',
-				'errors' => []
 			]);
 		} catch (PDOException $e) {
 
@@ -131,7 +129,6 @@ class UsersService
 			return json([
 				'message' => 'Password successfully updated.',
 				'route' => '/login',
-				'errors' => []
 			]);
 		} catch (PDOException $e) {
 

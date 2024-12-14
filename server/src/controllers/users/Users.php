@@ -24,7 +24,7 @@ class Users extends Controller
 	{
 		return UsersService::forgotPassword($request);
 	}
- 
+
 
 	#[Delete('/:userId')]
 	public function deleteUser(Request $request)

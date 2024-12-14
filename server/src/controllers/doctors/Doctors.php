@@ -5,31 +5,31 @@ class Doctors extends Controller
 	#[Post()]
 	public function getDoctors(Request $request)
 	{
-		return DoctorsService::getDoctors($request);
+		return CommonLogic::fetchAll($request, 'Doctor');
 	}
 
 	#[Post('/register')]
 	#[Middleware(new DoctorValidator)]
 	public function registerDoctor(Request $request)
 	{
-		return DoctorsService::registerDoctor($request);
+		return CommonLogic::registerHandler($request, 'Doctor');
 	}
 
 	#[Post('/:doctorId')]
 	public function getDoctorById(Request $request)
 	{
-		return DoctorsService::getDoctorById($request);
+		return CommonLogic::fetchById($request, 'Doctor');
 	}
 
 	#[Patch('/:doctorId')]
 	public function updateDoctor(Request $request)
 	{
-		return DoctorsService::updateDoctor($request);
+		return CommonLogic::updateHandler($request, 'Doctor');
 	}
 
 	#[Delete('/:doctorId')]
 	public function deleteDoctor(Request $request)
 	{
-		return DoctorsService::deleteDoctor($request);
+		return CommonLogic::deleteHandler($request, 'Doctor');
 	}
 }

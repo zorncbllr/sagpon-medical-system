@@ -32,7 +32,7 @@ class Staff extends MedicalPerson
 
 		$this->staffId = $staffId;
 		$this->shift = $shift;
-		$this->$department = $department;
+		$this->department = $department;
 		$this->position = $position;
 	}
 

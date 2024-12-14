@@ -5,31 +5,31 @@ class Nurses extends Controller
 	#[Post()]
 	public function getNurses(Request $request)
 	{
-		return NursesService::getNurses($request);
+		return CommonLogic::fetchAll($request, 'Nurse');
 	}
 
 	#[Post('/register')]
 	#[Middleware(new NurseValidator)]
 	public function registerNurse(Request $request)
 	{
-		return NursesService::registerNurse($request);
+		return CommonLogic::registerHandler($request, 'Nurse');
 	}
 
 	#[Post('/:nurseId')]
 	public function getNurseById(Request $request)
 	{
-		return NursesService::getNurseById($request);
+		return CommonLogic::fetchById($request, 'Nurse');
 	}
 
 	#[Patch('/:nurseId')]
 	public function updateNurse(Request $request)
 	{
-		return NursesService::updateNurse($request);
+		return CommonLogic::updateHandler($request, 'Nurse');
 	}
 
 	#[Delete('/:nurseId')]
 	public function deleteNurse(Request $request)
 	{
-		return NursesService::deleteNurse($request);
+		return CommonLogic::deleteHandler($request, 'Nurse');
 	}
 }

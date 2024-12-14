@@ -5,31 +5,31 @@ class Staffs extends Controller
 	#[Post()]
 	public function getStaffs(Request $request)
 	{
-		return StaffsService::getStaffs($request);
+		return CommonLogic::fetchAll($request, 'Staff');
 	}
 
 	#[Post('/register')]
 	#[Middleware(new StaffValidator)]
 	public function registerStaff(Request $request)
 	{
-		return StaffsService::registerStaff($request);
+		return CommonLogic::registerHandler($request, 'Staff');
 	}
 
 	#[Post('/:staffId')]
 	public function getStaffById(Request $request)
 	{
-		return StaffsService::getStaffById($request);
+		return CommonLogic::fetchById($request, 'Staff');
 	}
 
 	#[Patch('/:staffId')]
 	public function updateStaff(Request $request)
 	{
-		return StaffsService::updateStaff($request);
+		return CommonLogic::updateHandler($request, 'Staff');
 	}
 
 	#[Delete('/:staffId')]
 	public function deleteStaff(Request $request)
 	{
-		return StaffsService::deleteStaff($request);
+		return CommonLogic::deleteHandler($request, 'Staff');
 	}
 }
