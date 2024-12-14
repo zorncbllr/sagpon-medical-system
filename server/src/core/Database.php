@@ -93,19 +93,17 @@ class Database
 
         $query = "insert into `$table` (";
 
-        function attach_attributes(string $query, array $attributes, $prep = null)
-        {
+        $attach_attributes = function (string $prep = "")
+        use (&$attributes, &$query) {
             $tag = $prep ? "" : "`";
-            foreach ($attributes as $key => $val) {
+            foreach (array_keys($attributes) as $key) {
                 $query .= $tag . $prep . $key . $tag . ($key != array_key_last($attributes) ? ", " : ") ");
             }
+        };
 
-            return $query;
-        }
-
-        $query = attach_attributes($query, $attributes);
+        $attach_attributes();
         $query .= "values (";
-        $query = attach_attributes($query, $attributes, ':');
+        $attach_attributes(":");
 
         $statement = $pdo->prepare($query);
         $statement->execute($attributes);

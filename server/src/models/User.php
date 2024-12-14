@@ -3,7 +3,7 @@
 class User extends Model
 {
 	private $userId, $email, $password, $role;
-	private $firstName, $lastName, $createdAt, $updatedAt;
+	public $firstName, $lastName, $createdAt, $updatedAt;
 
 	public function __construct(
 		$userId = null,
