@@ -38,7 +38,8 @@ class PatientValidator extends Middleware
 				'type' => 'string'
 			],
 			'photo' => [
-				'required' => true
+				'required' => true,
+				'type' => 'image'
 			],
 			'emergencyContact' => [
 				'required' => false,

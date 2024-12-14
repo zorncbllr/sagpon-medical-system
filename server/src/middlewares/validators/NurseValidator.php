@@ -38,7 +38,8 @@ class NurseValidator extends Middleware
 				'type' => 'string'
 			],
 			'photo' => [
-				'required' => true
+				'required' => true,
+				'type' => 'image'
 			],
 			'licenseNumber' => [
 				'required' => true,

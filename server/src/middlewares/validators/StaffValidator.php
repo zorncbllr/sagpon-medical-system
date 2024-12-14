@@ -38,7 +38,8 @@ class StaffValidator extends Middleware
 				'type' => 'string'
 			],
 			'photo' => [
-				'required' => true
+				'required' => true,
+				'type' => 'image'
 			],
 			'shift' => [
 				'required' => false,
