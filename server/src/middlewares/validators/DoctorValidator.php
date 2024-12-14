@@ -54,10 +54,11 @@ class DoctorValidator extends Middleware
 				'type' => 'string'
 			],
 			'hospitalAffiliation' => [
-				'required' => true,
+				'required' => false,
 				'type' => 'string'
 			],
 			'availability' => [
+				'required' => false,
 				'type' => 'string'
 			]
 		], [

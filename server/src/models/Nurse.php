@@ -45,11 +45,11 @@ class Nurse extends MedicalPerson
 	{
 		parent::initMedicalPerson("
 			nurseId CHAR(36) NOT NULL DEFAULT (UUID()) PRIMARY KEY, 
-			licenseNumber VARCHAR(50), 
+			licenseNumber VARCHAR(50) NOT NULL, 
 			shift VARCHAR(50), 
 			hospitalAffiliation VARCHAR(100), 
 			availability VARCHAR(50), 
-			department VARCHAR(100)
+			department VARCHAR(100) NOT NULL
 		");
 	}
 

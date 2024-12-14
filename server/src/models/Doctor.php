@@ -43,7 +43,7 @@ class Doctor extends MedicalPerson
 			doctorId CHAR(36) NOT NULL DEFAULT (UUID()) PRIMARY KEY, 
 			licenseNumber VARCHAR(100) NOT NULL, 
 			specialization VARCHAR(100) NOT NULL, 
-			hospitalAffiliation VARCHAR(100) NOT NULL, 
+			hospitalAffiliation VARCHAR(100), 
 			availability VARCHAR(50)
 		");
 	}

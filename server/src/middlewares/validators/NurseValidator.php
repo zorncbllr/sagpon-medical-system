@@ -62,7 +62,7 @@ class NurseValidator extends Middleware
 				'type' => 'string'
 			],
 			'department' => [
-				'required' => false,
+				'required' => true,
 				'type' => 'string'
 			]
 		], [
