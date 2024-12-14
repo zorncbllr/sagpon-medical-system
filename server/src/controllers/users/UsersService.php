@@ -68,42 +68,13 @@ class UsersService
 
 	static function registerHandler(Request $request)
 	{
-		try {
-			$data = [
-				...$request->body,
-				"password" => password_hash($request->body['password'], PASSWORD_DEFAULT),
-				"role" => "patient"
-			];
+		$request->body = [
+			...$request->body,
+			"password" => password_hash($request->body['password'], PASSWORD_DEFAULT),
+			"role" => "patient"
+		];
 
-			$user = new User(...$data);
-
-			$user->save();
-
-			http_response_code(201);
-			return json([
-				'message' => 'New user created successfully.',
-				'route' => '/login',
-			]);
-		} catch (PDOException $e) {
-
-			if ($e->getCode() === "23000") {
-				http_response_code(409);
-				return json([
-					'message' => "User with email {$request->body['email']} already exists.",
-					'errors' => [
-						'email' => ["User with email {$request->body['email']} already exists."]
-					]
-				]);
-			}
-
-			http_response_code(500);
-			return json([
-				'message' => "Internal Server is having a hard time fulfilling register request.",
-				'errors' => [
-					'server' => ["Internal Server is having a hard time fulfilling register request."]
-				]
-			]);
-		}
+		return CommonLogic::registerHandler($request, 'User');
 	}
 
 

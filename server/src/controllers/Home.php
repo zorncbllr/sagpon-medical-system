@@ -1,6 +1,6 @@
 <?php
 
-#[Middleware(new AuthChecker)]
+#[Middleware(new Authentication)]
 class Home extends Controller
 {
 	#[Get()]

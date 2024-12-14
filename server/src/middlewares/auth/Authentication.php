@@ -2,7 +2,7 @@
 
 use App\Core\Middleware;
 
-class AuthChecker extends Middleware
+class Authentication extends Middleware
 {
 	static function runnable(Request $request, callable $next)
 	{
