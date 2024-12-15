@@ -52,7 +52,7 @@ function RegistrationForm() {
       ],
       schemas: [firstStepSchema, secondStepSchema, lastStepSchema],
     });
-  }, []);
+  }, [formState.errors]);
 
   console.log(formState.errors);
 
