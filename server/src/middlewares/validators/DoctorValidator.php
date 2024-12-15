@@ -13,6 +13,10 @@ class DoctorValidator extends Middleware
 				'required' => true,
 				'type' => 'string'
 			],
+			'middleName' => [
+				'required' => true,
+				'type' => 'string'
+			],
 			'lastName' => [
 				'required' => true,
 				'type' => 'string'
@@ -38,7 +42,7 @@ class DoctorValidator extends Middleware
 				'type' => 'string'
 			],
 			'photo' => [
-				'required' => true,
+				'required' => false,
 				'type' => 'image'
 			],
 			'licenseNumber' => [

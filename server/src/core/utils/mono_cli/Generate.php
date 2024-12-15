@@ -275,7 +275,7 @@ class Generate
             $constructor_params .= "{$space}{$options['datatype']} {$attr}" . ($attr == array_key_last($wtype_attrs) ? '' : ', ');
         }
 
-        if (!empty($optional_attrs)) {
+        if (!empty($optional_attrs) && !empty($wtype_attrs)) {
             $constructor_params .= ", ";
         }
 
@@ -299,7 +299,7 @@ class Generate
     private static function initModelFunction(string $filename)
     {
         $attributes = self::getAttributes($filename);
-        $result = "\n\n\tpublic static function init" . ucfirst($filename) . "() {\n\t\tself::migrateModel('";
+        $result = "\n\n\tpublic static function init" . ucfirst($filename) . "() {\n\t\tself::migrateModel(\"";
 
         foreach ($attributes as $attr => $options) {
             $copy = str_replace("$", "", $attr);
@@ -309,7 +309,7 @@ class Generate
                 "int" => "\n\t\t\t$copy INT AUTO_INCREMENT PRIMARY KEY",
                 default => "\n\t\t\t$copy <ADD YOUR CONFIGURATION>"
             };
-            $result .= ($attr != array_key_last($attributes)) ? "," : "\n\t\t');\n\t}";
+            $result .= ($attr != array_key_last($attributes)) ? "," : "\n\t\t\");\n\t}";
         }
 
         return $result;

@@ -9,6 +9,7 @@ class Patient extends MedicalPerson
 	public function __construct(
 		$patientId = null,
 		$firstName = null,
+		$middleName = null,
 		$lastName = null,
 		$gender = null,
 		$email = null,
@@ -22,6 +23,7 @@ class Patient extends MedicalPerson
 	) {
 		parent::__construct(
 			$firstName,
+			$middleName,
 			$lastName,
 			$gender,
 			$email,

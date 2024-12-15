@@ -32,21 +32,11 @@ class UserValidator extends Middleware
 					'min' => 8,
 					'max' => 100
 				]
-			],
-			'firstName' => [
-				'required' => true,
-				'type' => 'string',
-			],
-			'lastName' => [
-				'required' => true,
-				'type' => 'string'
 			]
 		], [
 			'email' => $email,
 			'password' => $password,
-			'confirmPassword' => $confirmPassword,
-			'firstName' => $firstName,
-			'lastName' => $lastName
+			'confirmPassword' => $confirmPassword
 		]);
 
 		if (!$result->isValid()) {
