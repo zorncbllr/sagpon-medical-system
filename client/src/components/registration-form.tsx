@@ -20,8 +20,9 @@ import { Pencil2Icon } from "@radix-ui/react-icons";
 import BoxReveal from "./ui/box-reveal";
 import { Link } from "react-router-dom";
 import useMultistepForm from "../hooks/use-multistep-form";
+import { useState } from "react";
 
-function FirstStep() {
+function FirstStep(data: FormData) {
   return (
     <BoxReveal duration={0.6} width="100%">
       <section className="grid grid-cols-2 gap-x-8">
@@ -46,7 +47,7 @@ function FirstStep() {
   );
 }
 
-function SecondStep() {
+function SecondStep(data: FormData) {
   return (
     <BoxReveal duration={0.6} width="100%">
       <section className="grid">
@@ -58,11 +59,11 @@ function SecondStep() {
             </div>
             <div>
               <Label>Phone Number</Label>
-              <Input type="number" required />
+              <Input type="0" required />
             </div>
             <div>
               <Label>Emergency Contact</Label>
-              <Input type="number" required />
+              <Input type="0" required />
             </div>
           </div>
 
@@ -73,7 +74,7 @@ function SecondStep() {
             </div>
             <div>
               <Label>Policy Number</Label>
-              <Input type="number" required />
+              <Input type="0" required />
             </div>
             <div>
               <Label>Gender</Label>
@@ -94,7 +95,7 @@ function SecondStep() {
   );
 }
 
-function LastStep() {
+function LastStep(data: FormData) {
   return (
     <BoxReveal width="100%" duration={0.8}>
       <section className="w-full">
@@ -115,11 +116,42 @@ function LastStep() {
   );
 }
 
+type FormData = {
+  firstName: "";
+  middleName: "";
+  lastName: "";
+  gender: "male" | "female" | "other";
+  email: "";
+  birthDate: Date | null;
+  address: "";
+  phone0: 0;
+  photo: File | null;
+  emergencyContact: 0;
+  insuranceProvider: "";
+  policy0: 0;
+};
+
+const initialData: FormData = {
+  firstName: "",
+  middleName: "",
+  lastName: "",
+  gender: "other",
+  email: "",
+  birthDate: null,
+  address: "",
+  phone0: 0,
+  photo: null,
+  emergencyContact: 0,
+  insuranceProvider: "",
+  policy0: 0,
+};
+
 function RegistrationForm() {
+  const [data, setData] = useState<FormData>(initialData);
   const { next, prev, currentStep, isLast, isFirst } = useMultistepForm([
-    <FirstStep />,
-    <SecondStep />,
-    <LastStep />,
+    <FirstStep {...data} />,
+    <SecondStep {...data} />,
+    <LastStep {...data} />,
   ]);
 
   return (
