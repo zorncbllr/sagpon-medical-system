@@ -7,7 +7,7 @@ import { Label } from "./ui/label";
 import BoxReveal from "./ui/box-reveal";
 import { FieldValues, useForm } from "react-hook-form";
 import { useUserLogin } from "../services/mutations";
-import { UserLoginData } from "../interfaces/user-interface";
+import { UserLoginData } from "../schemas/user-interface";
 
 export function LoginForm() {
   const { register, handleSubmit } = useForm();

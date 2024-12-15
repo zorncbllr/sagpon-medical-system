@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { UserLoginData } from "../interfaces/user-interface";
+import { UserLoginData } from "../schemas/user-interface";
 import { performLogin } from "./api";
 
 export const useUserLogin = () =>
@@ -13,7 +13,3 @@ export const useUserLogin = () =>
       console.log(data);
     },
   });
-
-  
-
-  

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { UserLoginData } from "../interfaces/user-interface";
+import { UserLoginData } from "../schemas/user-interface";
 
 const axiosInstance = axios.create({
   baseURL: "http://localhost:3000/",

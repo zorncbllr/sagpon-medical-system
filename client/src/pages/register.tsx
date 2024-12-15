@@ -1,6 +1,6 @@
 import { useLayoutEffect } from "react";
 import Logo from "../assets/logo";
-import RegistrationForm from "../components/registration-form";
+import RegistrationForm from "../components/registration/registration-form";
 import BoxReveal from "../components/ui/box-reveal";
 
 function Register() {
