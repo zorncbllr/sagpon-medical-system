@@ -73,7 +73,7 @@ class UserValidator extends Middleware
 			$payload = Token::verify($token, $_ENV['SECRET_KEY']);
 
 			if ($payload) {
-				$_SESSION['role'] = $payload['role'];
+				$request->payload = $payload;
 			}
 		}
 

@@ -11,7 +11,7 @@ import { Pencil2Icon } from "@radix-ui/react-icons";
 import BoxReveal from "../ui/box-reveal";
 import { Link } from "react-router-dom";
 import useMultiFormStore from "../../store/multiform-store";
-import { useEffect, useLayoutEffect } from "react";
+import { useEffect } from "react";
 import { FirstStep, LastStep, SecondStep } from "./register-form-steps";
 import { FieldValues, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,6 +20,7 @@ import {
   lastStepSchema,
   secondStepSchema,
 } from "../../schemas/patient-interfaces";
+import { useRegister } from "../../services/users/mutations";
 
 function RegistrationForm() {
   const {
@@ -34,13 +35,20 @@ function RegistrationForm() {
     currentSchema,
   } = useMultiFormStore();
 
+  const { mutate } = useRegister();
+
   const { register, handleSubmit, formState } = useForm({
     resolver: zodResolver(currentSchema!),
   });
 
   const onSubmit = (formdata: FieldValues) => {
     setData({ ...formdata });
-    next();
+
+    if (isLastStep()) {
+      mutate({ ...data, ...formdata });
+    } else {
+      next();
+    }
   };
 
   useEffect(() => {
@@ -53,8 +61,6 @@ function RegistrationForm() {
       schemas: [firstStepSchema, secondStepSchema, lastStepSchema],
     });
   }, [formState.errors]);
-
-  console.log(formState.errors);
 
   return (
     <Card className="w-[40rem]">

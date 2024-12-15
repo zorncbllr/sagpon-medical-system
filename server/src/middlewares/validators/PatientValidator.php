@@ -55,7 +55,11 @@ class PatientValidator extends Middleware
 			],
 			'policyNumber' => [
 				'required' => false,
-				'type' => 'number'
+				'type' => 'string',
+				'length' => [
+					'min' => 8,
+					'max' => 12
+				]
 			]
 		], [
 			'firstName' => $body['firstName'] ?? '',

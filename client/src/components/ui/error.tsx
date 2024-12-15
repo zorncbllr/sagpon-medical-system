@@ -1,4 +1,5 @@
 import { FieldError, Merge, FieldErrorsImpl } from "react-hook-form";
+import { Label } from "./label";
 
 function Error({
   children,
@@ -9,7 +10,7 @@ function Error({
     | Merge<FieldError, FieldErrorsImpl<any>>
     | undefined;
 }) {
-  return <p className="text-red-500 text-sm">{children?.toString()}</p>;
+  return <Label className="text-red-500">{children?.toString()}</Label>;
 }
 
 export default Error;

@@ -4,6 +4,7 @@ class Request
 {
     public array $body, $headers, $query, $param, $cookies, $form_data, $sessions;
     public string $base_uri, $uri;
+    public object | array | null $payload;
 
     public function __construct($param = [])
     {
@@ -16,6 +17,7 @@ class Request
         $this->form_data = [...$_POST, ...$_GET];
         $this->base_uri = $_SERVER["HTTP_HOST"];
         $this->uri = $GLOBALS['app']->URI_PATH;
+        $this->payload = null;
     }
 
     protected function setQuery()

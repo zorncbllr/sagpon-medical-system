@@ -1,25 +1,16 @@
-import { Label } from "@radix-ui/react-label";
 import {
   Select,
   SelectTrigger,
   SelectValue,
   SelectContent,
   SelectItem,
-} from "@radix-ui/react-select";
-
+} from "../ui/select";
+import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import Error from "../ui/error";
-import { PatientFormData } from "../../schemas/patient-interfaces";
-import {
-  FieldValues,
-  FormState,
-  useForm,
-  UseFormRegister,
-} from "react-hook-form";
-import * as z from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { FieldValues, FormState, UseFormRegister } from "react-hook-form";
+
 import useMultiFormStore from "../../store/multiform-store";
-import { useEffect } from "react";
 
 export function FirstStep({
   formState: { errors },
@@ -29,7 +20,7 @@ export function FirstStep({
   register: UseFormRegister<FieldValues>;
 }) {
   return (
-    <section className="grid grid-cols-2 gap-x-8 w-full">
+    <section className="grid grid-cols-2 gap-x-4 gap-y-2 w-full">
       <div>
         <Label>First Name</Label>
         <Input type="text" {...register("firstName")} />
@@ -65,8 +56,8 @@ export function SecondStep({
 
   return (
     <section className="grid">
-      <div className="grid gap-4">
-        <div className="flex w-full gap-4">
+      <div className="grid gap-2">
+        <div className="flex w-full gap-2">
           <div>
             <Label>Date of Birth</Label>
             <Input type="date" {...register("birthDate")} />
@@ -86,7 +77,7 @@ export function SecondStep({
           </div>
         </div>
 
-        <div className="grid w-full">
+        <div className="grid w-full gap-2">
           <div>
             <Label>Insurance Provider</Label>
             <Input type="text" {...register("insuranceProvider")} />
@@ -132,7 +123,7 @@ export function LastStep({
   register: UseFormRegister<FieldValues>;
 }) {
   return (
-    <form className="w-full">
+    <section className="w-full grid gap-2">
       <div>
         <Label>Email Address</Label>
         <Input type="email" {...register("email")} />
@@ -150,6 +141,6 @@ export function LastStep({
           <Error>{errors.confirmPassword?.message}</Error>
         )}
       </div>
-    </form>
+    </section>
   );
 }

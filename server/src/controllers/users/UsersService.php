@@ -68,13 +68,39 @@ class UsersService
 
 	static function registerHandler(Request $request)
 	{
-		$request->body = [
-			...$request->body,
-			"password" => password_hash($request->body['password'], PASSWORD_DEFAULT),
-			"role" => "patient"
-		];
+		try {
+			$email = $request->body['email'];
 
-		return CommonLogic::registerHandler($request, 'User');
+			$user = User::find(['email' => $email]);
+
+			if ($user) {
+				throw new PDOException("User with email {$email} already exists.", 409);
+			}
+
+			$payload = $request->payload;
+
+			if ($payload && $payload->role === 'admin') {
+				$role = $request->body['role'];
+
+				
+			}
+
+			http_response_code(201);
+			return json([
+				'message' => 'new user created.'
+			]);
+		} catch (PDOException $e) {
+
+			if ($e->getCode() === 409) {
+				http_response_code(409);
+				return json([
+					'message' => $e->getMessage(),
+					'errors' => [
+						'email' => [$e->getMessage()]
+					]
+				]);
+			}
+		}
 	}
 
 
