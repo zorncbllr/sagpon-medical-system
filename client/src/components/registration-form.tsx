@@ -26,95 +26,89 @@ import { PatientFormData } from "../interfaces/patient-interfaces";
 
 function FirstStep({ register }: { register: UseFormRegister<FieldValues> }) {
   return (
-    <BoxReveal duration={0.6} width="100%">
-      <section className="grid grid-cols-2 gap-x-8">
-        <div>
-          <Label>First Name</Label>
-          <Input type="text" required {...register("firstName")} />
-        </div>
-        <div>
-          <Label>Middle Name</Label>
-          <Input type="text" required {...register("middleName")} />
-        </div>
-        <div>
-          <Label>Last Name</Label>
-          <Input type="text" required {...register("lastName")} />
-        </div>
-        <div>
-          <Label>Address</Label>
-          <Input type="text" required {...register("address")} />
-        </div>
-      </section>
-    </BoxReveal>
+    <section className="grid grid-cols-2 gap-x-8 w-full">
+      <div>
+        <Label>First Name</Label>
+        <Input type="text" required {...register("firstName")} />
+      </div>
+      <div>
+        <Label>Middle Name</Label>
+        <Input type="text" required {...register("middleName")} />
+      </div>
+      <div>
+        <Label>Last Name</Label>
+        <Input type="text" required {...register("lastName")} />
+      </div>
+      <div>
+        <Label>Address</Label>
+        <Input type="text" required {...register("address")} />
+      </div>
+    </section>
   );
 }
 
 function SecondStep({ register }: { register: UseFormRegister<FieldValues> }) {
   return (
-    <BoxReveal duration={0.6} width="100%">
-      <section className="grid">
-        <div className="grid gap-4">
-          <div className="flex w-full gap-4">
-            <div>
-              <Label>Date of Birth</Label>
-              <Input type="date" required {...register("birthDate")} />
-            </div>
-            <div>
-              <Label>Phone Number</Label>
-              <Input type="number" required {...register("phoneNumber")} />
-            </div>
-            <div>
-              <Label>Emergency Contact</Label>
-              <Input type="number" required {...register("emergencyContact")} />
-            </div>
+    <section className="grid">
+      <div className="grid gap-4">
+        <div className="flex w-full gap-4">
+          <div>
+            <Label>Date of Birth</Label>
+            <Input type="date" required {...register("birthDate")} />
           </div>
-
-          <div className="grid w-full">
-            <div>
-              <Label>Insurance Provider</Label>
-              <Input type="text" {...register("insuranceProvider")} />
-            </div>
-            <div>
-              <Label>Policy Number</Label>
-              <Input type="number" {...register("policyNumber")} />
-            </div>
-            <div>
-              <Label>Gender</Label>
-              <Select {...register("gender")}>
-                <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder="Gender" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="male">Male</SelectItem>
-                  <SelectItem value="female">Female</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+          <div>
+            <Label>Phone Number</Label>
+            <Input type="number" required {...register("phoneNumber")} />
+          </div>
+          <div>
+            <Label>Emergency Contact</Label>
+            <Input type="number" required {...register("emergencyContact")} />
           </div>
         </div>
-      </section>
-    </BoxReveal>
+
+        <div className="grid w-full">
+          <div>
+            <Label>Insurance Provider</Label>
+            <Input type="text" {...register("insuranceProvider")} />
+          </div>
+          <div>
+            <Label>Policy Number</Label>
+            <Input type="number" {...register("policyNumber")} />
+          </div>
+          <div>
+            <Label>Gender</Label>
+            <Select {...register("gender")}>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Gender" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="male">Male</SelectItem>
+                <SelectItem value="female">Female</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
 
 function LastStep({ register }: { register: UseFormRegister<FieldValues> }) {
   return (
-    <BoxReveal width="100%" duration={0.8}>
-      <section className="w-full">
-        <div>
-          <Label>Email Address</Label>
-          <Input type="email" required {...register("email")} />
-        </div>
-        <div className="w-full">
-          <Label>Password</Label>
-          <Input type="password" required {...register("password")} />
-        </div>
-        <div className="w-full">
-          <Label>Confirm Password</Label>
-          <Input type="password" required {...register("confirmPassword")} />
-        </div>
-      </section>
-    </BoxReveal>
+    <section className="w-full">
+      <div>
+        <Label>Email Address</Label>
+        <Input type="email" required {...register("email")} />
+      </div>
+      <div className="w-full">
+        <Label>Password</Label>
+        <Input type="password" required {...register("password")} />
+      </div>
+      <div className="w-full">
+        <Label>Confirm Password</Label>
+        <Input type="password" required {...register("confirmPassword")} />
+      </div>
+    </section>
   );
 }
 
@@ -138,6 +132,7 @@ const initialData: PatientFormData = {
 function RegistrationForm() {
   const [data, setData] = useState<PatientFormData>(initialData);
   const { register, handleSubmit } = useForm();
+
   const { next, prev, currentStep, isLast, isFirst } = useMultistepForm([
     <FirstStep register={register} />,
     <SecondStep register={register} />,
@@ -149,7 +144,6 @@ function RegistrationForm() {
     console.log(data);
 
     if (isLast) {
-      
     } else {
       next();
     }
