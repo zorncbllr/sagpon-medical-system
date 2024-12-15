@@ -84,6 +84,7 @@ function SecondStep({ register }: { register: UseFormRegister<FieldValues> }) {
               <SelectContent>
                 <SelectItem value="male">Male</SelectItem>
                 <SelectItem value="female">Female</SelectItem>
+                <SelectItem value="other">Other</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -116,7 +117,7 @@ const initialData: PatientFormData = {
   firstName: "",
   middleName: "",
   lastName: "",
-  gender: "other",
+  gender: undefined,
   email: "",
   birthDate: "",
   address: "",
