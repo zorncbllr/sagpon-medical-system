@@ -39,7 +39,7 @@ class StaffValidator extends Middleware
 			],
 			'phoneNumber' => [
 				'required' => true,
-				'type' => 'string'
+				'type' => 'number'
 			],
 			'photo' => [
 				'required' => false,

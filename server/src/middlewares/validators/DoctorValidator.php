@@ -39,7 +39,7 @@ class DoctorValidator extends Middleware
 			],
 			'phoneNumber' => [
 				'required' => true,
-				'type' => 'string'
+				'type' => 'number'
 			],
 			'photo' => [
 				'required' => false,
@@ -47,11 +47,7 @@ class DoctorValidator extends Middleware
 			],
 			'licenseNumber' => [
 				'required' => true,
-				'type' => 'string',
-				'length' => [
-					'min' => 7,
-					'max' => 9
-				]
+				'type' => 'number'
 			],
 			'specialization' => [
 				'required' => true,
