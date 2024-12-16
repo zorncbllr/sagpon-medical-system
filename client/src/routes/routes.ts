@@ -2,6 +2,7 @@ import Dashboard from "../pages/dashboard";
 import Home from "../pages/home";
 import Login from "../pages/login";
 import { ReactElement } from "react";
+import Register from "../pages/register";
 
 interface Route {
   path: string;
@@ -30,7 +31,7 @@ export const routes: Route[] = [
   },
   {
     path: "/register",
-    component: Login,
+    component: Register,
     isProtected: false,
   },
 
