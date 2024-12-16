@@ -12,7 +12,6 @@ class Patient extends MedicalPerson
 		$middleName = null,
 		$lastName = null,
 		$gender = null,
-		$email = null,
 		$birthDate = null,
 		$address = null,
 		$phoneNumber = null,
@@ -26,7 +25,6 @@ class Patient extends MedicalPerson
 			$middleName,
 			$lastName,
 			$gender,
-			$email,
 			$birthDate,
 			$address,
 			$phoneNumber,
@@ -42,10 +40,11 @@ class Patient extends MedicalPerson
 	public static function initPatient()
 	{
 		parent::initMedicalPerson("
-			patientId CHAR(36) NOT NULL DEFAULT (UUID()) PRIMARY KEY, 
+			patientId CHAR(36) NOT NULL PRIMARY KEY, 
 			emergencyContact VARCHAR(20) NOT NULL, 
 			insuranceProvider VARCHAR(255), 
-			policyNumber VARCHAR(50)
+			policyNumber VARCHAR(50),
+			FOREIGN KEY (patientId) REFERENCES users(userId) ON DELETE CASCADE
 		");
 	}
 

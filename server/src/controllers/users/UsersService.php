@@ -1,5 +1,7 @@
 <?php
 
+use Ramsey\Uuid\Uuid;
+
 class UsersService
 {
 	static function loginHandler(Request $request)
@@ -69,7 +71,9 @@ class UsersService
 	static function registerHandler(Request $request)
 	{
 		try {
-			$email = $request->body['email'];
+			$body = [...$request->body];
+			$email = $body['email'];
+			$password = $body['password'];
 
 			$user = User::find(['email' => $email]);
 
@@ -77,18 +81,39 @@ class UsersService
 				throw new PDOException("User with email {$email} already exists.", 409);
 			}
 
+			$role = 'patient';
 			$payload = $request->payload;
 
 			if ($payload && $payload->role === 'admin') {
-				$role = $request->body['role'];
-
-				
+				$role = $body['role'];
 			}
 
-			http_response_code(201);
-			return json([
-				'message' => 'new user created.'
-			]);
+			$uuid = Uuid::uuid4()->toString();
+
+			$user = new User(
+				userId: $uuid,
+				email: $email,
+				password: password_hash($password, PASSWORD_DEFAULT),
+				role: $role
+			);
+
+			$user->save();
+
+			$body["{$role}Id"] = $uuid;
+
+			$propsToRemove = ['email', 'password', 'role'];
+
+			foreach ($propsToRemove as $property) {
+				unset($body[$property]);
+			}
+
+			$request->body = [...$body];
+
+			return redirectInternal(
+				path: "/{$role}s/register",
+				request: $request,
+				method: 'POST'
+			);
 		} catch (PDOException $e) {
 
 			if ($e->getCode() === 409) {

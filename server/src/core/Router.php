@@ -7,13 +7,15 @@ class Router
     private Controller $controller;
     private Controller $errorController;
     private Request $request;
+    private ?string $requestMethod;
 
-    public function __construct(App $app)
+    public function __construct(App $app, ?Request $request = null, ?string $requestMethod = null)
     {
         $this->app = $app;
         $this->URL = explode("/", $this->app->URI_PATH);
 
-        $this->request = new Request();
+        $this->request = $request ?? new Request();
+        $this->requestMethod = $requestMethod ?? $_SERVER['REQUEST_METHOD'];
 
         require_once $this->formatPath("_404");
         $this->errorController = new _404();
@@ -76,7 +78,7 @@ class Router
             foreach ($attributes as $attribute) {
                 $attr = $attribute->newInstance();
 
-                if ($attr instanceof Route && $_SERVER["REQUEST_METHOD"] === $attr->method) {
+                if ($attr instanceof Route && $this->requestMethod === $attr->method) {
 
                     if (sizeof($attr->path) === sizeof($route)) {
                         $params = [];
@@ -92,7 +94,6 @@ class Router
                         if ($attr->path === $route) {
                             $this->request->param = $params;
                             Controller::getMethod($this->controller, $method, $this->request);
-
                             return;
                         }
                     }

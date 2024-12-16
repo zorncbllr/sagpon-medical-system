@@ -32,3 +32,8 @@ function component(string $component, array $data = [])
     $path = __DIR__ . "/../../views/components/$component";
     include_once file_exists("$path.com.php") ? "$path.com.php" : "$path.php";
 }
+
+function redirectInternal(string $path, Request $request, string $method = 'GET')
+{
+    new Router(new App($path), $request, $method);
+}

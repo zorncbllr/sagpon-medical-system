@@ -8,10 +8,9 @@ class Nurse extends MedicalPerson
 	public function __construct(
 		$nurseId = null,
 		$firstName = null,
-        $middleName = null,
+		$middleName = null,
 		$lastName = null,
 		$gender = null,
-		$email = null,
 		$birthDate = null,
 		$address = null,
 		$phoneNumber = null,
@@ -28,7 +27,6 @@ class Nurse extends MedicalPerson
 			$middleName,
 			$lastName,
 			$gender,
-			$email,
 			$birthDate,
 			$address,
 			$phoneNumber,
@@ -46,12 +44,13 @@ class Nurse extends MedicalPerson
 	public static function initNurse()
 	{
 		parent::initMedicalPerson("
-			nurseId CHAR(36) NOT NULL DEFAULT (UUID()) PRIMARY KEY, 
+			nurseId CHAR(36) NOT NULL PRIMARY KEY, 
 			licenseNumber VARCHAR(50) NOT NULL, 
 			shift VARCHAR(50), 
 			hospitalAffiliation VARCHAR(100), 
 			availability VARCHAR(50), 
-			department VARCHAR(100) NOT NULL
+			department VARCHAR(100) NOT NULL,
+			FOREIGN KEY (nurseId) REFERENCES users(userId) ON DELETE CASCADE
 		");
 	}
 

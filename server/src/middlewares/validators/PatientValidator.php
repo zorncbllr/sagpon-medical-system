@@ -25,10 +25,7 @@ class PatientValidator extends Middleware
 				'required' => true,
 				'type' => 'string'
 			],
-			'email' => [
-				'required' => true,
-				'type' => 'email'
-			],
+
 			'birthDate' => [
 				'required' => true,
 				'type' => 'date'
@@ -63,9 +60,9 @@ class PatientValidator extends Middleware
 			]
 		], [
 			'firstName' => $body['firstName'] ?? '',
+			'middleName' => $body['middleName'] ?? '',
 			'lastName' => $body['lastName'] ?? '',
 			'gender' => $body['gender'] ?? '',
-			'email' => $body['email'] ?? '',
 			'birthDate' => $body['birthDate'] ?? '',
 			'address' => $body['address'] ?? '',
 			'phoneNumber' => $body['phoneNumber'] ?? '',

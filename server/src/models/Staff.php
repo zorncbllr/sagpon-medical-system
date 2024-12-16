@@ -11,7 +11,6 @@ class Staff extends MedicalPerson
 		$middleName = null,
 		$lastName = null,
 		$gender = null,
-		$email = null,
 		$birthDate = null,
 		$address = null,
 		$phoneNumber = null,
@@ -25,7 +24,6 @@ class Staff extends MedicalPerson
 			$middleName,
 			$lastName,
 			$gender,
-			$email,
 			$birthDate,
 			$address,
 			$phoneNumber,
@@ -41,10 +39,11 @@ class Staff extends MedicalPerson
 	public static function initStaff()
 	{
 		parent::initMedicalPerson("
-			staffId CHAR(36) NOT NULL DEFAULT (UUID()) PRIMARY KEY, 
+			staffId CHAR(36) NOT NULL PRIMARY KEY, 
 			shift VARCHAR(50), 
 			department VARCHAR(100) NOT NULL, 
-			position VARCHAR(100) NOT NULL
+			position VARCHAR(100) NOT NULL,
+			FOREIGN KEY (staffId) REFERENCES users(userId) ON DELETE CASCADE
 		");
 	}
 

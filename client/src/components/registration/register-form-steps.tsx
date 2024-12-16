@@ -39,7 +39,7 @@ export function FirstStep({
       <div>
         <Label>Address</Label>
         <Input type="text" {...register("address")} />
-        {errors.address && <Error>{errors.lastName?.message}</Error>}
+        {errors.address && <Error>{errors.address?.message}</Error>}
       </div>
     </section>
   );

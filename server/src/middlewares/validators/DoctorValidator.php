@@ -25,10 +25,6 @@ class DoctorValidator extends Middleware
 				'required' => true,
 				'type' => 'string'
 			],
-			'email' => [
-				'required' => true,
-				'type' => 'email'
-			],
 			'birthDate' => [
 				'required' => true,
 				'type' => 'date'
@@ -65,7 +61,6 @@ class DoctorValidator extends Middleware
 			'firstName' => $body['firstName'] ?? '',
 			'lastName' => $body['lastName'] ?? '',
 			'gender' => $body['gender'] ?? '',
-			'email' => $body['email'] ?? '',
 			'birthDate' => $body['birthDate'] ?? '',
 			'address' => $body['address'] ?? '',
 			'phoneNumber' => $body['phoneNumber'] ?? '',

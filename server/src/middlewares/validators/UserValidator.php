@@ -9,8 +9,6 @@ class UserValidator extends Middleware
 		$email = $request->body['email'] ?? '';
 		$password = $request->body['password'] ?? '';
 		$confirmPassword = $request->body['confirmPassword'] ?? '';
-		$firstName = $request->body['firstName'] ?? '';
-		$lastName = $request->body['lastName'] ?? '';
 
 		$result = new Validator([
 			'email' => [
@@ -64,7 +62,7 @@ class UserValidator extends Middleware
 			}
 		}
 
-		$request->body = $newBody;
+		$request->body = [...$newBody];
 
 		$headers = getallheaders();
 

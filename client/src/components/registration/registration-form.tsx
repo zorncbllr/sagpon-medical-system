@@ -62,6 +62,8 @@ function RegistrationForm() {
     });
   }, [formState.errors]);
 
+  console.log(data);
+
   return (
     <Card className="w-[40rem]">
       <form onSubmit={handleSubmit(onSubmit)}>
