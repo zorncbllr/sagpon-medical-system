@@ -1,16 +1,16 @@
 import { Link } from "react-router-dom";
 import { EnterIcon } from "@radix-ui/react-icons";
-import { Button } from "./ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
-import { Input } from "./ui/input";
-import { Label } from "./ui/label";
-import BoxReveal from "./ui/box-reveal";
+import { Button } from "../ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
+import BoxReveal from "../ui/box-reveal";
 import { useForm } from "react-hook-form";
 
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Error from "./ui/error";
-import { useLogin } from "../services/users/mutations";
+import Error from "../ui/error";
+import { useLogin } from "../../services/users/mutations";
 
 const schema = z.object({
   email: z

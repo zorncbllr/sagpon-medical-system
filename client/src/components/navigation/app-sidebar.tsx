@@ -24,7 +24,8 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "./ui/sidebar";
+} from "../ui/sidebar";
+import { Link } from "react-router-dom";
 
 const data = {
   user: {
@@ -41,7 +42,7 @@ const data = {
     },
     {
       title: "Appointments",
-      url: "#",
+      url: "/appointments",
       icon: Bot,
       items: [
         {
@@ -56,24 +57,61 @@ const data = {
     },
     {
       title: "Patients",
-      url: "#",
+      url: "/patients",
       icon: BookOpen,
       items: [
         {
           title: "Patient Registration",
-          url: "/register-patient",
+          url: "/register",
         },
         {
           title: "Patient Profiles",
-          url: "/patient-profiles",
+          url: "/patients/profiles",
+        },
+      ],
+    },
+    {
+      title: "Doctors",
+      url: "/doctors",
+      icon: BookOpen,
+      items: [
+        {
+          title: "Doctor Registration",
+          url: "/doctors/register",
         },
         {
-          title: "Tutorials",
-          url: "#",
+          title: "Doctor Profiles",
+          url: "/doctors/profiles",
+        },
+      ],
+    },
+    {
+      title: "Nurses",
+      url: "/nurses",
+      icon: BookOpen,
+      items: [
+        {
+          title: "Nurse Registration",
+          url: "/nurses/register",
         },
         {
-          title: "Changelog",
-          url: "#",
+          title: "Nurse Profiles",
+          url: "/nurses/profiles",
+        },
+      ],
+    },
+    {
+      title: "Staffs",
+      url: "/staffs",
+      icon: BookOpen,
+      items: [
+        {
+          title: "Staff Registration",
+          url: "/staffs/register",
+        },
+        {
+          title: "Staff Profiles",
+          url: "/staffs/profiles",
         },
       ],
     },
@@ -115,17 +153,22 @@ const data = {
   ],
   projects: [
     {
-      name: "Design Engineering",
+      name: "Inventory",
       url: "#",
       icon: Frame,
     },
     {
-      name: "Sales & Marketing",
+      name: "Rooms",
+      url: "#",
+      icon: Frame,
+    },
+    {
+      name: "Mails",
       url: "#",
       icon: PieChart,
     },
     {
-      name: "Travel",
+      name: "Tasks",
       url: "#",
       icon: Map,
     },
@@ -139,15 +182,17 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
-              <a href="#">
-                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                  <Command className="size-4" />
+              <Link to="#">
+                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-sidebar-primary-foreground">
+                  <Command color="white" className="size-4 bg-primary" />
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-semibold">Acme Inc</span>
+                  <span className="truncate font-semibold">
+                    Sagpon Health Station
+                  </span>
                   <span className="truncate text-xs">Enterprise</span>
                 </div>
-              </a>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

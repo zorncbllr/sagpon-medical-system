@@ -1,4 +1,4 @@
-import { LoginForm } from "../components/login-form";
+import { LoginForm } from "../components/auth/login-form";
 import Logo from "../assets/logo";
 import BoxReveal from "../components/ui/box-reveal";
 import { useLayoutEffect } from "react";

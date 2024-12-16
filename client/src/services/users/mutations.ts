@@ -7,7 +7,7 @@ import { axiosInstance } from "../api";
 import { AxiosError } from "axios";
 import useMultiFormStore from "../../store/multiform-store";
 import { useNavigate } from "react-router-dom";
-import { LoginData } from "../../components/login-form";
+import { LoginData } from "../../components/auth/login-form";
 import { UseFormSetError } from "react-hook-form";
 
 interface LoginError {
