@@ -8,22 +8,12 @@ class CommonLogic
 
         eval("
             try {
-                if (!empty(\$request->query)) {
-                    \${$modelLower} = {$modelName}::find([...\$request->query]);
-
-                    if (!\${$modelLower}) {
-                        throw new PDOException(\"No related {$modelName} found.\", 404);
-                    }
-
-                    http_response_code(200);
-                    return json([
-                        '{$modelLower}s' => [...\${$modelLower}]
-                    ]);
-                }
+                \${$modelLower} = {$modelName}::query(\"SELECT users.email, patients.firstName, patients.middleName,
+                patients.lastName, patients.gender, patients.patientId, patients.address FROM users INNER JOIN patients ON users.userId = patients.userId;\");
 
                 http_response_code(200);
                 return json([
-                '{$modelLower}s' => [...{$modelName}::find()]
+                '{$modelLower}s' => [...\${$modelLower}]
                 ]);
             
             } catch (PDOException \$e) {

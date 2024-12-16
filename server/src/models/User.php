@@ -2,7 +2,8 @@
 
 class User extends Model
 {
-	private $userId, $email, $password, $role, $createdAt, $updatedAt;
+	private $userId, $password, $role;
+	public $email, $createdAt, $updatedAt;
 
 	public function __construct(
 		$userId = null,
@@ -12,7 +13,6 @@ class User extends Model
 		$createdAt = null,
 		$updatedAt = null
 	) {
-
 		$this->userId = $userId;
 		$this->email = $email;
 		$this->password = $password;
@@ -24,7 +24,7 @@ class User extends Model
 	public static function initUser()
 	{
 		self::migrateModel("
-			userId CHAR(36) NOT NULL PRIMARY KEY, 
+			userId CHAR(36) NOT NULL PRIMARY KEY DEFAULT (UUID()), 
 			email VARCHAR(80) NOT NULL, 
 			password VARCHAR(255) NOT NULL, 
 			role ENUM('patient', 'admin', 'doctor', 'nurse', 'staff'), 

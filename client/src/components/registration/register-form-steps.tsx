@@ -125,7 +125,7 @@ export function LastStep({
     <section className="w-full grid gap-2">
       <div>
         <Label>Email Address</Label>
-        <Input type="email" {...register("email")} />
+        <Input type="text" {...register("email")} />
         {errors.email && <Error>{errors.email?.message}</Error>}
       </div>
       <div className="w-full">

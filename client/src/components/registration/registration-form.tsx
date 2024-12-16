@@ -20,7 +20,7 @@ import {
   lastStepSchema,
   secondStepSchema,
 } from "../../schemas/patient-interfaces";
-import { useRegister } from "../../services/users/mutations";
+import { useRegister } from "../../services/user-service";
 
 function RegistrationForm() {
   const {

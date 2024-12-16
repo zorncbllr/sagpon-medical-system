@@ -37,6 +37,7 @@ import {
 } from "../components/ui/table";
 import LayoutProvider from "../components/layout";
 
+
 const data: Payment[] = [
   {
     id: "m5gr84i9",
@@ -55,18 +56,6 @@ const data: Payment[] = [
     amount: 837,
     status: "processing",
     email: "Monserrat44@gmail.com",
-  },
-  {
-    id: "5kma53ae",
-    amount: 874,
-    status: "success",
-    email: "Silas22@gmail.com",
-  },
-  {
-    id: "bhqecj4p",
-    amount: 721,
-    status: "failed",
-    email: "carmella@hotmail.com",
   },
 ];
 
@@ -126,15 +115,9 @@ export const columns: ColumnDef<Payment>[] = [
     accessorKey: "amount",
     header: () => <div className="text-right">Amount</div>,
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"));
-
-      // Format the amount as a dollar amount
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(amount);
-
-      return <div className="text-right font-medium">{formatted}</div>;
+      return (
+        <div className="text-right font-medium">{row.getValue("amount")}</div>
+      );
     },
   },
   {
@@ -198,7 +181,7 @@ export function Nurses() {
 
   return (
     <LayoutProvider>
-      <div className="w-full">
+      <>
         <div className="flex items-center py-4">
           <Input
             placeholder="Filter nurses..."
@@ -309,7 +292,7 @@ export function Nurses() {
             </Button>
           </div>
         </div>
-      </div>
+      </>
     </LayoutProvider>
   );
 }

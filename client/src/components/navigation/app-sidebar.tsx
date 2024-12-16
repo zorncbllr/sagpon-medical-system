@@ -62,7 +62,7 @@ const data = {
       items: [
         {
           title: "Patient Registration",
-          url: "/register",
+          url: "/patients/register",
         },
         {
           title: "Patient Profiles",

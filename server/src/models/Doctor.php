@@ -2,7 +2,7 @@
 
 class Doctor extends MedicalPerson
 {
-	private $doctorId, $licenseNumber;
+	private $doctorId, $licenseNumber, $userId;
 	public $specialization, $hospitalAffiliation, $availability;
 
 	public function __construct(
@@ -12,6 +12,7 @@ class Doctor extends MedicalPerson
 		$lastName = null,
 		$gender = null,
 		$birthDate = null,
+		$userId = null,
 		$address = null,
 		$phoneNumber = null,
 		$photo = null,
@@ -35,17 +36,19 @@ class Doctor extends MedicalPerson
 		$this->hospitalAffiliation = $hospitalAffiliation;
 		$this->availability = $availability;
 		$this->specialization = $specialization;
+		$this->userId = $userId;
 	}
 
 	public static function initDoctor()
 	{
 		parent::initMedicalPerson("
-			doctorId CHAR(36) NOT NULL PRIMARY KEY, 
+			doctorId CHAR(36) NOT NULL PRIMARY KEY DEFAULT (UUID()),
+			userId CHAR(36), 
 			licenseNumber VARCHAR(100) NOT NULL, 
 			specialization VARCHAR(100) NOT NULL, 
 			hospitalAffiliation VARCHAR(100), 
 			availability VARCHAR(50),
-			FOREIGN KEY (doctorId) REFERENCES users(userId) ON DELETE CASCADE
+			FOREIGN KEY (userId) REFERENCES users(userId) ON DELETE CASCADE
 		");
 	}
 

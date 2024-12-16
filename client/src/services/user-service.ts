@@ -1,13 +1,10 @@
 import { useMutation } from "@tanstack/react-query";
-import {
-  PatientFormData,
-  PatientError,
-} from "../../schemas/patient-interfaces";
-import { axiosInstance } from "../api";
+import { PatientFormData, PatientError } from "../schemas/patient-interfaces";
+import { axiosInstance } from "./api";
 import { AxiosError } from "axios";
-import useMultiFormStore from "../../store/multiform-store";
+import useMultiFormStore from "../store/multiform-store";
 import { useNavigate } from "react-router-dom";
-import { LoginData } from "../../components/auth/login-form";
+import { LoginData } from "../components/auth/login-form";
 import { UseFormSetError } from "react-hook-form";
 
 interface LoginError {
@@ -36,11 +33,7 @@ export function useRegister() {
     },
 
     onError(error: AxiosError<PatientError>) {
-      console.log({
-        email: {
-          message: error.response?.data.errors.email![0],
-        },
-      });
+      console.log(error);
       setErrors({
         email: {
           message: error.response?.data.errors.email![0],

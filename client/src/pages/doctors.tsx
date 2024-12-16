@@ -97,8 +97,8 @@ export const columns: ColumnDef<Payment>[] = [
         aria-label="Select row"
       />
     ),
-    enableSorting: false,
-    enableHiding: false,
+    enableSorting: true,
+    enableHiding: true,
   },
   {
     accessorKey: "status",
@@ -198,7 +198,7 @@ export function Doctors() {
 
   return (
     <LayoutProvider>
-      <div className="w-full">
+      <>
         <div className="flex items-center py-4">
           <Input
             placeholder="Filter doctors..."
@@ -309,7 +309,7 @@ export function Doctors() {
             </Button>
           </div>
         </div>
-      </div>
+      </>
     </LayoutProvider>
   );
 }

@@ -43,7 +43,7 @@ export default function LayoutProvider({
             </Breadcrumb>
           </div>
         </header>
-        {children}
+        <main className="w-full p-8">{children}</main>
       </SidebarInset>
     </SidebarProvider>
   );

@@ -1,11 +1,11 @@
 import LayoutProvider from "../components/layout";
 
-function Dashboard() {
+function Appointments() {
   return (
     <LayoutProvider>
-      <h1>Dashboard</h1>
+      <h1>Appointments</h1>
     </LayoutProvider>
   );
 }
 
-export default Dashboard;
+export default Appointments;

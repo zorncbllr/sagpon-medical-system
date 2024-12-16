@@ -2,7 +2,7 @@
 
 class Patient extends MedicalPerson
 {
-	private $patientId, $insuranceProvider, $policyNumber;
+	private $patientId, $userId, $insuranceProvider, $policyNumber;
 
 	public $emergencyContact;
 
@@ -16,6 +16,7 @@ class Patient extends MedicalPerson
 		$address = null,
 		$phoneNumber = null,
 		$photo = null,
+		$userId = null,
 		$emergencyContact = null,
 		$insuranceProvider = null,
 		$policyNumber = null
@@ -31,6 +32,7 @@ class Patient extends MedicalPerson
 			$photo
 		);
 
+		$this->userId = $userId;
 		$this->patientId = $patientId;
 		$this->emergencyContact = $emergencyContact;
 		$this->insuranceProvider = $insuranceProvider;
@@ -40,11 +42,12 @@ class Patient extends MedicalPerson
 	public static function initPatient()
 	{
 		parent::initMedicalPerson("
-			patientId CHAR(36) NOT NULL PRIMARY KEY, 
+			patientId CHAR(36) NOT NULL PRIMARY KEY DEFAULT (UUID()), 
+			userId CHAR(36),
 			emergencyContact VARCHAR(20) NOT NULL, 
 			insuranceProvider VARCHAR(255), 
 			policyNumber VARCHAR(50),
-			FOREIGN KEY (patientId) REFERENCES users(userId) ON DELETE CASCADE
+			FOREIGN KEY (userId) REFERENCES users(userId) ON DELETE CASCADE
 		");
 	}
 

@@ -2,11 +2,12 @@
 
 class Staff extends MedicalPerson
 {
-	private $staffId;
+	private $staffId, $userId;
 	public $shift, $department, $position;
 
 	public function __construct(
 		$staffId = null,
+		$userId = null,
 		$firstName = null,
 		$middleName = null,
 		$lastName = null,
@@ -31,6 +32,7 @@ class Staff extends MedicalPerson
 		);
 
 		$this->staffId = $staffId;
+		$this->userId = $userId;
 		$this->shift = $shift;
 		$this->department = $department;
 		$this->position = $position;
@@ -39,11 +41,12 @@ class Staff extends MedicalPerson
 	public static function initStaff()
 	{
 		parent::initMedicalPerson("
-			staffId CHAR(36) NOT NULL PRIMARY KEY, 
+			staffId CHAR(36) NOT NULL PRIMARY KEY DEFAULT (UUID()), 
+			userId CHAR(36),
 			shift VARCHAR(50), 
 			department VARCHAR(100) NOT NULL, 
 			position VARCHAR(100) NOT NULL,
-			FOREIGN KEY (staffId) REFERENCES users(userId) ON DELETE CASCADE
+			FOREIGN KEY (userId) REFERENCES users(userId) ON DELETE CASCADE
 		");
 	}
 

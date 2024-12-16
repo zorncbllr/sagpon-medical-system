@@ -198,7 +198,7 @@ export function Staffs() {
 
   return (
     <LayoutProvider>
-      <div className="w-full">
+      <>
         <div className="flex items-center py-4">
           <Input
             placeholder="Filter staffs..."
@@ -309,7 +309,7 @@ export function Staffs() {
             </Button>
           </div>
         </div>
-      </div>
+      </>
     </LayoutProvider>
   );
 }

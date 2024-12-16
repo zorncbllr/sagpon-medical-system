@@ -99,7 +99,7 @@ class UsersService
 
 			$user->save();
 
-			$body["{$role}Id"] = $uuid;
+			$body["userId"] = $uuid;
 
 			$propsToRemove = ['email', 'password', 'role'];
 

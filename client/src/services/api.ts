@@ -6,3 +6,7 @@ export const axiosInstance = axios.create({
     "Content-Type": "application/json",
   },
 });
+
+export function getToken() {
+  return localStorage.getItem("auth_token");
+}

@@ -198,10 +198,10 @@ export function Patients() {
 
   return (
     <LayoutProvider>
-      <div className="w-full">
+      <>
         <div className="flex items-center py-4">
           <Input
-            placeholder="Filter patients..."
+            placeholder="Filter staffs..."
             value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
             onChange={(event) =>
               table.getColumn("email")?.setFilterValue(event.target.value)
@@ -309,7 +309,7 @@ export function Patients() {
             </Button>
           </div>
         </div>
-      </div>
+      </>
     </LayoutProvider>
   );
 }

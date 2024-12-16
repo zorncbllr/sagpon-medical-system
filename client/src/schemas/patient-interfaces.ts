@@ -92,3 +92,17 @@ export interface PatientError {
     confirmPassword?: string[];
   };
 }
+
+export interface Patient {
+  patientId: string;
+  email: string;
+  firstName: string;
+  middleName: string;
+  lastName: string;
+  address: string;
+  gender: "male" | "female" | "other";
+}
+
+export interface PatientsColumn {
+  patients: Patient[];
+}

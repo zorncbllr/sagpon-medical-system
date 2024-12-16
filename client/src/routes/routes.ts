@@ -7,6 +7,9 @@ import { Patients } from "../pages/patients";
 import { Doctors } from "../pages/doctors";
 import { Nurses } from "../pages/nurses";
 import { Staffs } from "../pages/staffs";
+import { ProfileForm } from "../components/registration/profile-form";
+import PatientProfile from "../pages/patient-profile";
+import Appointments from "../pages/appointments";
 
 interface Route {
   path: string;
@@ -43,6 +46,56 @@ const isProtectedRoutes: Route[] = [
   {
     path: "/staffs",
     component: Staffs,
+    isProtected: true,
+  },
+  {
+    path: "/patients/profiles",
+    component: PatientProfile,
+    isProtected: true,
+  },
+  {
+    path: "/doctors/profiles",
+    component: PatientProfile,
+    isProtected: true,
+  },
+  {
+    path: "/staffs/profiles",
+    component: PatientProfile,
+    isProtected: true,
+  },
+  {
+    path: "/nurses/profiles",
+    component: PatientProfile,
+    isProtected: true,
+  },
+  {
+    path: "/doctors/register",
+    component: PatientProfile,
+    isProtected: true,
+  },
+  {
+    path: "/patients/register",
+    component: PatientProfile,
+    isProtected: true,
+  },
+  {
+    path: "/staffs/register",
+    component: PatientProfile,
+    isProtected: true,
+  },
+  {
+    path: "/nurses/register",
+    component: PatientProfile,
+    isProtected: true,
+  },
+  {
+    path: "/doctors/register",
+    component: PatientProfile,
+    isProtected: true,
+  },
+  {
+    path: "/appointments",
+    component: Appointments,
     isProtected: true,
   },
 ];

@@ -10,7 +10,7 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Error from "../ui/error";
-import { useLogin } from "../../services/users/mutations";
+import { useLogin } from "../../services/user-service";
 
 const schema = z.object({
   email: z
