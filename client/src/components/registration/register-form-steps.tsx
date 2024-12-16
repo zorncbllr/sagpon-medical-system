@@ -8,10 +8,9 @@ import {
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import Error from "../ui/error";
-import { FieldValues, FormState, UseFormRegister } from "react-hook-form";
+import { FieldValues, UseFormRegister } from "react-hook-form";
 
 import useMultiFormStore from "../../store/multiform-store";
-import { PatientFormDataError } from "../../schemas/patient-interfaces";
 
 export function FirstStep({
   register,

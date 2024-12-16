@@ -104,7 +104,7 @@ const useMultiFormStore = create<MultiformStore>((set, get) => ({
   },
 
   setErrors: (error: object) =>
-    set((state) => {
+    set(() => {
       return {
         errors: { ...error },
       };
