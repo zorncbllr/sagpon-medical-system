@@ -1,5 +1,8 @@
 import { create } from "zustand";
-import { PatientFormData } from "../schemas/patient-interfaces";
+import {
+  PatientFormData,
+  PatientFormDataError,
+} from "../schemas/patient-interfaces";
 import { ReactElement } from "react";
 
 import * as z from "zod";
@@ -11,6 +14,7 @@ interface MultiformStore {
   currentStep?: ReactElement;
   currentIndex: number;
   currentSchema?: z.ZodType<any, any, any>;
+  errors: PatientFormDataError;
 
   setData: (newData: any) => void;
   initialize: ({
@@ -24,6 +28,7 @@ interface MultiformStore {
   prev: () => void;
   isLastStep: () => boolean;
   isFirstStep: () => boolean;
+  setErrors: (error: object) => void;
 }
 
 const useMultiFormStore = create<MultiformStore>((set, get) => ({
@@ -47,6 +52,7 @@ const useMultiFormStore = create<MultiformStore>((set, get) => ({
   currentStep: undefined,
   currentIndex: 0,
   currentSchema: undefined,
+  errors: {},
 
   setData: (newData) =>
     set((state) => ({ data: { ...state.data, ...newData } })),
@@ -96,6 +102,13 @@ const useMultiFormStore = create<MultiformStore>((set, get) => ({
     const { currentIndex, steps } = get();
     return currentIndex === steps.length - 1;
   },
+
+  setErrors: (error: object) =>
+    set((state) => {
+      return {
+        errors: { ...error },
+      };
+    }),
 }));
 
 export default useMultiFormStore;

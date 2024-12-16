@@ -11,20 +11,21 @@ import Error from "../ui/error";
 import { FieldValues, FormState, UseFormRegister } from "react-hook-form";
 
 import useMultiFormStore from "../../store/multiform-store";
+import { PatientFormDataError } from "../../schemas/patient-interfaces";
 
 export function FirstStep({
-  formState: { errors },
   register,
 }: {
-  formState: FormState<FieldValues>;
   register: UseFormRegister<FieldValues>;
 }) {
+  const { errors } = useMultiFormStore();
+
   return (
     <section className="grid grid-cols-2 gap-x-4 gap-y-2 w-full">
       <div>
         <Label>First Name</Label>
         <Input type="text" {...register("firstName")} />
-        {errors.firstName && <Error>{errors.firstname?.message}</Error>}
+        {errors.firstName && <Error>{errors.firstName?.message}</Error>}
       </div>
       <div>
         <Label>Middle Name</Label>
@@ -46,13 +47,11 @@ export function FirstStep({
 }
 
 export function SecondStep({
-  formState: { errors },
   register,
 }: {
-  formState: FormState<FieldValues>;
   register: UseFormRegister<FieldValues>;
 }) {
-  const { setData } = useMultiFormStore();
+  const { setData, errors } = useMultiFormStore();
 
   return (
     <section className="grid">
@@ -61,7 +60,7 @@ export function SecondStep({
           <div>
             <Label>Date of Birth</Label>
             <Input type="date" {...register("birthDate")} />
-            {errors.birthDate && <Error>{errors.birtDate?.message}</Error>}
+            {errors.birthDate && <Error>{errors.birthDate?.message}</Error>}
           </div>
           <div>
             <Label>Phone Number</Label>
@@ -108,6 +107,7 @@ export function SecondStep({
                 <SelectItem value="other">Other</SelectItem>
               </SelectContent>
             </Select>
+            {errors.gender && <Error>{errors.gender?.message}</Error>}
           </div>
         </div>
       </div>
@@ -116,12 +116,12 @@ export function SecondStep({
 }
 
 export function LastStep({
-  formState: { errors },
   register,
 }: {
-  formState: FormState<FieldValues>;
   register: UseFormRegister<FieldValues>;
 }) {
+  const { errors } = useMultiFormStore();
+
   return (
     <section className="w-full grid gap-2">
       <div>

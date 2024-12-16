@@ -57,3 +57,38 @@ export interface PatientFormData {
   password: string;
   confirmPassword: string;
 }
+
+export interface PatientFormDataError {
+  firstName?: { message: string };
+  middleName?: { message: string };
+  lastName?: { message: string };
+  gender?: { message: string };
+  email?: { message: string };
+  birthDate?: { message: string };
+  address?: { message: string };
+  phoneNumber?: { message: string };
+  emergencyContact?: { message: string };
+  insuranceProvider?: { message: string };
+  policyNumber?: { message: string };
+  password?: { message: string };
+  confirmPassword?: { message: string };
+}
+
+export interface PatientError {
+  message: string;
+  errors: {
+    firstName?: string[];
+    middleName?: string[];
+    lastName?: string[];
+    gender?: string[];
+    email?: string[];
+    birthDate?: string[];
+    address?: string[];
+    phoneNumber?: string[];
+    emergencyContact?: string[];
+    insuranceProvider?: string[];
+    policyNumber?: string[];
+    password?: string[];
+    confirmPassword?: string[];
+  };
+}

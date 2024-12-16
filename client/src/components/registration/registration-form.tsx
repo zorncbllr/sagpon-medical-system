@@ -33,6 +33,7 @@ function RegistrationForm() {
     initialize,
     data,
     currentSchema,
+    setErrors,
   } = useMultiFormStore();
 
   const { mutate } = useRegister();
@@ -52,17 +53,16 @@ function RegistrationForm() {
   };
 
   useEffect(() => {
+    setErrors({ ...formState.errors });
     initialize({
       steps: [
-        <FirstStep register={register} formState={formState} />,
-        <SecondStep register={register} formState={formState} />,
-        <LastStep register={register} formState={formState} />,
+        <FirstStep register={register} />,
+        <SecondStep register={register} />,
+        <LastStep register={register} />,
       ],
       schemas: [firstStepSchema, secondStepSchema, lastStepSchema],
     });
   }, [formState.errors]);
-
-  console.log(data);
 
   return (
     <Card className="w-[40rem]">

@@ -7,10 +7,36 @@ import { Label } from "./ui/label";
 import BoxReveal from "./ui/box-reveal";
 import { FieldValues, useForm } from "react-hook-form";
 
-export function LoginForm() {
-  const { register, handleSubmit } = useForm();
+import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Error from "./ui/error";
+import { useLogin } from "../services/users/mutations";
 
-  const submitHandler = (data: FieldValues) => {};
+const schema = z.object({
+  email: z
+    .string()
+    .nonempty("Email address is required")
+    .email("Invalid email address"),
+  password: z.string().nonempty("Password is required"),
+});
+
+export type LoginData = z.infer<typeof schema>;
+
+export function LoginForm() {
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors },
+  } = useForm<LoginData>({
+    resolver: zodResolver(schema),
+  });
+
+  const { mutate } = useLogin({ setError });
+
+  const submitHandler = (data: LoginData) => {
+    mutate(data);
+  };
 
   return (
     <Card className="w-[24rem]">
@@ -34,6 +60,7 @@ export function LoginForm() {
                   placeholder="sample@example.com"
                   {...register("email")}
                 />
+                {errors.email && <Error>{errors.email.message}</Error>}
               </div>
             </BoxReveal>
             <BoxReveal duration={0.7} width="100%">
@@ -52,15 +79,13 @@ export function LoginForm() {
                   type="password"
                   {...register("password")}
                 />
+                {errors.password && <Error>{errors.password.message}</Error>}
               </div>
             </BoxReveal>
             <BoxReveal duration={0.6} width="100%">
               <div className="grid gap-4">
                 <Button type="submit" className="w-full">
                   Login
-                </Button>
-                <Button variant="outline" className="w-full">
-                  Login with Google
                 </Button>
               </div>
             </BoxReveal>

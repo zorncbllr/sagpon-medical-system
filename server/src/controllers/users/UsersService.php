@@ -13,7 +13,7 @@ class UsersService
 			$user = User::find(['email' => $email]);
 
 			if (!$user) {
-				throw new PDOException("User with email {$email} does not exist.", 404);
+				throw new PDOException("User does not exist.", 404);
 			}
 
 			if (!password_verify($password, $user->getPassword())) {
@@ -78,7 +78,7 @@ class UsersService
 			$user = User::find(['email' => $email]);
 
 			if ($user) {
-				throw new PDOException("User with email {$email} already exists.", 409);
+				throw new PDOException("Email is already taken", 409);
 			}
 
 			$role = 'patient';
