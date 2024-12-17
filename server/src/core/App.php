@@ -6,7 +6,6 @@ class App
 
     public function __construct(string $path = '')
     {
-
         if (!empty($path)) {
             $this->URI_PATH = $path;
         } elseif (

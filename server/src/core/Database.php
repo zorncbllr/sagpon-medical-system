@@ -172,7 +172,6 @@ class Database
         }
     }
 
-
     public static function extendModel(string $config): bool
     {
         try {

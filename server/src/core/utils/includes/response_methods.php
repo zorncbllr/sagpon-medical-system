@@ -14,13 +14,19 @@ function view(string $filename, array $data = [])
         extract($data, EXTR_OVERWRITE);
     }
 
-    $path = __DIR__ . "/../../views/$filename";
+    $path = __DIR__ . "/../../../views/$filename";
     require file_exists("$path.view.php") ? "$path.view.php" : "$path.php";
 }
 
-function redirect(string $location)
+function redirect($location = null)
 {
-    header("Location: $location");
+    if ($location) {
+        header("Location: $location");
+        exit();
+    } else {
+        include_once('redirect.php');
+        return new Redirect();
+    }
 }
 
 function component(string $component, array $data = [])
@@ -29,11 +35,6 @@ function component(string $component, array $data = [])
         extract($data, EXTR_OVERWRITE);
     }
 
-    $path = __DIR__ . "/../../views/components/$component";
+    $path = __DIR__ . "/../../../views/components/$component";
     include_once file_exists("$path.com.php") ? "$path.com.php" : "$path.php";
-}
-
-function redirectInternal(string $path, Request $request, string $method = 'GET')
-{
-    new Router(new App($path), $request, $method);
 }

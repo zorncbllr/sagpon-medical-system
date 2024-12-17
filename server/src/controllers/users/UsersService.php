@@ -109,7 +109,7 @@ class UsersService
 
 			$request->body = [...$body];
 
-			return redirectInternal(
+			return redirect()->internal(
 				path: "/{$role}s/register",
 				request: $request,
 				method: 'POST'
@@ -125,6 +125,14 @@ class UsersService
 					]
 				]);
 			}
+
+			http_response_code(500);
+			return json([
+				'message' => "Internal Server is having a hard time fulfilling request.",
+				'errors' => [
+					'server' => ["Internal Server is having a hard time fulfilling request."]
+				]
+			]);
 		}
 	}
 
