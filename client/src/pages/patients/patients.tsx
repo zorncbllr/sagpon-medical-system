@@ -11,10 +11,14 @@ import {
 } from "../../services/patient-service";
 import { Patient } from "../../schemas/patient-interfaces";
 import { getTableActions } from "../../components/tables/actions";
+import useInvalidateSession from "../../hooks/use-invalidate";
 
 export function Patients() {
-  const { data } = useFetchPatients();
+  const { data, error, isError } = useFetchPatients();
   const { mutate } = useDeletePatient();
+  const { invalidate } = useInvalidateSession();
+
+  if (isError) invalidate();
 
   const columns: ColumnDef<Patient>[] = [
     {

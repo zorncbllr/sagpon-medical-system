@@ -8,16 +8,18 @@ export function useFetchPatients() {
     queryKey: ["patients"],
     queryFn: async (): Promise<Patient[]> => {
       return (
-        await axiosInstance.post<Patients>(
-          "/patients",
-          {},
-          {
-            headers: {
-              Authorization: `Bearer ${getToken()}`,
-            },
-          }
-        )
-      ).data.patients;
+        (
+          await axiosInstance.post<Patients>(
+            "/patients",
+            {},
+            {
+              headers: {
+                Authorization: `Bearer ${getToken()}`,
+              },
+            }
+          )
+        ).data.patients ?? []
+      );
     },
     initialData: [],
   });
