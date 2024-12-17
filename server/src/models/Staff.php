@@ -2,7 +2,7 @@
 
 class Staff extends MedicalPerson
 {
-	private $staffId, $userId;
+	public $staffId, $userId;
 	public $shift, $department, $position;
 
 	public function __construct(

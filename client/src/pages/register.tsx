@@ -2,6 +2,7 @@ import { useLayoutEffect } from "react";
 import Logo from "../assets/logo";
 import RegistrationForm from "../components/registration/registration-form";
 import BoxReveal from "../components/ui/box-reveal";
+import { Card } from "../components/ui/card";
 
 function Register() {
   useLayoutEffect(() => {
@@ -19,7 +20,9 @@ function Register() {
       </BoxReveal>
 
       <BoxReveal duration={0.3}>
-        <RegistrationForm />
+        <Card className="w-[40rem]">
+          <RegistrationForm />
+        </Card>
       </BoxReveal>
     </main>
   );

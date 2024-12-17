@@ -32,7 +32,7 @@ class PatientsService
 
 			http_response_code(500);
 			return json([
-				'message' => 'Operation unsuccessful.'
+				'message' => $e->getMessage()
 			]);
 		}
 	}

@@ -65,6 +65,7 @@ class Database
             array_keys($attributes)
         );
 
+
         $values = array_values($attributes);
         $attributes = [];
 

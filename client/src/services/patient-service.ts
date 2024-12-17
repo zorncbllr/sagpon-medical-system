@@ -31,13 +31,21 @@ export function useDeletePatient() {
   return useMutation({
     mutationKey: ["patients"],
     mutationFn: async (entityId: string) => {
-      return await axiosInstance.delete(`/patients/${entityId}`);
+      return await axiosInstance.delete(`/patients/${entityId}`, {
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+        },
+      });
     },
 
-    onSettled: () => {
+    onSuccess: () => {
       client.invalidateQueries({
         queryKey: ["patients"],
       });
+    },
+
+    onError: (error) => {
+      console.log(error);
     },
   });
 }

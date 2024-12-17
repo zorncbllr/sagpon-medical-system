@@ -31,8 +31,10 @@ class Patients extends Controller
 	}
 
 	#[Delete('/:patientId')]
-	#[Middleware(new Authentication)]
-	public function archivePatient(Request $request) {}
+	public function archivePatient(Request $request)
+	{
+		return PatientsService::archivePatient($request);
+	}
 
 
 	#[Delete('/archives/:patientId')]

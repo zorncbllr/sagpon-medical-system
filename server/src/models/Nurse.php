@@ -2,7 +2,7 @@
 
 class Nurse extends MedicalPerson
 {
-	private $nurseId, $licenseNumber, $userId;
+	public $nurseId, $licenseNumber, $userId;
 	public $shift, $hospitalAffiliation, $availability, $department;
 
 	public function __construct(

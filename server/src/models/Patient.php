@@ -2,7 +2,7 @@
 
 class Patient extends MedicalPerson
 {
-	private $patientId, $userId, $insuranceProvider, $policyNumber;
+	public $patientId, $userId, $insuranceProvider, $policyNumber;
 
 	public $emergencyContact;
 

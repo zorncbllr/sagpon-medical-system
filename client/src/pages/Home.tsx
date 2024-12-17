@@ -1,11 +1,5 @@
-import LayoutProvider from "../components/layout";
-
 function Home() {
-  return (
-    <LayoutProvider>
-      <main>hello</main>
-    </LayoutProvider>
-  );
+  return <main>hello</main>;
 }
 
 export default Home;
