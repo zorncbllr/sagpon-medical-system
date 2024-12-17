@@ -184,7 +184,33 @@ class UsersService
 
 	static function deleteUser(Request $request)
 	{
-		return CommonLogic::deleteHandler($request, 'User');
+		try {
+			$id = $request->param['id'];
+
+			$user = User::find(['userId' => $id]);
+
+			if (!$user) {
+				throw new PDOException("User with userId {$id} not found.", 404);
+			}
+
+			$user->delete();
+
+			http_response_code(205);
+			return json([
+				'message' => 'User was successfully deleted.'
+			]);
+		} catch (PDOException $e) {
+
+			if ($e->getCode() === 404) {
+				http_response_code(404);
+				return json([
+					'message' => $e->getMessage(),
+					'errors' => [
+						'userId' => [$e->getMessage()]
+					]
+				]);
+			}
+		}
 	}
 
 

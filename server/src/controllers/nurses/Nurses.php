@@ -1,12 +1,22 @@
 <?php
 
 
+#[Middleware(
+	new Authentication,
+	new Authorization
+)]
 class Nurses extends Controller
 {
 	#[Post()]
 	public function getNurses(Request $request)
 	{
 		return CommonLogic::fetchAll($request, 'Nurse');
+	}
+
+	#[Post('/archives')]
+	public function getArchives(Request $request)
+	{
+		return CommonLogic::fetchAll($request, 'ArchivedNurse', isArchived: true);
 	}
 
 	#[Post('/register')]
@@ -22,6 +32,12 @@ class Nurses extends Controller
 		return CommonLogic::fetchById($request, 'Nurse');
 	}
 
+	#[Post('/archives/:nurseId')]
+	public function getArchiveById(Request $request)
+	{
+		return CommonLogic::fetchById($request, 'ArchivedNurse', isArchived: true);
+	}
+
 	#[Patch('/:nurseId')]
 	public function updateNurse(Request $request)
 	{
@@ -29,8 +45,14 @@ class Nurses extends Controller
 	}
 
 	#[Delete('/:nurseId')]
-	public function deleteNurse(Request $request)
+	public function archiveNurse(Request $request)
 	{
-		return CommonLogic::deleteHandler($request, 'Nurse');
+		return CommonLogic::archiveHandler($request, 'Nurse');
+	}
+
+	#[Delete('/archives/:nurseId')]
+	public function deleteArchiveNurse(Request $request)
+	{
+		return CommonLogic::deletePermanentHandler($request, 'Nurse');
 	}
 }

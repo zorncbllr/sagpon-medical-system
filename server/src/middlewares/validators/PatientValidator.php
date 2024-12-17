@@ -36,7 +36,11 @@ class PatientValidator extends Middleware
 			],
 			'phoneNumber' => [
 				'required' => true,
-				'type' => 'number'
+				'type' => 'string',
+				'length' => [
+					'min' => 8,
+					'max' => 12
+				]
 			],
 			'photo' => [
 				'required' => false,
@@ -44,7 +48,7 @@ class PatientValidator extends Middleware
 			],
 			'emergencyContact' => [
 				'required' => false,
-				'type' => 'number'
+				'type' => 'string'
 			],
 			'insuranceProvider' => [
 				'required' => false,

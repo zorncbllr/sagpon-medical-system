@@ -56,24 +56,4 @@ class Nurse extends MedicalPerson
 			FOREIGN KEY (userId) REFERENCES users(userId) ON DELETE CASCADE
 		");
 	}
-
-	public function getNurseId()
-	{
-		return $this->nurseId;
-	}
-
-	public function setNurseId($id)
-	{
-		$this->nurseId = $id;
-	}
-
-	public function getLicenseNumber()
-	{
-		return $this->licenseNumber;
-	}
-
-	public function setLicenseNumber($licenseNumber)
-	{
-		$this->licenseNumber = $licenseNumber;
-	}
 }

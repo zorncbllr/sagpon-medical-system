@@ -2,13 +2,13 @@
 
 class CommonLogic
 {
-    static function fetchAll(Request $request, string $modelName)
+    static function fetchAll(Request $request, string $modelName, bool $isArchived = false)
     {
-        $modelLower = strtolower($modelName);
+        $modelLower = $isArchived ? str_replace('Archived', '', $modelName) : strtolower($modelName);
 
         eval("
             try {
-                \${$modelLower} = {$modelName}::query(\"SELECT * FROM users INNER JOIN patients ON users.userId = patients.userId;\");
+                \${$modelLower} = {$modelName}::query(\"SELECT * FROM users INNER JOIN {$modelLower}s ON users.userId = {$modelLower}s.userId;\");
 
                 http_response_code(200);
                 return json([
@@ -36,17 +36,13 @@ class CommonLogic
         ");
     }
 
-    static function fetchById(Request $request, string $modelName)
+    static function fetchById(Request $request, string $modelName, bool $isArchived = false)
     {
-        $modelLower = strtolower($modelName);
+        $modelLower = $isArchived ? str_replace('Archived', '', $modelName) : strtolower($modelName);
 
         eval("
             try {
-                \$id = (int) \$request->param[\"{$modelLower}Id\"];
-
-                if (\$id === 0) {
-                    throw new PDOException('Invalid {$modelLower}Id parameter.', 400);
-                }
+                \$id = \$request->param[\"{$modelLower}Id\"];
 
                 \${$modelLower} = {$modelName}::find(['{$modelLower}Id' => \$id]);
 
@@ -61,8 +57,8 @@ class CommonLogic
 
             } catch (PDOException \$e) {
                 
-                if (\$e->getCode() === 404 || \$e->getCode() === 400) {
-                    http_response_code(\$e->getCode());
+                if (\$e->getCode() === 404) {
+                    http_response_code(404);
                     return json([
                         'message' => \$e->getMessage(),
                         'errors' => [
@@ -76,50 +72,6 @@ class CommonLogic
                     'message' => 'Internal Server is having a hard time fulfilling request.',
                     'errors' => [
                         'server' => ['Internal Server is having a hard time fulfilling request.']
-                    ]
-                ]);
-            }
-        ");
-    }
-
-    static function deleteHandler(Request $request, string $modelName)
-    {
-        $modelLower = strtolower($modelName);
-
-        eval("
-            try {
-                \$id = \$request->param[\"{$modelLower}Id\"];
-
-                \${$modelLower} = {$modelName}::find(['{$modelLower}Id' => \$id]);
-                
-                if (!\${$modelLower}) {
-                    throw new PDOException(\"{$modelName} with Id of {\$id} does not exist.\", 404);
-                }
-
-                \${$modelLower}->delete();
-
-                http_response_code(205);
-                return json([
-                    'message' => ' deleted successfully.',
-                    'errors' => []
-                ]);
-            } catch (PDOException \$e) {
-                
-                if (\$e->getCode() === 400 || \$e->getCode() === 404) {
-                    http_response_code(\$e->getCode());
-                    return json([
-                        'message' => \$e->getMessage(),
-                        'errors' => [
-                            '{$modelLower}Id' => [\$e->getMessage()]
-                        ]
-                    ]);
-                }
-
-                http_response_code(500);
-                return json([
-                    'message' => 'Internal Server is having a hard time fulfilling delete request.',
-                    'errors' => [
-                        'server' => ['Internal Server is having a hard time fulfilling delete request.']
                     ]
                 ]);
             }
@@ -223,6 +175,84 @@ class CommonLogic
                     'message' => 'Internal Server is having a hard time fulfilling register request.',
                     'errors' => [
                         'server' => ['Internal Server is having a hard time fulfilling register request.']
+                    ]
+                ]);
+            }
+        ");
+    }
+
+
+    static function archiveHandler(Request $request, string $modelName)
+    {
+        $modelLower = strtolower($modelName);
+
+        eval("
+            try {
+                \$id = \$request->param['{$modelLower}Id'];
+
+                \${$modelLower} = {$modelName}::find(['{$modelLower}Id' => \$id]);
+
+                \$archived{$modelName} = new Archived{$modelName}(\${$modelLower});
+
+                \$archived{$modelName}->save();
+
+                \${$modelLower}->delete();
+
+                http_response_code(200);
+                return json([
+                    'message' => 'Patient moved to archives.',
+                    'patient' => \$archived{$modelName}
+                ]);
+            } catch (PDOException \$e) {
+
+                http_response_code(500);
+                return json([
+                    'message' => \$e->getMessage()
+                ]);
+            }
+        ");
+    }
+
+    static function deletePermanentHandler(Request $request, string $modelName)
+    {
+        $modelLower = strtolower($modelName);
+
+        eval("
+            try {
+                \$id = \$request->param[\"{$modelLower}Id\"];
+
+                \${$modelLower} = Archived{$modelName}::find(['{$modelLower}Id' => \$id]);
+                
+                if (!\${$modelLower}) {
+                    throw new PDOException(\"Archived {$modelName} with Id of {\$id} does not exist.\", 404);
+                }
+
+                \$user = Archived{$modelName}::find(['userId' => \${$modelLower}->userId ]);
+
+                \$user->delete();
+                \${$modelLower}->delete();
+
+                http_response_code(205);
+                return json([
+                    'message' => ' deleted successfully.',
+                ]);
+            } catch (PDOException \$e) {
+                
+                if (\$e->getCode() === 400 || \$e->getCode() === 404) {
+                    http_response_code(\$e->getCode());
+                    return json([
+                        'message' => \$e->getMessage(),
+                        'errors' => [
+                            '{$modelLower}Id' => [\$e->getMessage()]
+                        ]
+                    ]);
+                }
+
+                http_response_code(500);
+                return json([
+                    'message' => 'Internal Server is having a hard time fulfilling delete request.',
+                    'errors' => [
+                        'server' => ['Internal Server is having a hard time fulfilling delete request.']
                     ]
                 ]);
             }

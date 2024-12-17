@@ -1,5 +1,6 @@
 <?php
 
+
 #[Middleware(
 	new Authentication,
 	new Authorization
@@ -32,8 +33,5 @@ class Admins extends Controller
 	}
 
 	#[Delete('/:adminId')]
-	public function deleteAdmin(Request $request)
-	{
-		return CommonLogic::deleteHandler($request, 'Admin');
-	}
+	public function deleteAdmin(Request $request) {}
 }

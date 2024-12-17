@@ -1,11 +1,22 @@
 <?php
 
+
+#[Middleware(
+	new Authentication,
+	new Authorization
+)]
 class Doctors extends Controller
 {
 	#[Post()]
 	public function getDoctors(Request $request)
 	{
 		return CommonLogic::fetchAll($request, 'Doctor');
+	}
+
+	#[Post('/archives')]
+	public function getArchives(Request $request)
+	{
+		return CommonLogic::fetchAll($request, 'ArchivedDoctor', isArchived: true);
 	}
 
 	#[Post('/register')]
@@ -21,6 +32,12 @@ class Doctors extends Controller
 		return CommonLogic::fetchById($request, 'Doctor');
 	}
 
+	#[Post('/archives/:doctorId')]
+	public function getArchiveById(Request $request)
+	{
+		return CommonLogic::fetchById($request, 'ArchivedDoctor', isArchived: true);
+	}
+
 	#[Patch('/:doctorId')]
 	public function updateDoctor(Request $request)
 	{
@@ -28,8 +45,14 @@ class Doctors extends Controller
 	}
 
 	#[Delete('/:doctorId')]
-	public function deleteDoctor(Request $request)
+	public function archiveDoctor(Request $request)
 	{
-		return CommonLogic::deleteHandler($request, 'Doctor');
+		return CommonLogic::archiveHandler($request, 'Doctor');
+	}
+
+	#[Delete('/archives/:doctorId')]
+	public function deleteDoctorArchive(Request $request)
+	{
+		return CommonLogic::deletePermanentHandler($request, 'Doctor');
 	}
 }

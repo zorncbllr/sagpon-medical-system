@@ -50,34 +50,4 @@ class Patient extends MedicalPerson
 			FOREIGN KEY (userId) REFERENCES users(userId) ON DELETE CASCADE
 		");
 	}
-
-	public function getPatientId()
-	{
-		return $this->patientId;
-	}
-
-	public function setPatientId($patientId)
-	{
-		$this->patientId = $patientId;
-	}
-
-	public function getInsuranceProvider()
-	{
-		return $this->insuranceProvider;
-	}
-
-	public function setInsuranceProvider($insuranceProvider)
-	{
-		$this->insuranceProvider = $insuranceProvider;
-	}
-
-	public function getPolicyNumber()
-	{
-		return $this->policyNumber;
-	}
-
-	public function setPolicyNumber($policyNumber)
-	{
-		$this->policyNumber = $policyNumber;
-	}
 }

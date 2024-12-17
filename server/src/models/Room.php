@@ -22,34 +22,4 @@ class Room extends Model
 			status ENUM('occupied', 'available) DEFAULT ('available') NOT NULL
 		");
 	}
-
-	public function getRoomId()
-	{
-		return $this->roomId;
-	}
-
-	public function setRoomId($roomId)
-	{
-		$this->roomId = $roomId;
-	}
-
-	public function getRoomNumber()
-	{
-		return $this->roomNumber;
-	}
-
-	public function setRoomNumber($roomNumber)
-	{
-		$this->roomNumber = $roomNumber;
-	}
-
-	public function getRoomType()
-	{
-		return $this->roomType;
-	}
-
-	public function setRoomType($roomType)
-	{
-		$this->roomType = $roomType;
-	}
 }

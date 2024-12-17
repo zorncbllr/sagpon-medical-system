@@ -49,14 +49,4 @@ class Staff extends MedicalPerson
 			FOREIGN KEY (userId) REFERENCES users(userId) ON DELETE CASCADE
 		");
 	}
-
-	public function setStaffId($id)
-	{
-		$this->staffId = $id;
-	}
-
-	public function getStaffId()
-	{
-		return $this->staffId;
-	}
 }
