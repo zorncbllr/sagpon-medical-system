@@ -103,6 +103,6 @@ export interface Patient {
   gender: "male" | "female" | "other";
 }
 
-export interface PatientsColumn {
+export interface Patients {
   patients: Patient[];
 }

@@ -5,27 +5,27 @@ import LayoutProvider from "./components/layout";
 
 function App() {
   return (
-    <LayoutProvider>
-      <Routes>
-        {routes.map(({ path, component: Component, isProtected }, index) => {
-          if (isProtected) {
-            return (
-              <Route
-                key={index}
-                path={path}
-                element={
-                  <Protector>
+    <Routes>
+      {routes.map(({ path, component: Component, isProtected }, index) => {
+        if (isProtected) {
+          return (
+            <Route
+              key={index}
+              path={path}
+              element={
+                <Protector>
+                  <LayoutProvider>
                     <Component />
-                  </Protector>
-                }
-              />
-            );
-          }
+                  </LayoutProvider>
+                </Protector>
+              }
+            />
+          );
+        }
 
-          return <Route key={index} path={path} element={<Component />} />;
-        })}
-      </Routes>
-    </LayoutProvider>
+        return <Route key={index} path={path} element={<Component />} />;
+      })}
+    </Routes>
   );
 }
 

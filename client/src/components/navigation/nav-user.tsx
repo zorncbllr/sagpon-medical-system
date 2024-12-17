@@ -26,6 +26,7 @@ import {
   useSidebar,
 } from "../ui/sidebar";
 import { useNavigate } from "react-router-dom";
+import { invalidateToken } from "../../services/api";
 
 export function NavUser({
   user,
@@ -102,7 +103,7 @@ export function NavUser({
             <DropdownMenuSeparator />
             <DropdownMenuItem
               onClick={() => {
-                localStorage.removeItem("auth_token");
+                invalidateToken();
                 navigate("/login");
               }}
             >

@@ -1,4 +1,4 @@
-import PatientProfile from "../pages/patient-profile";
+import PatientProfile from "../pages/patients/patient-profile";
 import { Patients } from "../pages/patients/patients";
 import { Route } from "./__routes";
 

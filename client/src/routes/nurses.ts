@@ -1,5 +1,5 @@
 import { Nurses } from "../pages/nurses/nurses";
-import PatientProfile from "../pages/patient-profile";
+import PatientProfile from "../pages/patients/patient-profile";
 import { Route } from "./__routes";
 
 export const nurseRoutes: Route[] = [

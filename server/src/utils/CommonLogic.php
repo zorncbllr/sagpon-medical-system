@@ -8,8 +8,7 @@ class CommonLogic
 
         eval("
             try {
-                \${$modelLower} = {$modelName}::query(\"SELECT users.email, patients.firstName, patients.middleName,
-                patients.lastName, patients.gender, patients.patientId, patients.address FROM users INNER JOIN patients ON users.userId = patients.userId;\");
+                \${$modelLower} = {$modelName}::query(\"SELECT * FROM users INNER JOIN patients ON users.userId = patients.userId;\");
 
                 http_response_code(200);
                 return json([
@@ -89,11 +88,7 @@ class CommonLogic
 
         eval("
             try {
-                \$id = (int) \$request->param[\"{$modelLower}Id\"];
-
-                if (\$id === 0) {
-                    throw new PDOException('Invalid {$modelLower}Id parameter.', 400);
-                }
+                \$id = \$request->param[\"{$modelLower}Id\"];
 
                 \${$modelLower} = {$modelName}::find(['{$modelLower}Id' => \$id]);
                 

@@ -10,3 +10,7 @@ export const axiosInstance = axios.create({
 export function getToken() {
   return localStorage.getItem("auth_token");
 }
+
+export function invalidateToken() {
+  localStorage.removeItem("auth_token");
+}

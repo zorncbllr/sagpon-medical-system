@@ -1,9 +1,5 @@
 <?php
 
-#[Middleware(
-	new Authentication,
-	new Authorization
-)]
 class Doctors extends Controller
 {
 	#[Post()]

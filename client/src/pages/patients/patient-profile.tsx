@@ -1,4 +1,4 @@
-import { ProfileForm } from "../components/registration/profile-form";
+import { ProfileForm } from "../../components/registration/profile-form";
 
 function PatientProfile() {
   return (
