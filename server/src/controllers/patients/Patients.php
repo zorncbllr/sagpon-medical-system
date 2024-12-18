@@ -11,7 +11,7 @@ class Patients extends Controller
 	}
 
 	#[Post('/archives')]
-	#[Middleware(new Authentication)]
+	// #[Middleware(new Authentication)]
 	public function getArchives(Request $request)
 	{
 		return PatientsService::getArchives($request);

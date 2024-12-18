@@ -2,6 +2,7 @@
 
 class ArchivedPatient extends Patient
 {
+
 	function __construct(Patient $patient)
 	{
 		$props = self::getProperties($patient);
@@ -10,6 +11,6 @@ class ArchivedPatient extends Patient
 
 	static function initArchivedPatient()
 	{
-		parent::initPatient();
+		self::initPatient();
 	}
 }

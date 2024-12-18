@@ -61,6 +61,13 @@ class PatientsService
 			]);
 		} catch (PDOException $e) {
 
+			if ($e->getCode() === '23000') {
+				http_response_code(400);
+				return json([
+					'message' => 'Duplicated patient email.'
+				]);
+			}
+
 			http_response_code(500);
 			return json([
 				'message' => $e->getMessage()
@@ -155,6 +162,14 @@ class PatientsService
 				'patient' => $patient
 			]);
 		} catch (PDOException $e) {
+
+			if ($e->getCode() === '23000') {
+				http_response_code(400);
+				return json([
+					'message' => 'Duplicated email in patient archives.'
+				]);
+			}
+
 			http_response_code(500);
 			return json([
 				'message' => $e->getMessage()
