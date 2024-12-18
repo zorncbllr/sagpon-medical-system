@@ -39,24 +39,44 @@ export const lastStepSchema = z
   });
 
 export const patientSchema = z.object({
-  firstName: z.string().nonempty("First name is required"),
-  middleName: z.string().nonempty("Middle name is required"),
-  lastName: z.string().nonempty("Last name is required"),
-  address: z.string().nonempty("Address is required"),
-  birthDate: z.string().nonempty("Birth date is required"),
+  firstName: z.string().nonempty({
+    message: "First name is required",
+  }),
+  middleName: z.string().nonempty({
+    message: "Middle name is required",
+  }),
+  lastName: z.string().nonempty({
+    message: "Last name is required",
+  }),
+  address: z.string().nonempty({
+    message: "Address is required",
+  }),
+  birthDate: z.string().nonempty({
+    message: "Birth date is required",
+  }),
   phoneNumber: z
     .string()
-    .nonempty("Phone number is required")
-    .length(11, "Invalid phone number"),
+    .nonempty({
+      message: "Phone number is required",
+    })
+    .length(11, {
+      message: "Phone number must be 11 digits",
+    }),
   emergencyContact: z.string().optional(),
   insuranceProvider: z.string().optional(),
   policyNumber: z.string().optional(),
   email: z
     .string()
-    .nonempty("Email is required")
-    .email("Invalid email address"),
+    .nonempty({
+      message: "Email is required",
+    })
+    .email({
+      message: "Invalid email address",
+    }),
   photo: z.any().optional(),
 });
+
+export type PatientProfileForm = z.infer<typeof patientSchema>;
 
 export type BasicPatientInfo = z.infer<typeof firstStepSchema>;
 export type AdditionalPatientInfo = z.infer<typeof secondStepSchema>;
@@ -70,10 +90,10 @@ export interface Patient {
   email: string;
   birthDate: string;
   address: string;
-  phoneNumber: number;
-  emergencyContact: number;
+  phoneNumber: string;
+  emergencyContact: string;
   insuranceProvider: string;
-  policyNumber: number;
+  policyNumber: string;
   photo?: string;
   patientId?: string;
   userId?: string;

@@ -143,6 +143,10 @@ class PatientsService
 				throw new PDOException("Patient not found.", 404);
 			}
 
+			$archivedPatient = new ArchivedPatient($patient);
+
+			$archivedPatient->save();
+
 			$patient->delete();
 
 			http_response_code(200);

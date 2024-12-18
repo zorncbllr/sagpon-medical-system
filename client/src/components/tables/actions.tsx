@@ -16,8 +16,10 @@ import { AxiosResponse } from "axios";
 export function getTableActions<T>({
   entityprop,
   mutate,
+  isArchived,
 }: {
   entityprop: string;
+  isArchived: boolean;
   mutate: UseMutateFunction<AxiosResponse<T, T>, Error, string, unknown>;
 }) {
   return {
@@ -44,12 +46,16 @@ export function getTableActions<T>({
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <Link
-                to={`/${entityprop}s/${entityId}`}
-                className="flex gap-1 items-center"
-              >
-                <Edit2Icon size={16} /> Update Details
-              </Link>
+              {isArchived ? (
+                <Button onClick={() => {}}>Restore {entityCapitalized}</Button>
+              ) : (
+                <Link
+                  to={`/${entityprop}s/${entityId}`}
+                  className="flex gap-1 items-center"
+                >
+                  <Edit2Icon size={16} /> Update Details
+                </Link>
+              )}
             </DropdownMenuItem>
             <DropdownMenuItem
               className="text-red-500"

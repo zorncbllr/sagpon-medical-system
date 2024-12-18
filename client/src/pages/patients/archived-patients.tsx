@@ -4,8 +4,8 @@ import { ArrowUpDown } from "lucide-react";
 import { Button } from "../../components/ui/button";
 import { DataTable } from "../../components/tables/data-table";
 import {
-  useDeletePatient,
-  useFetchPatients,
+  useDeleteArchive,
+  useFetchPatientArchives,
 } from "../../services/patient-service";
 import { Patient } from "../../schemas/patient-interfaces";
 import { getTableActions } from "../../components/tables/actions";
@@ -19,9 +19,9 @@ import {
 import { useEffect } from "react";
 import { usePatientStore } from "../../store/patients-store";
 
-export function Patients() {
-  const { data, isError } = useFetchPatients();
-  const { mutate } = useDeletePatient();
+export default function ArchivedPatients() {
+  const { data, isError } = useFetchPatientArchives();
+  const { mutate } = useDeleteArchive();
   const { setPatientsData } = usePatientStore();
   const { invalidate } = useInvalidateSession();
 
@@ -143,13 +143,13 @@ export function Patients() {
       ),
     },
 
-    getTableActions({ entityprop: "patient", mutate, isArchived: false }),
+    getTableActions({ entityprop: "patient", mutate, isArchived: true }),
   ];
 
   return (
     <>
       <CardHeader>
-        <CardTitle>Patient Records</CardTitle>
+        <CardTitle className="text-red-700">Archived Patients</CardTitle>
       </CardHeader>
       <CardContent>
         <DataTable filter="email" data={data} columns={columns} />

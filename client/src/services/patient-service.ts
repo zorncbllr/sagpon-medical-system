@@ -1,14 +1,11 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { axiosInstance, getToken } from "./api";
-import {
-  Patient,
-  PatientMutationResponse,
-  Patients,
-} from "../schemas/patient-interfaces";
+import { Patient, PatientError, Patients } from "../schemas/patient-interfaces";
 import { queryClient } from "../main";
 import { toast } from "sonner";
 import { usePatientStore } from "../store/patients-store";
 import { initialPatientFormData } from "../store/multiform-store";
+import { AxiosError } from "axios";
 
 export function useFetchPatients() {
   return useQuery<Patient[]>({
@@ -79,6 +76,28 @@ export function useFetchPatientArchives() {
   });
 }
 
+export function useFetchArchiveById(patientId: string) {
+  return useQuery<Patient[]>({
+    queryKey: ["archive"],
+    queryFn: async (): Promise<Patient[]> => {
+      return (
+        (
+          await axiosInstance.post<Patients>(
+            `/patients/archives/${patientId}`,
+            {},
+            {
+              headers: {
+                Authorization: `Bearer ${getToken()}`,
+              },
+            }
+          )
+        ).data.patients ?? []
+      );
+    },
+    initialData: [],
+  });
+}
+
 export function useDeletePatient() {
   const client = queryClient;
   const patient = useRegisterPatient();
@@ -113,8 +132,8 @@ export function useDeletePatient() {
       });
     },
 
-    onError: (error) => {
-      toast(error.message);
+    onError: (error: AxiosError<PatientError>) => {
+      toast(error.response?.data.message);
     },
   });
 }
@@ -153,8 +172,8 @@ export function useRegisterPatient() {
       console.log(data);
     },
 
-    onError: (error) => {
-      toast(error.message);
+    onError: (error: AxiosError<PatientError>) => {
+      toast(error.response?.data.message);
     },
   });
 }
@@ -164,7 +183,7 @@ export function useUpdatePatient() {
   const { setPatientsData } = usePatientStore();
 
   return useMutation({
-    mutationKey: ["patients"],
+    mutationKey: ["patient"],
     mutationFn: async (data: Patient) => {
       return (
         await axiosInstance.patch(`/patients/${data.patientId}`, data, {
@@ -177,7 +196,7 @@ export function useUpdatePatient() {
 
     onSuccess: (data) => {
       client.invalidateQueries({
-        queryKey: ["patients"],
+        queryKey: ["patient"],
       });
 
       setPatientsData(data.patient);
@@ -196,8 +215,45 @@ export function useUpdatePatient() {
       console.log(data);
     },
 
-    onError: (error) => {
-      toast(error.message);
+    onError: (error: AxiosError<PatientError>) => {
+      toast(error.response?.data.message);
+    },
+  });
+}
+
+export function useDeleteArchive() {
+  const client = queryClient;
+
+  return useMutation({
+    mutationKey: ["archives"],
+    mutationFn: async (entityId: string) => {
+      return (
+        await axiosInstance.delete(`/patients/archives/${entityId}`, {
+          headers: {
+            Authorization: `Bearer ${getToken()}`,
+          },
+        })
+      ).data;
+    },
+
+    onSuccess: (data) => {
+      client.invalidateQueries({
+        queryKey: ["archives", "archive"],
+      });
+
+      console.log(data);
+
+      toast("Patient was deleted permanently.", {
+        description: `${new Date().toLocaleTimeString()}`,
+        action: {
+          label: "Okay",
+          onClick: () => {},
+        },
+      });
+    },
+
+    onError: (error: AxiosError<PatientError>) => {
+      toast(error.response?.data.message);
     },
   });
 }

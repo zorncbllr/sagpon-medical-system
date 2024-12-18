@@ -1,3 +1,4 @@
+import ArchivedPatients from "../pages/patients/archived-patients";
 import PatientProfile from "../pages/patients/patient-profile";
 import PatientRegistration from "../pages/patients/patient-registration";
 import { Patients } from "../pages/patients/patients";
@@ -11,7 +12,7 @@ export const patientRoutes: Route[] = [
   },
   {
     path: "/patients/archives",
-    component: Patients,
+    component: ArchivedPatients,
     isProtected: true,
   },
   {
@@ -21,6 +22,11 @@ export const patientRoutes: Route[] = [
   },
   {
     path: "/patients/:patientId",
+    component: PatientProfile,
+    isProtected: true,
+  },
+  {
+    path: "/patients/archives/:patientId",
     component: PatientProfile,
     isProtected: true,
   },

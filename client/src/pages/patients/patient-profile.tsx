@@ -1,195 +1,274 @@
-import { Label } from "../../components/ui/label";
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-} from "../../components/ui/select";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+
+import { toast } from "../../hooks/use-toast";
 import { Button } from "../../components/ui/button";
 import {
-  CardHeader,
-  CardTitle,
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "../../components/ui/form";
+import { Input } from "../../components/ui/input";
+import {
   CardContent,
   CardDescription,
-  CardFooter,
+  CardHeader,
 } from "../../components/ui/card";
-import { Input } from "../../components/ui/input";
-import { useForm } from "react-hook-form";
 import { Patient, patientSchema } from "../../schemas/patient-interfaces";
-import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../../components/ui/select";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "../../components/ui/avatar";
+import { Label } from "../../components/ui/label";
 import {
   useFetchPatientById,
   useUpdatePatient,
 } from "../../services/patient-service";
-import Error from "../../components/ui/error";
-import { Avatar, AvatarFallback } from "../../components/ui/avatar";
-import { AvatarImage } from "@radix-ui/react-avatar";
 import { useParams } from "react-router-dom";
-import { usePatientStore } from "../../store/patients-store";
-import useMultiFormStore from "../../store/multiform-store";
-import { useEffect, useLayoutEffect } from "react";
+import { useEffect } from "react";
 
-function PatientProfile() {
+export default function PatientProfile() {
   const { patientId } = useParams();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<Patient>({
+  const { data } = useFetchPatientById(patientId!);
+  const { mutate } = useUpdatePatient();
+
+  const form = useForm<Patient>({
     resolver: zodResolver(patientSchema),
+    values: data,
   });
 
-  const { data, setData } = useMultiFormStore();
-
-  const { mutate } = useUpdatePatient();
-  const { data: patient } = useFetchPatientById(patientId!);
+  function onSubmit(data: Patient) {
+    mutate({ ...data, patientId });
+  }
 
   useEffect(() => {
-    setData(patient);
+    return () => new AbortController().abort();
   }, []);
 
   return (
-    <main>
-      <form
-        onSubmit={handleSubmit((data) => mutate(data))}
-        className="grid w-3/6"
-      >
-        <CardHeader className="grid">
-          <CardTitle>Patient Profile Details</CardTitle>
+    <CardContent className="flex">
+      <CardContent className="flex flex-col text-center mr-36">
+        <CardHeader>
+          <Avatar className="w-56 h-56">
+            <AvatarImage src="" />
+            <AvatarFallback>CN</AvatarFallback>
+          </Avatar>
         </CardHeader>
-        <CardContent>
-          <section className="grid gap-4">
-            <CardDescription></CardDescription>
-            <div>
-              <Label>First Name</Label>
-              <Input
-                value={data.firstName}
-                type="text"
-                {...register("firstName")}
-              />
-              {errors.firstName && <Error>{errors.firstName?.message}</Error>}
-            </div>
-            <div>
-              <Label>Middle Name</Label>
-              <Input
-                type="text"
-                value={data.middleName}
-                {...register("middleName")}
-              />
-              {errors.middleName && <Error>{errors.middleName?.message}</Error>}
-            </div>
-            <div>
-              <Label>Last Name</Label>
-              <Input
-                type="text"
-                value={data.lastName}
-                {...register("lastName")}
-              />
-              {errors.lastName && <Error>{errors.lastName?.message}</Error>}
-            </div>
-            <div>
-              <Label>Email Address</Label>
-              <Input type="text" value={data.email} {...register("email")} />
-              {errors.email && <Error>{errors.email?.message}</Error>}
-            </div>
-            <div>
-              <Label>Address</Label>
-              <Input
-                type="text"
-                value={data.address}
-                {...register("address")}
-              />
-              {errors.address && <Error>{errors.address?.message}</Error>}
-            </div>
-            <div>
-              <Label>Date of Birth</Label>
-              <Input
-                type="date"
-                value={data.birthDate}
-                {...register("birthDate")}
-                className="w-36"
-              />
-              {errors.birthDate && <Error>{errors.birthDate?.message}</Error>}
-            </div>
-            <div>
-              <Label>Phone Number</Label>
-              <Input
-                type="number"
-                value={data.phoneNumber}
-                {...register("phoneNumber")}
-              />
-              {errors.phoneNumber && (
-                <Error>{errors.phoneNumber?.message}</Error>
-              )}
-            </div>
-            <div>
-              <Label>Emergency Contact</Label>
-              <Input
-                type="number"
-                value={data.emergencyContact}
-                {...register("emergencyContact")}
-              />
-              {errors.emergencyContact && (
-                <Error>{errors.emergencyContact?.message}</Error>
-              )}
-            </div>
-            <div className="grid">
-              <Label>Gender</Label>
-              <Select>
-                <SelectTrigger className="w-36">
-                  <SelectValue placeholder={data.gender} />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="male">Male</SelectItem>
-                  <SelectItem value="female">Female</SelectItem>
-                  <SelectItem value="other">Other</SelectItem>
-                </SelectContent>
-              </Select>
-              {errors.gender && <Error>{errors.gender?.message}</Error>}
-            </div>
-
-            <CardDescription>Insurance Form Section</CardDescription>
-            <div>
-              <Label>Insurance Provider</Label>
-              <Input
-                type="text"
-                value={data.insuranceProvider}
-                {...register("insuranceProvider")}
-              />
-              {errors.insuranceProvider && (
-                <Error>{errors.insuranceProvider?.message}</Error>
-              )}
-            </div>
-
-            <div>
-              <Label>Policy Number</Label>
-              <Input
-                type="number"
-                value={data.policyNumber}
-                {...register("policyNumber")}
-              />
-              {errors.policyNumber && (
-                <Error>{errors.policyNumber?.message}</Error>
-              )}
-            </div>
-          </section>
-
-          <section>
-            <Avatar>
-              <AvatarImage />
-              <AvatarFallback />
-            </Avatar>
-          </section>
+        <CardContent className="grid h-fit">
+          <Label className="text-xl">
+            {data.firstName} {data.middleName} {data.lastName}
+          </Label>
+          <CardDescription>{data.email}</CardDescription>
         </CardContent>
-        <CardFooter className="flex gap-4">
-          <Button>Update</Button>
-          <Button variant={"secondary"}>Cancel</Button>
-        </CardFooter>
-      </form>
-    </main>
+      </CardContent>
+
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="w-1/2 space-y-6"
+        >
+          <FormField
+            control={form.control}
+            name="firstName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>First Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="shadcn" {...field} />
+                </FormControl>
+                <FormDescription>
+                  This is your public display name.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="middleName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Middle Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="shadcn" {...field} />
+                </FormControl>
+                <FormDescription>
+                  This is your public display name.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="lastName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Last Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="shadcn" {...field} />
+                </FormControl>
+                <FormDescription>
+                  This is your public display name.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email Address</FormLabel>
+                <FormControl>
+                  <Input placeholder="shadcn" {...field} />
+                </FormControl>
+                <FormDescription>
+                  This is your public email address.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="address"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Address</FormLabel>
+                <FormControl>
+                  <Input placeholder="shadcn" {...field} />
+                </FormControl>
+                <FormDescription>This is your public address.</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="birthDate"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Date of Birth</FormLabel>
+                <FormControl>
+                  <Input
+                    className="w-36"
+                    type="date"
+                    placeholder="shadcn"
+                    {...field}
+                  />
+                </FormControl>
+                <FormDescription>This is your public address.</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="phoneNumber"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Phone Number</FormLabel>
+                <FormControl>
+                  <Input type="number" placeholder="shadcn" {...field} />
+                </FormControl>
+                <FormDescription>This is your public address.</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="emergencyContact"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Emergency Contact Number</FormLabel>
+                <FormControl>
+                  <Input type="number" placeholder="shadcn" {...field} />
+                </FormControl>
+                <FormDescription>This is your public address.</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="gender"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Gender</FormLabel>
+                <FormControl>
+                  <Select {...field}>
+                    <SelectTrigger className="w-36">
+                      <SelectValue placeholder={field.value} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="male">Male</SelectItem>
+                      <SelectItem value="female">Female</SelectItem>
+                      <SelectItem value="other">Other</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormDescription>This is your public address.</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="insuranceProvider"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Insurance Provider Information</FormLabel>
+                <FormControl>
+                  <Input placeholder="shadcn" {...field} />
+                </FormControl>
+                <FormDescription>This is your public address.</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="policyNumber"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Insurance Policy Number</FormLabel>
+                <FormControl>
+                  <Input type="number" placeholder="shadcn" {...field} />
+                </FormControl>
+                <FormDescription>This is your public address.</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button type="submit">Update</Button>
+        </form>
+      </Form>
+    </CardContent>
   );
 }
-
-export default PatientProfile;

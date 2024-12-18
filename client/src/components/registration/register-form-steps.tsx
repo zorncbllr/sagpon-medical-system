@@ -11,6 +11,7 @@ import Error from "../ui/error";
 import { FieldValues, UseFormRegister } from "react-hook-form";
 
 import useMultiFormStore from "../../store/multiform-store";
+import { useEffect } from "react";
 
 export function FirstStep({
   register,
@@ -18,6 +19,10 @@ export function FirstStep({
   register: UseFormRegister<FieldValues>;
 }) {
   const { errors } = useMultiFormStore();
+
+  useEffect(() => {
+    return () => new AbortController().abort();
+  }, []);
 
   return (
     <section className="grid grid-cols-2 gap-x-4 gap-y-2 w-full">
@@ -51,6 +56,10 @@ export function SecondStep({
   register: UseFormRegister<FieldValues>;
 }) {
   const { setData, errors } = useMultiFormStore();
+
+  useEffect(() => {
+    return () => new AbortController().abort();
+  }, []);
 
   return (
     <section className="grid">
@@ -120,6 +129,10 @@ export function LastStep({
   register: UseFormRegister<FieldValues>;
 }) {
   const { errors } = useMultiFormStore();
+
+  useEffect(() => {
+    return () => new AbortController().abort();
+  }, []);
 
   return (
     <section className="w-full grid gap-2">
