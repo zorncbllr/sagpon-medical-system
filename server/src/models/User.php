@@ -27,7 +27,7 @@ class User extends Model
 			userId CHAR(36) NOT NULL PRIMARY KEY DEFAULT (UUID()), 
 			email VARCHAR(80) NOT NULL, 
 			password VARCHAR(255) NOT NULL, 
-			role ENUM('patient', 'admin', 'doctor', 'nurse', 'staff'), 
+			role ENUM('patient', 'admin') NOT NULL,
 			createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
 			updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 		");

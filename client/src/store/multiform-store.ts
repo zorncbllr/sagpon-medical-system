@@ -1,14 +1,11 @@
 import { create } from "zustand";
-import {
-  PatientFormData,
-  PatientFormDataError,
-} from "../schemas/patient-interfaces";
+import { Patient, PatientFormDataError } from "../schemas/patient-interfaces";
 import { ReactElement } from "react";
 
 import * as z from "zod";
 
 interface MultiformStore {
-  data: PatientFormData;
+  data: Patient;
   steps: ReactElement[];
   schemas: z.ZodType<any, any, any>[];
   currentStep?: ReactElement;
@@ -29,24 +26,29 @@ interface MultiformStore {
   isLastStep: () => boolean;
   isFirstStep: () => boolean;
   setErrors: (error: object) => void;
+
+  resetFormData: () => void;
 }
 
+export const initialPatientFormData: Patient = {
+  firstName: "",
+  middleName: "",
+  lastName: "",
+  gender: "other",
+  email: "",
+  birthDate: "",
+  address: "",
+  phoneNumber: 0,
+  emergencyContact: 0,
+  insuranceProvider: "",
+  policyNumber: 0,
+  password: "",
+  photo: "",
+  confirmPassword: "",
+};
+
 const useMultiFormStore = create<MultiformStore>((set, get) => ({
-  data: {
-    firstName: "",
-    middleName: "",
-    lastName: "",
-    gender: "other",
-    email: "",
-    birthDate: "",
-    address: "",
-    phoneNumber: 0,
-    emergencyContact: 0,
-    insuranceProvider: "",
-    policyNumber: 0,
-    password: "",
-    confirmPassword: "",
-  },
+  data: initialPatientFormData,
   steps: [],
   schemas: [],
   currentStep: undefined,
@@ -109,6 +111,11 @@ const useMultiFormStore = create<MultiformStore>((set, get) => ({
         errors: { ...error },
       };
     }),
+
+  resetFormData: () =>
+    set((_) => ({
+      data: initialPatientFormData,
+    })),
 }));
 
 export default useMultiFormStore;

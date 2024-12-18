@@ -5,9 +5,6 @@ import { ReactElement } from "react";
 import Register from "../pages/register";
 import Appointments from "../pages/appointments";
 import { patientRoutes } from "./patients";
-import { doctorRoutes } from "./doctors";
-import { nurseRoutes } from "./nurses";
-import { staffRoutes } from "./staffs";
 
 export interface Route {
   path: string;
@@ -33,9 +30,6 @@ const isProtectedRoutes: Route[] = [
   },
 
   ...patientRoutes,
-  ...doctorRoutes,
-  ...nurseRoutes,
-  ...staffRoutes,
 ];
 
 export const routes: Route[] = [

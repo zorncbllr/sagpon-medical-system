@@ -21,11 +21,14 @@ class PatientValidator extends Middleware
 				'required' => true,
 				'type' => 'string'
 			],
+			'email' => [
+				'required' => true,
+				'type' => 'email'
+			],
 			'gender' => [
 				'required' => true,
 				'type' => 'string'
 			],
-
 			'birthDate' => [
 				'required' => true,
 				'type' => 'date'
@@ -69,6 +72,7 @@ class PatientValidator extends Middleware
 			'gender' => $body['gender'] ?? '',
 			'birthDate' => $body['birthDate'] ?? '',
 			'address' => $body['address'] ?? '',
+			'email' => $body['email'] ?? '',
 			'phoneNumber' => $body['phoneNumber'] ?? '',
 			'photo' => $body['photo'] ?? '',
 			'emergencyContact' => $body['emergencyContact'] ?? '',
@@ -85,7 +89,7 @@ class PatientValidator extends Middleware
 		}
 
 		$request->body = array_map(
-			fn($field) => htmlspecialchars($field),
+			fn($field) => $field ? htmlspecialchars($field) : $field,
 			$request->body
 		);
 

@@ -10,13 +10,18 @@ export const patientRoutes: Route[] = [
     isProtected: true,
   },
   {
-    path: "/patients/:patientId/profile",
-    component: PatientProfile,
+    path: "/patients/archives",
+    component: Patients,
     isProtected: true,
   },
   {
     path: "/patients/register",
     component: PatientRegistration,
+    isProtected: true,
+  },
+  {
+    path: "/patients/:patientId",
+    component: PatientProfile,
     isProtected: true,
   },
 ];

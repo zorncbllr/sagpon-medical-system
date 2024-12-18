@@ -56,7 +56,7 @@ const data = {
       ],
     },
     {
-      title: "Patients",
+      title: "Patient Records",
       url: "/patients",
       icon: BookOpen,
       items: [
@@ -65,56 +65,12 @@ const data = {
           url: "/patients/register",
         },
         {
-          title: "Patient Profiles",
-          url: "/patients/profiles",
+          title: "Patient Archives",
+          url: "/patients/archives",
         },
       ],
     },
-    {
-      title: "Doctors",
-      url: "/doctors",
-      icon: BookOpen,
-      items: [
-        {
-          title: "Doctor Registration",
-          url: "/doctors/register",
-        },
-        {
-          title: "Doctor Profiles",
-          url: "/doctors/profiles",
-        },
-      ],
-    },
-    {
-      title: "Nurses",
-      url: "/nurses",
-      icon: BookOpen,
-      items: [
-        {
-          title: "Nurse Registration",
-          url: "/nurses/register",
-        },
-        {
-          title: "Nurse Profiles",
-          url: "/nurses/profiles",
-        },
-      ],
-    },
-    {
-      title: "Staffs",
-      url: "/staffs",
-      icon: BookOpen,
-      items: [
-        {
-          title: "Staff Registration",
-          url: "/staffs/register",
-        },
-        {
-          title: "Staff Profiles",
-          url: "/staffs/profiles",
-        },
-      ],
-    },
+
     {
       title: "Settings",
       url: "#",
@@ -153,22 +109,17 @@ const data = {
   ],
   projects: [
     {
-      name: "Inventory",
+      name: "Inventory Management",
       url: "#",
       icon: Frame,
     },
     {
-      name: "Rooms",
+      name: "Room Management",
       url: "#",
       icon: Frame,
     },
     {
-      name: "Mails",
-      url: "#",
-      icon: PieChart,
-    },
-    {
-      name: "Tasks",
+      name: "Billing",
       url: "#",
       icon: Map,
     },

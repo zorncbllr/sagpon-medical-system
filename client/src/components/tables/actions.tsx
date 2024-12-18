@@ -18,7 +18,7 @@ export function getTableActions<T>({
   mutate,
 }: {
   entityprop: string;
-  mutate: UseMutateFunction<AxiosResponse<any, any>, Error, string, unknown>;
+  mutate: UseMutateFunction<AxiosResponse<T, T>, Error, string, unknown>;
 }) {
   return {
     id: "actions",
@@ -40,20 +40,22 @@ export function getTableActions<T>({
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem>
-              <Link to={`/${entityprop}s/${entityId}/profile`}>
-                View Profile
-              </Link>
+              <Link to={`/${entityprop}s/${entityId}`}>View Profile</Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <Edit2Icon /> Update Details
+              <Link
+                to={`/${entityprop}s/${entityId}`}
+                className="flex gap-1 items-center"
+              >
+                <Edit2Icon size={16} /> Update Details
+              </Link>
             </DropdownMenuItem>
             <DropdownMenuItem
               className="text-red-500"
               onClick={() => mutate(entityId)}
             >
-              <Trash2Icon /> Delete
-              {entityCapitalized}
+              <Trash2Icon /> Delete {entityCapitalized}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

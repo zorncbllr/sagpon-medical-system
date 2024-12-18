@@ -7,54 +7,42 @@ class Patients extends Controller
 	#[Middleware(new Authentication)]
 	public function getPatients(Request $request)
 	{
-		return CommonLogic::fetchAll($request, 'Patient');
+		return PatientsService::getPatients($request);
 	}
 
 	#[Post('/archives')]
 	#[Middleware(new Authentication)]
-	public function getArchives(Request $request)
-	{
-		return CommonLogic::fetchAll($request, 'ArchivedPatient', isArchived: true);
-	}
+	public function getArchives(Request $request) {}
 
 	#[Post('/register')]
 	#[Middleware(new PatientValidator)]
 	public function registerPatient(Request $request)
 	{
-		return CommonLogic::registerHandler($request, 'Patient');
+		return PatientsService::registerPatient($request);
 	}
 
 	#[Post('/:patientId')]
 	#[Middleware(new Authentication)]
 	public function getPatientById(Request $request)
 	{
-		return CommonLogic::fetchById($request, 'Patient');
+		return PatientsService::getPatientById($request);
 	}
 
 	#[Post('/archives/:patientId')]
 	#[Middleware(new Authentication)]
-	public function getArchiveById(Request $request)
-	{
-		return CommonLogic::fetchById($request, 'ArchivedPatient');
-	}
+	public function getArchiveById(Request $request) {}
 
 	#[Patch('/:patientId')]
 	#[Middleware(new Authentication)]
-	public function updatePatient(Request $request)
-	{
-		return CommonLogic::updateHandler($request, 'Patient');
-	}
+	public function updatePatient(Request $request) {}
 
 	#[Delete('/:patientId')]
 	public function archivePatient(Request $request)
 	{
-		return CommonLogic::archiveHandler($request, 'Patient');
+		return PatientsService::archivePatient($request);
 	}
 
 	#[Delete('/archives/:patientId')]
 	#[Middleware(new Authentication)]
-	public function deletePatientArchive(Request $request)
-	{
-		return CommonLogic::deletePermanentHandler($request, 'Patient');
-	}
+	public function deletePatientArchive(Request $request) {}
 }

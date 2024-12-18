@@ -1,5 +1,8 @@
-function Home() {
-  return <main>hello</main>;
-}
+import { toast } from "sonner";
 
-export default Home;
+import { Button } from "../components/ui/button";
+import { Toaster } from "../components/ui/sonner";
+
+export default function Home() {
+  return <></>;
+}

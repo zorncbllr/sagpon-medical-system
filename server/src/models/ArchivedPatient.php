@@ -2,14 +2,13 @@
 
 class ArchivedPatient extends Patient
 {
-	public function __construct(Patient $patient)
+	function __construct(Patient $patient)
 	{
-		$details = parent::getProperties($patient);
-		parent::__construct(...$details);
+		$props = self::getProperties($patient);
+		parent::__construct(...$props);
 	}
 
-	#[Override()]
-	public static function initArchivedPatient()
+	static function initArchivedPatient()
 	{
 		parent::initPatient();
 	}

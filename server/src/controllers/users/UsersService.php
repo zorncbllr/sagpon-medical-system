@@ -214,8 +214,5 @@ class UsersService
 	}
 
 
-	static function updateUser(Request $request)
-	{
-		return CommonLogic::updateHandler($request, 'User');
-	}
+	static function updateUser(Request $request) {}
 }

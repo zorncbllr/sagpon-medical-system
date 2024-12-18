@@ -14,12 +14,25 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "./../components/ui/sidebar";
+import { Link } from "react-router-dom";
+import { Toaster } from "./ui/sonner";
 
 export default function LayoutProvider({
   children,
 }: {
   children: ReactElement;
 }) {
+  const uri = window.location.pathname;
+  const paths = uri.split("/").filter((_, i) => i !== 0);
+
+  const getHref = (index: number): string => {
+    let temp = "";
+    paths.forEach((p, i) => {
+      temp += i <= index ? `/${p}` : "";
+    });
+    return temp;
+  };
+
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -30,20 +43,25 @@ export default function LayoutProvider({
             <Separator orientation="vertical" className="mr-2 h-4" />
             <Breadcrumb>
               <BreadcrumbList>
-                <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href="#">
-                    Building Your Application
-                  </BreadcrumbLink>
-                </BreadcrumbItem>{" "}
-                <BreadcrumbSeparator className="hidden md:block" />
-                <BreadcrumbItem>
-                  <BreadcrumbPage>Data Fetching</BreadcrumbPage>
-                </BreadcrumbItem>
+                {paths.map((path, index) => (
+                  <div className="flex w-fit items-center gap-4">
+                    <BreadcrumbItem className="hidden md:block">
+                      <BreadcrumbLink className="capitalize">
+                        <Link to={getHref(index)}>{path}</Link>
+                      </BreadcrumbLink>
+                    </BreadcrumbItem>{" "}
+                    {index != paths.length - 1 && (
+                      <BreadcrumbSeparator className="hidden md:block" />
+                    )}
+                  </div>
+                ))}
               </BreadcrumbList>
             </Breadcrumb>
           </div>
         </header>
-        <main className="w-full p-8">{children}</main>
+        <main className="w-full">
+          {children} <Toaster />
+        </main>
       </SidebarInset>
     </SidebarProvider>
   );

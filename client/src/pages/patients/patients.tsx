@@ -1,5 +1,3 @@
-"use client";
-
 import { ColumnDef } from "@tanstack/react-table";
 import { Checkbox } from "../../components/ui/checkbox";
 import { ArrowUpDown } from "lucide-react";
@@ -12,13 +10,26 @@ import {
 import { Patient } from "../../schemas/patient-interfaces";
 import { getTableActions } from "../../components/tables/actions";
 import useInvalidateSession from "../../hooks/use-invalidate";
+import { CardContent, CardHeader, CardTitle } from "../../components/ui/card";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "../../components/ui/avatar";
+import { useEffect } from "react";
+import { usePatientStore } from "../../store/patients-store";
 
 export function Patients() {
-  const { data, error, isError } = useFetchPatients();
+  const { data, isError } = useFetchPatients();
   const { mutate } = useDeletePatient();
+  const { setPatientsData } = usePatientStore();
   const { invalidate } = useInvalidateSession();
 
   if (isError) invalidate();
+
+  useEffect(() => {
+    setPatientsData(data);
+  }, [data]);
 
   const columns: ColumnDef<Patient>[] = [
     {
@@ -44,10 +55,34 @@ export function Patients() {
       enableHiding: true,
     },
     {
-      accessorKey: "firstName",
-      header: "Status",
+      accessorKey: "photo",
+      header: "",
       cell: ({ row }) => (
-        <div className="capitalize">{row.getValue("firstName")}</div>
+        <Avatar>
+          <AvatarImage>{row.getValue("photo")}</AvatarImage>
+          <AvatarFallback />
+        </Avatar>
+      ),
+    },
+    {
+      accessorKey: "firstName",
+      header: "First Name",
+      cell: ({ row }) => (
+        <div className="capitalize w-10">{row.getValue("firstName")}</div>
+      ),
+    },
+    {
+      accessorKey: "middleName",
+      header: "Middle Name",
+      cell: ({ row }) => (
+        <div className="capitalize">{row.getValue("middleName")}</div>
+      ),
+    },
+    {
+      accessorKey: "lastName",
+      header: "Last Name",
+      cell: ({ row }) => (
+        <div className="capitalize w-[10rem]">{row.getValue("lastName")}</div>
       ),
     },
     {
@@ -68,19 +103,55 @@ export function Patients() {
       ),
     },
     {
-      accessorKey: "address",
-      header: () => <div className="text-right">Amount</div>,
-      cell: ({ row }) => {
+      accessorKey: "birthDate",
+      header: ({ column }) => {
         return (
-          <div className="text-right font-medium">
-            {row.getValue("address")}
-          </div>
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Age
+            <ArrowUpDown />
+          </Button>
         );
       },
+      cell: ({ row }) => {
+        const age =
+          new Date().getFullYear() -
+          parseInt((row.getValue("birthDate") as string).split("-")[0]);
+
+        return <div className="capitalize text-center">{age}</div>;
+      },
+    },
+    {
+      accessorKey: "gender",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Gender
+            <ArrowUpDown />
+          </Button>
+        );
+      },
+      cell: ({ row }) => (
+        <div className="capitalize text-center">{row.getValue("gender")}</div>
+      ),
     },
 
     getTableActions({ entityprop: "patient", mutate }),
   ];
 
-  return <DataTable filter="email" data={data} columns={columns} />;
+  return (
+    <>
+      <CardHeader>
+        <CardTitle>Patient Records</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <DataTable filter="email" data={data} columns={columns} />
+      </CardContent>
+    </>
+  );
 }

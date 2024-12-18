@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { PatientFormData, PatientError } from "../schemas/patient-interfaces";
+import { Patient, PatientError } from "../schemas/patient-interfaces";
 import { axiosInstance } from "./api";
 import { AxiosError } from "axios";
 import useMultiFormStore from "../store/multiform-store";
@@ -28,7 +28,7 @@ export function useRegister() {
 
   return useMutation({
     mutationKey: ["users", "register"],
-    mutationFn: async (data: PatientFormData) => {
+    mutationFn: async (data: Patient) => {
       return (await axiosInstance.post("/users/register", data)).data;
     },
 
