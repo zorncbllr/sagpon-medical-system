@@ -114,7 +114,7 @@ export function useDeletePatient() {
     },
 
     onError: (error) => {
-      console.log(error);
+      toast(error.message);
     },
   });
 }
@@ -154,7 +154,7 @@ export function useRegisterPatient() {
     },
 
     onError: (error) => {
-      console.log(error);
+      toast(error.message);
     },
   });
 }
@@ -197,7 +197,7 @@ export function useUpdatePatient() {
     },
 
     onError: (error) => {
-      console.log(error);
+      toast(error.message);
     },
   });
 }
