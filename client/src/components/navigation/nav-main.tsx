@@ -19,6 +19,7 @@ import {
   SidebarMenuSubItem,
 } from "../ui/sidebar";
 import { Link } from "react-router-dom";
+import { IconProps } from "@radix-ui/react-icons/dist/types";
 
 export function NavMain({
   items,
@@ -26,7 +27,11 @@ export function NavMain({
   items: {
     title: string;
     url: string;
-    icon: LucideIcon;
+    icon:
+      | LucideIcon
+      | React.ForwardRefExoticComponent<
+          IconProps & React.RefAttributes<SVGSVGElement>
+        >;
     isActive?: boolean;
     items?: {
       title: string;

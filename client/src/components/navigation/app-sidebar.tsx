@@ -1,8 +1,11 @@
 import * as React from "react";
 import {
+  BedIcon,
   BookOpen,
   Bot,
+  Calendar,
   Command,
+  DollarSignIcon,
   Frame,
   LifeBuoy,
   Map,
@@ -26,6 +29,7 @@ import {
   SidebarMenuItem,
 } from "../ui/sidebar";
 import { Link } from "react-router-dom";
+import { DashboardIcon } from "@radix-ui/react-icons";
 
 const data = {
   user: {
@@ -37,13 +41,13 @@ const data = {
     {
       title: "Dashboard",
       url: "/dashboard",
-      icon: SquareTerminal,
+      icon: DashboardIcon,
       isActive: true,
     },
     {
       title: "Appointments",
       url: "/appointments",
-      icon: Bot,
+      icon: Calendar,
       items: [
         {
           title: "Schedule Appointment",
@@ -116,12 +120,12 @@ const data = {
     {
       name: "Room Management",
       url: "#",
-      icon: Frame,
+      icon: BedIcon,
     },
     {
       name: "Billing",
       url: "#",
-      icon: Map,
+      icon: DollarSignIcon,
     },
   ],
 };

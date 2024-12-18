@@ -1,9 +1,11 @@
-import { CardContent } from "../components/ui/card";
+import { CardContent, CardHeader, CardTitle } from "../components/ui/card";
 
 function Appointments() {
   return (
     <CardContent>
-      <h1>Appointments</h1>
+      <CardHeader>
+        <CardTitle>Appointments</CardTitle>
+      </CardHeader>
     </CardContent>
   );
 }

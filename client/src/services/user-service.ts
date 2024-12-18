@@ -17,7 +17,7 @@ interface LoginError {
 
 interface SuccessLogin {
   message: string;
-  role: "admin" | "patient" | "doctor" | "nurse" | "staff";
+  role: "admin" | "patient";
   token: string;
   route: string;
 }
