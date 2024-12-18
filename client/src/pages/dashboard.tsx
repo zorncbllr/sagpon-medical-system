@@ -2,11 +2,12 @@ import { CardContent, CardHeader, CardTitle } from "../components/ui/card";
 
 function Dashboard() {
   return (
-    <CardContent>
+    <>
       <CardHeader>
         <CardTitle>Dashboard</CardTitle>
       </CardHeader>
-    </CardContent>
+      <CardContent></CardContent>
+    </>
   );
 }
 
