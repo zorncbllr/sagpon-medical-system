@@ -18,6 +18,7 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
+  DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { Input } from "../ui/input";
@@ -29,15 +30,23 @@ import {
   TableHeader,
   TableRow,
 } from "../ui/table";
+import { UseMutationResult } from "@tanstack/react-query";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 export function DataTable<T>({
-  filter,
   columns,
   data,
+  useDownload,
 }: {
-  filter: string;
   data: T[];
   columns: ColumnDef<T, any>[];
+  useDownload: () => UseMutationResult<any, Error, void, unknown>;
 }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -46,6 +55,8 @@ export function DataTable<T>({
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
+  const [filter, setFilter] = React.useState<string>("firstName");
+  const { mutate } = useDownload();
 
   const table = useReactTable({
     data,
@@ -68,15 +79,46 @@ export function DataTable<T>({
 
   return (
     <>
-      <div className="flex items-center py-4">
-        <Input
-          placeholder="Filter..."
-          value={(table.getColumn(filter)?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn(filter)?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
+      <div className="flex items-center gap-2 py-4">
+        <div className="flex gap-2">
+          <Input
+            placeholder={`Search...`}
+            value={(table.getColumn(filter)?.getFilterValue() as string) ?? ""}
+            onChange={(event) =>
+              table.getColumn(filter)?.setFilterValue(event.target.value)
+            }
+            className="max-w-sm"
+          />
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="ml-auto">
+                <ChevronDown />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              {table
+                .getAllColumns()
+                .filter((column) => column.getCanHide())
+                .map((column) => {
+                  return (
+                    <>
+                      {column.id !== "select" && column.id !== "photo" && (
+                        <DropdownMenuItem
+                          onClick={() => {
+                            console.log(column.id);
+                          }}
+                          className="capitalize"
+                        >
+                          {column.id}
+                        </DropdownMenuItem>
+                      )}
+                    </>
+                  );
+                })}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
@@ -103,6 +145,9 @@ export function DataTable<T>({
               })}
           </DropdownMenuContent>
         </DropdownMenu>
+        <Button variant={"outline"} onClick={() => mutate()}>
+          Download
+        </Button>
       </div>
       <div className="rounded-md border">
         <Table>

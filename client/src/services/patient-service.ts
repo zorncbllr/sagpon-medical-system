@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { usePatientStore } from "../store/patients-store";
 import { initialPatientFormData } from "../store/multiform-store";
 import { AxiosError } from "axios";
+import { useUndoArchive } from "./archive-services";
 
 export function useFetchPatients() {
   return useQuery<Patient[]>({
@@ -54,53 +55,9 @@ export function useFetchPatientById(patientId: string) {
   });
 }
 
-export function useFetchPatientArchives() {
-  return useQuery<Patient[]>({
-    queryKey: ["patients", "archives"],
-    queryFn: async (): Promise<Patient[]> => {
-      return (
-        (
-          await axiosInstance.post<Patients>(
-            "/patients/archives",
-            {},
-            {
-              headers: {
-                Authorization: `Bearer ${getToken()}`,
-              },
-            }
-          )
-        ).data.patients ?? []
-      );
-    },
-    initialData: [],
-  });
-}
-
-export function useFetchArchiveById(patientId: string) {
-  return useQuery<Patient[]>({
-    queryKey: ["archive"],
-    queryFn: async (): Promise<Patient[]> => {
-      return (
-        (
-          await axiosInstance.post<Patients>(
-            `/patients/archives/${patientId}`,
-            {},
-            {
-              headers: {
-                Authorization: `Bearer ${getToken()}`,
-              },
-            }
-          )
-        ).data.patients ?? []
-      );
-    },
-    initialData: [],
-  });
-}
-
 export function useDeletePatient() {
   const client = queryClient;
-  const patient = useRegisterPatient();
+  const patient = useUndoArchive();
 
   return useMutation({
     mutationKey: ["patients"],
@@ -221,30 +178,47 @@ export function useUpdatePatient() {
   });
 }
 
-export function useDeleteArchive() {
-  const client = queryClient;
-
+export function useDownloadPatients() {
   return useMutation({
-    mutationKey: ["archives"],
-    mutationFn: async (entityId: string) => {
+    mutationKey: ["downloads"],
+    mutationFn: async () => {
       return (
-        await axiosInstance.delete(`/patients/archives/${entityId}`, {
-          headers: {
-            Authorization: `Bearer ${getToken()}`,
-          },
-        })
+        await axiosInstance.post(
+          "/patients/download",
+          {},
+          {
+            headers: {
+              "Content-Type":
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            },
+          }
+        )
       ).data;
     },
 
     onSuccess: (data) => {
-      client.invalidateQueries({
-        queryKey: ["archives", "archive"],
+      const base64String = data.file;
+      const binaryString = atob(base64String);
+      const binaryLen = binaryString.length;
+      const bytes = new Uint8Array(binaryLen);
+
+      for (let i = 0; i < binaryLen; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+
+      const blob = new Blob([bytes], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       });
 
-      console.log(data);
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.setAttribute("download", "patients.xlsx");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
 
-      toast("Patient was deleted permanently.", {
-        description: `${new Date().toLocaleTimeString()}`,
+      toast("Download successful.", {
+        description: data.message,
         action: {
           label: "Okay",
           onClick: () => {},
@@ -252,8 +226,8 @@ export function useDeleteArchive() {
       });
     },
 
-    onError: (error: AxiosError<PatientError>) => {
-      toast(error.response?.data.message);
+    onError: (error) => {
+      console.log(error);
     },
   });
 }

@@ -44,7 +44,6 @@ export const initialPatientFormData: Patient = {
   policyNumber: "",
   password: "",
   photo: "",
-  confirmPassword: "",
 };
 
 const useMultiFormStore = create<MultiformStore>((set, get) => ({

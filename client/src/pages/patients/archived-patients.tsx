@@ -1,14 +1,15 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Checkbox } from "../../components/ui/checkbox";
-import { ArrowUpDown } from "lucide-react";
+import { ArrowUpDown, Link, MoreHorizontal, Trash2Icon } from "lucide-react";
 import { Button } from "../../components/ui/button";
 import { DataTable } from "../../components/tables/data-table";
 import {
   useDeleteArchive,
+  useDownloadArchives,
   useFetchPatientArchives,
-} from "../../services/patient-service";
+  useUndoArchive,
+} from "../../services/archive-services";
 import { Patient } from "../../schemas/patient-interfaces";
-import { getTableActions } from "../../components/tables/actions";
 import useInvalidateSession from "../../hooks/use-invalidate";
 import { CardContent, CardHeader, CardTitle } from "../../components/ui/card";
 import {
@@ -16,22 +17,23 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "../../components/ui/avatar";
-import { useEffect } from "react";
-import { usePatientStore } from "../../store/patients-store";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+} from "../../components/ui/dropdown-menu";
+import { ResetIcon } from "@radix-ui/react-icons";
 
 export default function ArchivedPatients() {
   const { data, isError } = useFetchPatientArchives();
-  const { mutate } = useDeleteArchive();
-  const { setPatientsData } = usePatientStore();
+  const { mutate: mutateDelete } = useDeleteArchive();
+  const { mutate: mutateUndo } = useUndoArchive();
   const { invalidate } = useInvalidateSession();
 
   if (isError) invalidate();
-
-  useEffect(() => {
-    setPatientsData(data);
-
-    return () => new AbortController().abort();
-  }, [data]);
 
   const columns: ColumnDef<Patient>[] = [
     {
@@ -143,7 +145,42 @@ export default function ArchivedPatients() {
       ),
     },
 
-    getTableActions({ entityprop: "patient", mutate, isArchived: true }),
+    {
+      id: "actions",
+      enableHiding: false,
+      cell: ({ row }) => {
+        const entity = row.original;
+
+        return (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuItem>
+                <Link to={`/patients/archives/${row.getValue("patientId")}`}>
+                  View Profile
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={() => mutateUndo(entity)}>
+                <ResetIcon /> Restore Patient
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className="text-red-500"
+                onClick={() => mutateDelete(entity.patientId)}
+              >
+                <Trash2Icon /> Delete Archive
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        );
+      },
+    },
   ];
 
   return (
@@ -152,7 +189,11 @@ export default function ArchivedPatients() {
         <CardTitle className="text-red-700">Archived Patients</CardTitle>
       </CardHeader>
       <CardContent>
-        <DataTable filter="email" data={data} columns={columns} />
+        <DataTable
+          useDownload={useDownloadArchives}
+          data={data}
+          columns={columns}
+        />
       </CardContent>
     </>
   );

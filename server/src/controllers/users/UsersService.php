@@ -99,21 +99,11 @@ class UsersService
 
 			$user->save();
 
-			$body["userId"] = $uuid;
-
-			$propsToRemove = ['email', 'password', 'role'];
-
-			foreach ($propsToRemove as $property) {
-				unset($body[$property]);
-			}
-
-			$request->body = [...$body];
-
-			return redirect()->internal(
-				path: "/{$role}s/register",
-				request: $request,
-				method: 'POST'
-			);
+			http_response_code(201);
+			return json([
+				'message' => 'New user has been registered.',
+				'route' => '/dashboard'
+			]);
 		} catch (PDOException $e) {
 
 			if ($e->getCode() === 409) {
@@ -214,5 +204,7 @@ class UsersService
 	}
 
 
-	static function updateUser(Request $request) {}
+	static function updateUser(Request $request) {
+		
+	}
 }

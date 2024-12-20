@@ -1,13 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 
-import { toast } from "../../hooks/use-toast";
 import { Button } from "../../components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -30,9 +27,11 @@ import {
 } from "../../components/ui/select";
 import { useRegisterPatient } from "../../services/patient-service";
 import { initialPatientFormData } from "../../store/multiform-store";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function PatientRegistration() {
+  const [gender, setGender] = useState<"other" | "male" | "female">("other");
+
   const form = useForm<Patient>({
     resolver: zodResolver(patientSchema),
     defaultValues: initialPatientFormData,
@@ -41,7 +40,7 @@ export default function PatientRegistration() {
   const { mutate } = useRegisterPatient();
 
   function onSubmit(data: Patient) {
-    mutate(data);
+    mutate({ ...data, gender: gender });
   }
 
   useEffect(() => {
@@ -71,7 +70,7 @@ export default function PatientRegistration() {
                   <FormItem>
                     <FormLabel>First Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="shadcn" {...field} />
+                      <Input placeholder="Enter first name" {...field} />
                     </FormControl>
 
                     <FormMessage />
@@ -86,7 +85,7 @@ export default function PatientRegistration() {
                   <FormItem>
                     <FormLabel>Middle Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="shadcn" {...field} />
+                      <Input placeholder="Enter middle name" {...field} />
                     </FormControl>
 
                     <FormMessage />
@@ -101,7 +100,7 @@ export default function PatientRegistration() {
                   <FormItem>
                     <FormLabel>Last Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="shadcn" {...field} />
+                      <Input placeholder="Enter last name" {...field} />
                     </FormControl>
 
                     <FormMessage />
@@ -116,7 +115,7 @@ export default function PatientRegistration() {
                   <FormItem>
                     <FormLabel>Email Address</FormLabel>
                     <FormControl>
-                      <Input placeholder="shadcn" {...field} />
+                      <Input placeholder="Enter email address" {...field} />
                     </FormControl>
 
                     <FormMessage />
@@ -131,7 +130,7 @@ export default function PatientRegistration() {
                   <FormItem>
                     <FormLabel>Address</FormLabel>
                     <FormControl>
-                      <Input placeholder="shadcn" {...field} />
+                      <Input placeholder="Enter address" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -148,7 +147,7 @@ export default function PatientRegistration() {
                       <Input
                         className="w-36"
                         type="date"
-                        placeholder="shadcn"
+                        placeholder="Select date of birth"
                         {...field}
                       />
                     </FormControl>
@@ -164,7 +163,11 @@ export default function PatientRegistration() {
                   <FormItem>
                     <FormLabel>Phone Number</FormLabel>
                     <FormControl>
-                      <Input type="number" placeholder="shadcn" {...field} />
+                      <Input
+                        type="number"
+                        placeholder="Enter phone number"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -178,7 +181,11 @@ export default function PatientRegistration() {
                   <FormItem>
                     <FormLabel>Emergency Contact Number</FormLabel>
                     <FormControl>
-                      <Input type="number" placeholder="shadcn" {...field} />
+                      <Input
+                        type="number"
+                        placeholder="Enter emergency contact"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -192,7 +199,11 @@ export default function PatientRegistration() {
                   <FormItem>
                     <FormLabel>Gender</FormLabel>
                     <FormControl>
-                      <Select {...field}>
+                      <Select
+                        onValueChange={(val: "other" | "male" | "female") =>
+                          setGender(val)
+                        }
+                      >
                         <SelectTrigger className="w-36">
                           <SelectValue placeholder="Gender" />
                         </SelectTrigger>
@@ -220,7 +231,7 @@ export default function PatientRegistration() {
                 <FormItem>
                   <FormLabel>Insurance Provider Information</FormLabel>
                   <FormControl>
-                    <Input placeholder="shadcn" {...field} />
+                    <Input placeholder="Enter insurance provider" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -234,7 +245,11 @@ export default function PatientRegistration() {
                 <FormItem>
                   <FormLabel>Insurance Policy Number</FormLabel>
                   <FormControl>
-                    <Input type="number" placeholder="shadcn" {...field} />
+                    <Input
+                      type="number"
+                      placeholder="Enter policy number"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

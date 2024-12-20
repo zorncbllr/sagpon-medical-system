@@ -15,7 +15,6 @@ import {
   SidebarTrigger,
 } from "./../components/ui/sidebar";
 import { Link } from "react-router-dom";
-import { Toaster } from "./ui/sonner";
 
 export default function LayoutProvider({
   children,
@@ -59,9 +58,7 @@ export default function LayoutProvider({
             </Breadcrumb>
           </div>
         </header>
-        <main className="w-full">
-          {children} <Toaster />
-        </main>
+        <main className="w-full">{children}</main>
       </SidebarInset>
     </SidebarProvider>
   );

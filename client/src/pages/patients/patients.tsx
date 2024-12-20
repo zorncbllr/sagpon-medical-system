@@ -5,6 +5,7 @@ import { Button } from "../../components/ui/button";
 import { DataTable } from "../../components/tables/data-table";
 import {
   useDeletePatient,
+  useDownloadPatients,
   useFetchPatients,
 } from "../../services/patient-service";
 import { Patient } from "../../schemas/patient-interfaces";
@@ -70,21 +71,21 @@ export function Patients() {
       accessorKey: "firstName",
       header: "First Name",
       cell: ({ row }) => (
-        <div className="capitalize w-10">{row.getValue("firstName")}</div>
+        <div className="capitalize w-fit">{row.getValue("firstName")}</div>
       ),
     },
     {
       accessorKey: "middleName",
       header: "Middle Name",
       cell: ({ row }) => (
-        <div className="capitalize">{row.getValue("middleName")}</div>
+        <div className="capitalize w-fit">{row.getValue("middleName")}</div>
       ),
     },
     {
       accessorKey: "lastName",
       header: "Last Name",
       cell: ({ row }) => (
-        <div className="capitalize w-[10rem]">{row.getValue("lastName")}</div>
+        <div className="capitalize w-fit">{row.getValue("lastName")}</div>
       ),
     },
     {
@@ -152,7 +153,11 @@ export function Patients() {
         <CardTitle>Patient Records</CardTitle>
       </CardHeader>
       <CardContent>
-        <DataTable filter="email" data={data} columns={columns} />
+        <DataTable
+          useDownload={useDownloadPatients}
+          data={data}
+          columns={columns}
+        />
       </CardContent>
     </>
   );

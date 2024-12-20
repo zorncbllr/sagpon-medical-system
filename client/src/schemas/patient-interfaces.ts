@@ -98,7 +98,6 @@ export interface Patient {
   patientId?: string;
   userId?: string;
   password: string;
-  confirmPassword: string;
 }
 
 export interface PatientFormDataError {

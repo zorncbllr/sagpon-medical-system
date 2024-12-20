@@ -6,6 +6,8 @@ import useMultiFormStore from "../store/multiform-store";
 import { useNavigate } from "react-router-dom";
 import { LoginData } from "../components/auth/login-form";
 import { UseFormSetError } from "react-hook-form";
+import { toast } from "sonner";
+import { CardDescription } from "../components/ui/card";
 
 interface LoginError {
   message: string;
@@ -42,6 +44,13 @@ export function useRegister() {
     },
 
     onSuccess(data) {
+      toast("New user has been registered to the system.", {
+        description: `${new Date().toLocaleTimeString()}`,
+        action: {
+          label: "Okay",
+          onClick: () => {},
+        },
+      });
       navigate("/login");
     },
   });
@@ -81,6 +90,9 @@ export function useLogin({
 
     onSuccess(data: SuccessLogin) {
       localStorage.setItem("auth_token", data.token);
+      toast("Welcome Admin!", {
+        description: `Log in successful around ${new Date().toLocaleTimeString()}`,
+      });
       navigate(data.route);
     },
   });

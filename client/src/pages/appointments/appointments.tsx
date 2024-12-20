@@ -1,4 +1,4 @@
-import { CardContent, CardHeader, CardTitle } from "../components/ui/card";
+import { CardContent, CardHeader, CardTitle } from "../../components/ui/card";
 
 function Appointments() {
   return (

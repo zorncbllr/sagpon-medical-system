@@ -10,13 +10,6 @@ class Patients extends Controller
 		return PatientsService::getPatients($request);
 	}
 
-	#[Post('/archives')]
-	// #[Middleware(new Authentication)]
-	public function getArchives(Request $request)
-	{
-		return PatientsService::getArchives($request);
-	}
-
 	#[Post('/register')]
 	#[Middleware(new PatientValidator)]
 	public function registerPatient(Request $request)
@@ -24,18 +17,17 @@ class Patients extends Controller
 		return PatientsService::registerPatient($request);
 	}
 
+	#[Post('/download')]
+	public function downloadData(Request $request)
+	{
+		return PatientsService::downloadData($request);
+	}
+
 	#[Post('/:patientId')]
 	#[Middleware(new Authentication)]
 	public function getPatientById(Request $request)
 	{
 		return PatientsService::getPatientById($request);
-	}
-
-	#[Post('/archives/:patientId')]
-	#[Middleware(new Authentication)]
-	public function getArchiveById(Request $request)
-	{
-		return PatientsService::getArchiveById($request);
 	}
 
 	#[Patch('/:patientId')]
@@ -49,12 +41,5 @@ class Patients extends Controller
 	public function archivePatient(Request $request)
 	{
 		return PatientsService::archivePatient($request);
-	}
-
-	#[Delete('/archives/:patientId')]
-	#[Middleware(new Authentication)]
-	public function deletePatientArchive(Request $request)
-	{
-		return PatientsService::deletePatientArchive($request);
 	}
 }

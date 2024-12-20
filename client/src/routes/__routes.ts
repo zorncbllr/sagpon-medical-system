@@ -3,7 +3,7 @@ import Home from "../pages/home";
 import Login from "../pages/login";
 import { ReactElement } from "react";
 import Register from "../pages/register";
-import Appointments from "../pages/appointments";
+import Appointments from "../pages/appointments/appointments";
 import { patientRoutes } from "./patients";
 
 export interface Route {
